@@ -1,25 +1,37 @@
 <?php
-//Conexão via PDO para Database
-class bd {
-//ALTERE DE ACORDO COM AS CONFIGURAÇÕES DE USUÁRIO E DATABASE.
-    //Host
-    private $host ='localhost'; //Normalmente é localhost.
-    //Usuário
-    private $user ='root';
-    //Senha:
-    private $password ='root'; //Deixe vazia caso não exista.
-    //Bando de Dados:
-    private $database ='pequia';
-    public function conecta_mysql(){
-    // cria conexão
-    $con = mysqli_connect($this->host, $this->user, $this->password, $this->database);
-    // char set de comunicação entre a aplicação e o banco de dados;
-    mysqli_set_charset($con,'utf8');
-    // verificar se houve erro de conexão;
-    if(mysqli_connect_errno()){
-      echo 'Erro ao tentar se conectar com o BD Mysql' . msqli_connect_error();
-          }
-    return $con ;
+class Banco{
+    private static $dbNome = 'pequia';
+    private static $dbHost = 'localhost';
+    private static $dbUsuario = 'carlos';
+    private static $dbSenha = 'Camelos?2';
+    
+    private static $cont = null;
+    
+    public function __construct() 
+    {
+        die('A função Init nao é permitido!');
+    }
+    
+    public static function conectar()
+    {
+        if(null == self::$cont)
+        {
+            try
+            {
+                self::$cont =  new PDO( "mysql:host=".self::$dbHost.";"."dbname=".self::$dbNome, self::$dbUsuario, self::$dbSenha); 
+            }
+            catch(PDOException $exception)
+            {
+                echo 'error do banco'.$exception->getMessage(); 
+                die($exception->getMessage());
+            }
+        }
+        return self::$cont;
+    }
+    
+    public static function desconectar()
+    {
+        self::$cont = null;
     }
 }
- ?>
+?>
