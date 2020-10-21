@@ -1,12 +1,17 @@
 <?php
      include 'model/bd.class.php';
+
      $id_produto = null;
+
     if(!empty($_GET['id_produto'])) {   
         $id_produto = $_GET['id_produto'];   
-    }    
-    class ProdutoDAO{  
-            public function buscarProdutos($id_produto){         
+    }
 
+    
+
+    class ProdutoDAO{  
+        
+            public function buscarProdutos($id_produto){      
                 try {					
                     $pdo = Banco::conectar();
                     $sql = "SELECT  id,  tag1, tag2, tag3, descricao, subtitulo, titulo, localFoto "
@@ -32,13 +37,13 @@
                                 "titulo" => $titulo, 
                                 "localFoto" => $localFoto
                             );
+                        
+                            echo '    <div style="text-align:center" >';
                             echo '            <h1  class="cor-laranja center">'.$titulo.'</h1>';
-                            echo    '           <a href="#">';
-                            echo     '            <img class="img-responsive" height="300px" width="550px" src="/fotos/'.$localFoto.'">';
-                            echo     '           </a>';
-
-                            echo '            <p> '.$descricao.'</p>';
-                            echo ' <div>Detalhes</div>';
+                            echo '            <img class="img-responsive" height="300px" width="550px" src="/fotos/'.$localFoto.'">';
+                            echo '   </div>';
+                            echo '    <p> '.$descricao.'</p>';
+                            echo '    <div>Detalhes</div>';
                             echo '<ul>';
                             echo                '<li  class="glyphicon glyphicon-chevron-right">'.$tag1.' </li>';
                             echo                '<li  class="glyphicon glyphicon-chevron-right">'.$tag2.' </li>';
@@ -50,12 +55,13 @@
                         print $e->getMessage();
                     }
                     Banco::desconectar();  
-            } 
+            }          
     }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -79,24 +85,51 @@
 <body id="page-top">
     <!-- Navigation -->
     <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="index.php">Pequia</a>
+        <a class="navbar-brand" href="loja.php">Pequia</a>
         <div class="form-inline">
             <a class="btn   my-2 my-sm-0">Search</a>
             <a class="btn   my-2 my-sm-0">Search</a>
         </div>
     </nav>
 
-    <div class="row">
-        <div class="col-1">
-        </div>
-        <div class="col">
-            <?php 
+    <section>
+        <div class="row">
+            <div class="col-1">
+            </div>
+            <div class="col">
+                <?php 
                $produto = new ProdutoDAO();
                $produto->buscarProdutos($id_produto);
             ?>
+            </div>
+            <div class="col-1">
+            </div>
         </div>
-    </div>
-
+    </section>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <hr class="divider my-4" />
+                    <h2 class="section-heading">Nossos Contatos</h2>
+                    <hr class="divider my-4" />
+                    <p class="mb-5">Pronto pra comprar biojoias conosco, nos ligue ou envie um e-mail.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 ml-auto text-center">
+                    <i class="fa fa-phone fa-3x mb-3 sr-contact"></i>
+                    <p>(63) 3554-8989</p>
+                </div>
+                <div class="col-lg-4 mr-auto text-center">
+                    <i class="fa fa-envelope-o fa-3x mb-3 sr-contact"></i>
+                    <p>
+                        <a href="mailto:your-email@your-domain.com">pequia@yahoo.com</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
 
 </html>
