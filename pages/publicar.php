@@ -72,7 +72,7 @@ if (!isset($_SESSION['usuario'])){
                         </div>
                         <div class="form-group">
                             <label>Fale sobre o Produto</label>
-                            <textarea name="descricao" class="form-control" rows="3"></textarea>
+                            <textarea name="descricao" maxlength="250" class="form-control" rows="3"></textarea>
                         </div>
                         <div class="form-group">
                             <label>Tag 1</label>

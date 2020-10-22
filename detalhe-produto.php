@@ -106,7 +106,7 @@
             </div>
         </div>
     </section>
-    <section>
+    <section id="contact">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 mx-auto text-center">
@@ -122,7 +122,7 @@
                     <p>(63) 3554-8989</p>
                 </div>
                 <div class="col-lg-4 mr-auto text-center">
-                    <i class="fa fa-envelope-o fa-3x mb-3 sr-contact"></i>
+                    <i class="fa fa-envelope fa-3x mb-3 sr-contact"></i>
                     <p>
                         <a href="mailto:your-email@your-domain.com">pequia@yahoo.com</a>
                     </p>

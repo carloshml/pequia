@@ -57,12 +57,12 @@
             </div>
         </div>
     </header>
-    <section class="bg-primary" id="about">
+    <section class="page-section  bg-primary" id="about">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 mx-auto text-center">
                     <h2 class="section-heading">Artesanato pra você </h2>
-                    <hr class="light my-4">
+                    <hr class="divider my-4" />
                     <p class="text-faded">
                         O artesanato é parte do patrimônio cultural de povos e comunidades, pois
                         representa as suas tradições, costumes e preservam conhecimentos e técnicas
@@ -118,7 +118,7 @@
             </div>
         </div>
     </section>
-    <section class="bg-primary" id="novidades">
+    <section class="page-section bg-primary" id="novidades">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 mx-auto text-center">
@@ -133,11 +133,12 @@
     </section>
     <section id="contact">
         <div class="container">
+            <hr class="divider my-4" />
+            <h2 class="text-center mt-0">Nossos Contatos</h2>            
+            <hr class="divider my-4" />
             <div class="row">
                 <div class="col-lg-8 mx-auto text-center">
-                    <hr class="divider my-4" />
-                    <h2 class="section-heading">Nossos Contatos</h2>
-                    <hr class="divider my-4" />
+
                     <p class="mb-5">Pronto pra comprar biojoias conosco, nos ligue ou envie um e-mail.</p>
                 </div>
             </div>
@@ -147,7 +148,7 @@
                     <p>(63) 3554-8989</p>
                 </div>
                 <div class="col-lg-4 mr-auto text-center">
-                    <i class="fa fa-envelope-o fa-3x mb-3 sr-contact"></i>
+                    <i class="fa fa-envelope fa-3x mb-3 sr-contact"></i>
                     <p>
                         <a href="mailto:your-email@your-domain.com">pequia@yahoo.com</a>
                     </p>
@@ -155,10 +156,10 @@
             </div>
         </div>
     </section>
-    <footer>
-        <nav class="nav text-right">
-            <a href="#" role="button" data-toggle="modal" data-target="#login-modal">login</a>
-        </nav>
+    <footer style="text-align:right;">
+
+        <a href="#" class="btn btn-primary" role="button" data-toggle="modal" data-target="#login-modal">login</a>
+
     </footer>
 
 
@@ -168,12 +169,11 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header text-center">
-                    <img class="" id="img_logo" src="img/logo.png">
+                    <img class="" id="img_logo" src="assets/img/logo.png">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     </button>
                 </div>
-
                 <!-- Begin # DIV Form -->
                 <div id="div-forms">
                     <!-- Begin # Login Form -->
@@ -215,6 +215,7 @@
     <!-- Third party plugin JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+    <script src="/assets/fontawesome-free-5.15.1-web/js/all.js"> </script>
     <!-- Core theme JS-->
     <script src="assets/js/scripts.js"></script>
 </body>

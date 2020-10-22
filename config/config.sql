@@ -16,7 +16,7 @@ CREATE TABLE `produtos` (
   `titulo` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `subtitulo` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `localFoto` varchar(80) COLLATE utf8_unicode_ci NOT NULL,
-  `descricao` varchar(35) COLLATE utf8_unicode_ci NOT NULL,
+  `descricao` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
   `tag1` varchar(35) COLLATE utf8_unicode_ci NOT NULL,
   `tag2` varchar(35) COLLATE utf8_unicode_ci NOT NULL,
   `tag3` varchar(35) COLLATE utf8_unicode_ci NOT NULL,

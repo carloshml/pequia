@@ -42,8 +42,9 @@
                       echo '                <li  class="glyphicon glyphicon-chevron-right">'.$tag2.' </li>';
                       echo '                <li  class="glyphicon glyphicon-chevron-right">'.$tag3.' </li>';
                       echo '            </ul>';                
-                      echo '</div>';                    
-                      echo '<hr>';                  
+                      echo '</div>';  
+                      echo '</div>';                   
+                      echo '<hr class="divider my-4" />';                  
                   }			
               }catch (PDOException $e) {
                   print $e->getMessage();
