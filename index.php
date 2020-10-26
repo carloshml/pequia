@@ -13,9 +13,8 @@
     <title>Pequiá</title>
     <!-- Bootstrap core CSS -->
     <link href="/assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/assets/fontawesome-free-5.15.1-web/css/all.css" rel="stylesheet">
+    <link href="/assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
     <link href="/assets/css/styles.css" rel="stylesheet" />
-
 </head>
 
 <body id="page-top">
@@ -37,7 +36,7 @@
         </div>
     </nav>
     <!-- Masthead-->
-    <header class="masthead">
+    <header class="masthead"> 
         <div class="container h-100">
             <div class="row h-100 align-items-center justify-content-center text-center">
                 <div class="col-lg-10 align-self-end">
@@ -134,7 +133,7 @@
     <section id="contact">
         <div class="container">
             <hr class="divider my-4" />
-            <h2 class="text-center mt-0">Nossos Contatos</h2>            
+            <h2 class="text-center mt-0">Nossos Contatos</h2>
             <hr class="divider my-4" />
             <div class="row">
                 <div class="col-lg-8 mx-auto text-center">
@@ -145,6 +144,10 @@
             <div class="row">
                 <div class="col-lg-4 ml-auto text-center">
                     <i class="fa fa-phone fa-3x mb-3 sr-contact"></i>
+                    <p>(63) 3554-8989</p>
+                </div>
+                <div class="col-lg-4 ml-auto text-center">
+                    <i class="fab fa-whatsapp fa-3x mb-3 sr-contact"></i>
                     <p>(63) 3554-8989</p>
                 </div>
                 <div class="col-lg-4 mr-auto text-center">
@@ -209,8 +212,11 @@
     <!-- END # MODAL LOGIN -->
 
     <!-- Bootstrap core JavaScript -->
-    <!-- Bootstrap core JS-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Bootstrap core JS -->
+   <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+
+   <script src="/assets/js/jquery-3.5.1.min.js"></script>
+
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
     <!-- Third party plugin JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>

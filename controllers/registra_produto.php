@@ -1,6 +1,6 @@
 <?php
 session_start(); 
-include '../model/bd.class.php';
+include '../config/bd.class.php';
 echo "<script type=\"text/javascript\">; 
       console.log('veio em registra produto'); 
       </script>" ; 

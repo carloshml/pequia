@@ -1,5 +1,5 @@
 <?php
-    include '../model/bd.class.php';
+    include '../config/bd.class.php';
     class ProdutoDAO{        
       public function numeroTotalProduto(){    
             try {   

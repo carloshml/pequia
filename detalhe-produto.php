@@ -1,10 +1,16 @@
 <?php
-     include 'model/bd.class.php';
+     include 'config/bd.class.php';
+
+     $nome_produto = '';
 
      $id_produto = null;
 
     if(!empty($_GET['id_produto'])) {   
         $id_produto = $_GET['id_produto'];   
+    }
+
+    if(!empty($_GET['nome_produto'])) {   
+        $nome_produto = $_GET['nome_produto'];   
     }
 
     
@@ -67,20 +73,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Produtos</title>
+    <title><?php echo $nome_produto  ?></title>
     <!-- Bootstrap core CSS -->
-    <link href="assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/assets/fontawesome-free-5.15.1-web/css/all.css" rel="stylesheet">
-
-    <script type="text/javascript">
-    document.addEventListener("DOMContentLoaded", function() {
-        setTimeout(() => {
-            console.log('pronto');
-
-        }, 600);
-    });
-    </script>
+    <link href="/assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
+    <link href="/assets/css/styles.css" rel="stylesheet" />
 </head>
+
 
 <body id="page-top">
     <!-- Navigation -->
@@ -108,17 +107,22 @@
     </section>
     <section id="contact">
         <div class="container">
+            <hr class="divider my-4" />
+            <h2 class="text-center mt-0">Nossos Contatos</h2>
+            <hr class="divider my-4" />
             <div class="row">
                 <div class="col-lg-8 mx-auto text-center">
-                    <hr class="divider my-4" />
-                    <h2 class="section-heading">Nossos Contatos</h2>
-                    <hr class="divider my-4" />
+
                     <p class="mb-5">Pronto pra comprar biojoias conosco, nos ligue ou envie um e-mail.</p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-4 ml-auto text-center">
                     <i class="fa fa-phone fa-3x mb-3 sr-contact"></i>
+                    <p>(63) 3554-8989</p>
+                </div>
+                <div class="col-lg-4 ml-auto text-center">
+                    <i class="fab fa-whatsapp fa-3x mb-3 sr-contact"></i>
                     <p>(63) 3554-8989</p>
                 </div>
                 <div class="col-lg-4 mr-auto text-center">
@@ -130,6 +134,19 @@
             </div>
         </div>
     </section>
+    <!-- Bootstrap core JavaScript -->
+    <!-- Bootstrap core JS -->
+    <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+
+    <script src="/assets/js/jquery-3.5.1.min.js"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+    <script src="/assets/fontawesome-free-5.15.1-web/js/all.js"> </script>
+    <!-- Core theme JS-->
+    <script src="/assets/js/scripts.js"></script>
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 <?php
-    include 'produtos-dao.php';
+    include '../produtos-dao.php';
     $erro = isset($_GET['erro']) ? $_GET['erro'] : 0 ;   
 ?>
 <!DOCTYPE html>
@@ -10,13 +10,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Loja</title>
+    <title>Pequiá</title>
     <!-- Bootstrap core CSS -->
-    <link href="/assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
-    <link href="/assets/css/styles.css" rel="stylesheet" />
-
+    <link href="../assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
+    <link href="../assets/css/styles.css" rel="stylesheet" />
 </head>
+
 
 <body id="page-top">
     <!-- Navigation --> 
@@ -47,8 +47,8 @@
                         <div class="col-md-10" id="produtos" name="produtos">
                             <?php
                                         $produto_dao = new ProdutoDAO();
-                                        $produto_dao->buscarProdutos();                                         
-                        ?>
+                                        $produto_dao->buscarProdutosParaEdicao();                                         
+                            ?>
                         </div>
                     </div>
                 </div>

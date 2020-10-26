@@ -1,5 +1,5 @@
 <?php
-require_once('../model/bd.class.php');
+require_once('../config/bd.class.php');
 
 $objDB =  new bd();
 

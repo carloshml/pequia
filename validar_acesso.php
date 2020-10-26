@@ -1,6 +1,6 @@
 <?php
 session_start(); 
-include 'model/bd.class.php';
+include 'config/bd.class.php';
 
 if(!empty($_POST)){
   // print_r($_POST);
@@ -19,7 +19,7 @@ if(!empty($_POST)){
     $_SESSION['id_usuario'] = $dados_usuario['id'];
     $_SESSION['usuario'] = $dados_usuario['login'];
     $_SESSION['email'] = $dados_usuario['email'];
-    header('Location: home.php');
+    header('Location: pages/index.php');
   }else{
     header('Location: index.php?erro=1');
   }
