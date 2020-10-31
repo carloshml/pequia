@@ -18,11 +18,12 @@ CREATE TABLE `produtos` (
   `localFoto` varchar(80) COLLATE utf8_unicode_ci NOT NULL,
   `descricao` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
   `tag1` varchar(35) COLLATE utf8_unicode_ci NOT NULL,
-  `tag2` varchar(35) COLLATE utf8_unicode_ci NOT NULL,
-  `tag3` varchar(35) COLLATE utf8_unicode_ci NOT NULL,
-  `tag4` varchar(35) COLLATE utf8_unicode_ci NOT NULL,
-  `tag5` varchar(35) COLLATE utf8_unicode_ci NOT NULL,
-  `id_autor_publicacao` int(11)
+  `tag2` varchar(35) COLLATE utf8_unicode_ci,
+  `tag3` varchar(35) COLLATE utf8_unicode_ci,
+  `tag4` varchar(35) COLLATE utf8_unicode_ci,
+  `tag5` varchar(35) COLLATE utf8_unicode_ci,
+  `id_autor_publicacao` int(11),
+  `data_publicacao` TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 insert into  `usuarios` ( `nome`,  `login`,    `endereco` ,  `telefone` ,  `senha` ,  `email`,  `sexo`) 

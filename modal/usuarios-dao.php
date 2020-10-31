@@ -2,8 +2,19 @@
    include '../config/bd.class.php';
 
 
+   class Usuario{
+    public $id  ;
+    public $nome  ;
+    public $endereco ;
+    public $telefone ;
+    public $email ;
+    public $login  ;
+    public $sexo ; 
+   }
+
+
    class UsuariosDAO{        
-        public function verificarLogin($login){    
+        public function verificarLoginEmUso($login){    
             try {   
                 $total = null;   
                 $pdo = Banco::conectar();
@@ -21,23 +32,43 @@
                 echo 'Exceção capturada: '.  $e->getMessage(). "\n";
             }
         }  
+
+        public function buscarUsuarioPeloId($id){    
+            $usuarios= new Usuario();
+            try {   
+                $pdo = Banco::conectar();
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $sql = "SELECT * FROM usuarios where id = ?";
+                $q = $pdo->prepare($sql);
+                $q->execute(array($id));
+                $data = $q->fetch(PDO::FETCH_ASSOC);
+                $usuarios->id  = $data['id'] ;
+                $usuarios->nome  = $data['nome'] ;
+                $usuarios->endereco  = $data['endereco'] ;
+                $usuarios->telefone  = $data['telefone'] ;
+                $usuarios->email  = $data['email'] ;
+                $usuarios->login  = $data['login'] ;
+                $usuarios->sexo  = $data['sexo'] ;
+                echo json_encode($usuarios);         
+                Banco::desconectar();  
+            } catch (Exception $e) {
+                echo 'Exceção capturada: '.  $e->getMessage(). "\n";
+            }
+        } 
     }
 
-    if(!empty($_GET)){
-
-      
-        if($_GET['verificar-login']){
-            $login = $_POST['login'];
+    if(!empty($_GET)){      
+        if($_GET['verificar-login']){        
             $produto_dao = new UsuariosDAO();
-            $produto_dao->verificarLogin($_GET['login']);  
-
+            $produto_dao->verificarLoginEmUso($_GET['login']);  
+        } else  if(!empty($_GET['id'])) {        
+           $produto_dao = new UsuariosDAO();
+           $produto_dao->buscarUsuarioPeloId($_GET['id']);  
+          
         }
-
-       
     }
 
-    if(!empty($_POST))
-    {
+    if(!empty($_POST)){
         //Acompanha os erros de validação
         $nomeError = null;
         $enderecoErro = null;

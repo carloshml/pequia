@@ -1,11 +1,16 @@
 <?php
+    include '../produtos-dao.php';
     session_start();
     if (!isset($_SESSION['usuario'])){
     header('Location: ../index.php?erro=1');
     }
+
     if(!empty($_GET['id_produto'])) {   
-        $id_produto = $_GET['id_produto'];   
-    }
+        $id_produto = $_GET['id_produto'];
+        $produto_dao = new ProdutoDAO();
+        $response = $produto_dao->buscarProdutoPeloId($id_produto);  
+    } 
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,6 +25,33 @@
     <link href="../assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
     <link href="../assets/css/styles.css" rel="stylesheet" />
+    <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        /*
+                public $id;
+                public $titulo;
+                public $subtitulo;
+                public $local;
+                public $descricao;
+                public $tag1;
+                public $tag2;
+                public $tag3;
+                public $tag4;
+                public $tag5;
+                public $id_autor_publicacao;
+        */
+        const resposta = <?=$response?>;
+        if (resposta) {
+            $('#nome_produto').val(resposta.titulo);
+            $('#descricao').val(resposta.descricao);
+            $('#tag1').val(resposta.tag1);
+            $('#tag2').val(resposta.tag2);
+            $('#tag3').val(resposta.tag3);
+            $('#tag4').val(resposta.tag4);
+            $('#tag5').val(resposta.tag5);            
+        }
+    });
+    </script>
 </head>
 
 <body>
@@ -34,8 +66,6 @@
                 <a href="sair.php" class="btn btn-outline-warning"> <i class="fas fa-sign-out-alt"></i> </a>
             </div>
         </nav>
-
-
         <h1 class="page-header">Publicar Produto</h1>
         <div class="container">
             <div class="row">
@@ -46,7 +76,7 @@
                         enctype="multipart/form-data">
                         <div class="form-group">
                             <label>Escreva o Nome do Produto</label>
-                            <input name="produto" class="form-control" required>
+                            <input id="nome_produto" name="produto" class="form-control" required>
                             <p class="help-block">Pode ser o nome do produto</p>
                         </div>
                         <div class="form-group">
@@ -60,27 +90,29 @@
                         </div>
                         <div class="form-group">
                             <label>Fale sobre o Produto</label>
-                            <textarea name="descricao" maxlength="250" class="form-control" rows="3"></textarea>
+                            <textarea id="descricao" name="descricao" maxlength="250" class="form-control"
+                                rows="3"></textarea>
                         </div>
                         <div class="form-group">
                             <label>Tag 1</label>
-                            <input name="tag1" class="form-control" placeholder="classifique uma tag">
+                            <input id="tag1" name="tag1" class="form-control" placeholder="classifique uma tag">
                         </div>
                         <div class="form-group">
                             <label>Tag 2</label>
-                            <input name="tag2" class="form-control" placeholder="classifique uma tag">
+                            <input id="tag2" name="tag2" class="form-control" placeholder="classifique uma tag">
                         </div>
                         <div class="form-group">
                             <label>Tag 3</label>
-                            <input name="tag3" class="form-control" placeholder="classifique uma tag">
+                            <input id="tag3" name="tag3" class="form-control" placeholder="classifique uma tag">
                         </div>
                         <div class="form-group">
                             <label>Tag 4</label>
-                            <input name="tag4" class="form-control" placeholder="classifique uma tag">
+                            <input id="tag4
+                            " name="tag4" class="form-control" placeholder="classifique uma tag">
                         </div>
                         <div class="form-group">
                             <label>Tag 5</label>
-                            <input name="tag5" class="form-control" placeholder="classifique uma tag">
+                            <input id="tag5" name="tag5" class="form-control" placeholder="classifique uma tag">
                         </div>
 
                         <button type="submit" class="btn btn-primary">Publicar</button>

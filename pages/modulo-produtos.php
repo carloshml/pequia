@@ -95,9 +95,9 @@
     <!-- Third party plugin JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
-    <script src="/assets/fontawesome-free-5.15.1-web/js/all.js"> </script>
+    <script src="../assets/fontawesome-free-5.15.1-web/js/all.js"> </script>
     <!-- Core theme JS-->
-    <script src="assets/js/scripts.js"></script>
+    <script src="../assets/js/scripts.js"></script>
 </body>
 
 </html>

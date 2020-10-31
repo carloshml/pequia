@@ -79,15 +79,27 @@
         });
 
         // verificar login para não usar o mesmo usuario
-        $("#in_m_c_login").keyup(function() {
+
+        function verificaLoginExistente(login) {
             $.ajax({
                 url: '../modal/usuarios-dao.php',
                 method: 'get',
-                data: {'verificar-login':true,'login': $("#in_m_c_login").val()},
+                data: {
+                    'verificar-login': true,
+                    login
+                },
                 success: function(data) {
-                    $('#erro_login').html(data);                  
+                    $('#erro_login').html(data);
+                    $('#erro_loginup').html(data);
                 }
-            });    
+            });
+        }
+        $("#in_m_c_login").keyup(function() {
+            verificaLoginExistente($("#in_m_c_login").val());
+        });
+
+        $("#input_login_contato").keyup(function() {
+            verificaLoginExistente($("#input_login_contato").val());
         });
 
         $('#btn-deletar-contato-concluir').click(function() {
@@ -187,7 +199,7 @@
                     $('.btn_ler_contato').click(function() {
                         const id_contato = this.id.split('_')[1];
                         $.ajax({
-                            url: '../modal/read.php',
+                            url: '../modal/usuarios-dao.php',
                             method: 'get',
                             data: 'id=' + id_contato,
                             success: function(data) {
@@ -207,7 +219,7 @@
                         const id_contato = this.id.split('_')[1];
                         console.log(' updat ', id_contato);
                         $.ajax({
-                            url: '../modal/read.php',
+                            url: '../modal/usuarios-dao.php',
                             method: 'get',
                             data: 'id=' + id_contato,
                             success: function(data) {
@@ -330,8 +342,8 @@
                                     <div class="control-group">
                                         <label class="control-label">Login</label>
                                         <div class="controls">
-                                            <input id="in_m_c_login" size="50"  autocomplete="off" class="form-control" name="login"
-                                                type="text" placeholder="login" required="" value=" ">
+                                            <input id="in_m_c_login" size="50" autocomplete="off" class="form-control"
+                                                name="login" type="text" placeholder="login" required="" value=" ">
                                             <span id="erro_login" class="help-inline text-warning"></span>
                                         </div>
                                     </div>
@@ -539,8 +551,6 @@
                             <div class="card-body">
                                 <form id="form_contato_update" class="form-horizontal">
                                     <!-- action="index.php" method="post" -->
-
-
                                     <div class="form-row">
                                         <div class="col col-md-2">
                                             <div class="control-group">

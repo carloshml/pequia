@@ -1,24 +1,21 @@
 <?php
-session_start(); 
-include '../config/bd.class.php';
-echo "<script type=\"text/javascript\">; 
-      console.log('veio em registra produto'); 
-      </script>" ; 
-//Declara variáveis com dados do formulário
-$produto = $_POST['produto'];
-$subtitulo = $_POST['subtitulo'];
-$descricao = $_POST['descricao'];
-$tag1 = $_POST['tag1'];
-$tag2 = $_POST['tag2'];
-$tag3 = $_POST['tag3'];
-$tag4= $_POST['tag4'];
-$tag5 = $_POST['tag5'];
-$id_usuario = $_SESSION['id_usuario'];
-
-
-//Insere dados de novo usuário na tabela.
-$pdo = Banco::conectar(); 
-  
+    session_start(); 
+    include '../config/bd.class.php';
+    echo "<script type=\"text/javascript\">; 
+          console.log('veio em registra produto'); 
+          </script>" ; 
+    //Declara variáveis com dados do formulário
+    $produto = $_POST['produto'];
+    $subtitulo = $_POST['subtitulo'];
+    $descricao = $_POST['descricao'];
+    $tag1 = $_POST['tag1'];
+    $tag2 = $_POST['tag2'];
+    $tag3 = $_POST['tag3'];
+    $tag4= $_POST['tag4'];
+    $tag5 = $_POST['tag5'];
+    $id_usuario = $_SESSION['id_usuario'];
+    //Insere dados de novo usuário na tabela.
+    $pdo = Banco::conectar();   
     if($_FILES['imagem']['error']!=0){
       echo 'erro no upload da imagem';
       echo "<script type=\"text/javascript\">; 
@@ -29,8 +26,7 @@ $pdo = Banco::conectar();
       $arquivo = $_FILES['imagem']['name'];
       //pasta para salvar arquivo;
       $_UP['pasta'] = '../fotos/';
-    }
-  
+    } 
 
     $data = getdate();
     $nome_final = $data['hours'].$data['seconds'].$data['minutes'].$_FILES['imagem']['name'];
@@ -38,11 +34,11 @@ $pdo = Banco::conectar();
     $query = false ;
     if(move_uploaded_file($_FILES['imagem']['tmp_name'],$_UP['pasta'].$nome_final)){
       //upload afetuado com sucesso
-      $sql =  "INSERT INTO produtos( titulo, subtitulo, localFoto, descricao, tag1, tag2, tag3, tag4, tag5, id_autor_publicacao)
-      VALUES (?,?,?,?,?,?,?,?,?,?)";
+      $sql =  "INSERT INTO produtos( titulo, subtitulo, localFoto, descricao, tag1, tag2, tag3, tag4, tag5, id_autor_publicacao, data_publicacao)
+      VALUES (?,?,?,?,?,?,?,?,?,?,?)"; 
       $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       $q = $pdo->prepare($sql);
-      $result =  $q->execute(array($produto,$subtitulo,$nome_final,$descricao,$tag1,$tag2,$tag3,$tag4,$tag5,$id_usuario));         
+      $result =  $q->execute(array($produto,$subtitulo,$nome_final,$descricao,$tag1,$tag2,$tag3,$tag4,$tag5,$id_usuario,  date('Y-m-d H:i:s')));         
       echo  print_r( $result);
       Banco::desconectar();
       // execultar a query ;

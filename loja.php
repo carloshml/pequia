@@ -48,7 +48,7 @@
                             <?php
                                         $produto_dao = new ProdutoDAO();
                                         $produto_dao->buscarProdutos();                                         
-                        ?>
+                             ?>
                         </div>
                     </div>
                 </div>
