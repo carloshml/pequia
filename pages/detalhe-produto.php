@@ -1,26 +1,32 @@
 <?php
-     include 'config/bd.class.php';
-
+    include_once('../config/bd.class.php'); 
      $nome_produto = '';
-
      $id_produto = null;
-
     if(!empty($_GET['id_produto'])) {   
         $id_produto = $_GET['id_produto'];   
     }
-
     if(!empty($_GET['nome_produto'])) {   
         $nome_produto = $_GET['nome_produto'];   
-    }
+    }  
+    class ProdutoDAO{          
+            public function buscarProduto($id_produto){      
 
-    
+                $id= null;                                        
+                $tag1 = null; 
+                $tag2= null; 
+                $tag3= null; 
+                $tag4= null; 
+                $tag5= null;
+                $descricao= null; 
+                $subtitulo= null; 
+                $titulo= null; 
+                $localFoto= null; 
+                $data_publicacao= null; 
+                $nome_autor= null; 
 
-    class ProdutoDAO{  
-        
-            public function buscarProdutos($id_produto){      
                 try {					
                     $pdo = Banco::conectar();
-                    $sql = "SELECT  id,  tag1, tag2, tag3, descricao, subtitulo, titulo, localFoto "
+                    $sql = "SELECT  id,  tag1, tag2, tag3, tag4, tag5, descricao, subtitulo, titulo, localFoto "
                     ." FROM produtos where id = ?;";
                     $stmt = $pdo->prepare($sql);
                     $stmt->execute(array($id_produto));
@@ -28,6 +34,8 @@
                     $stmt->bindColumn('tag1', $tag1 );	
                     $stmt->bindColumn('tag2', $tag2 );							
                     $stmt->bindColumn('tag3', $tag3);
+                    $stmt->bindColumn('tag4', $tag4 );							
+                    $stmt->bindColumn('tag5', $tag5);
                     $stmt->bindColumn('descricao', $descricao );	
                     $stmt->bindColumn('subtitulo', $subtitulo );							
                     $stmt->bindColumn('titulo', $titulo);
@@ -38,6 +46,8 @@
                                 "tag1" => $tag1,
                                 "tag2" =>  $tag2,
                                 "tag3" => $tag3,
+                                "tag4" =>  $tag4,
+                                "tag5" => $tag5,
                                 "descricao" => $descricao,
                                 "subtitulo" =>  $subtitulo,
                                 "titulo" => $titulo, 
@@ -46,7 +56,7 @@
                         
                             echo '    <div style="text-align:center" >';
                             echo '            <h1  class="cor-laranja center">'.$titulo.'</h1>';
-                            echo '            <img class="img-responsive" height="300px" width="550px" src="/fotos/'.$localFoto.'">';
+                            echo '            <img loading="lazy" class="img-responsive" height="300px" width="550px" src="/fotos/'.$localFoto.'">';
                             echo '   </div>';
                             echo '    <p> '.$descricao.'</p>';
                             echo '    <div>Detalhes</div>';
@@ -54,6 +64,8 @@
                             echo                '<li  class="glyphicon glyphicon-chevron-right">'.$tag1.' </li>';
                             echo                '<li  class="glyphicon glyphicon-chevron-right">'.$tag2.' </li>';
                             echo                '<li  class="glyphicon glyphicon-chevron-right">'.$tag3.' </li>';
+                            echo                '<li  class="glyphicon glyphicon-chevron-right">'.$tag4.' </li>';
+                            echo                '<li  class="glyphicon glyphicon-chevron-right">'.$tag5.' </li>';
                             echo '</ul>';  
                             echo     '    <hr>';                  
                         }			
@@ -66,7 +78,7 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="utf-8">
@@ -75,33 +87,40 @@
     <meta name="author" content="">
     <title><?php echo $nome_produto  ?></title>
     <!-- Bootstrap core CSS -->
-    <link href="/assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
-    <link href="/assets/css/styles.css" rel="stylesheet" />
+    <link href="../assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
+    <link href="../assets/css/styles.css" rel="stylesheet" />
 </head>
 
 
 <body id="page-top">
     <!-- Navigation -->
-    <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="loja.php">Pequia</a>
-        <div class="form-inline">
-            <a class="btn   my-2 my-sm-0">Search</a>
-            <a class="btn   my-2 my-sm-0">Search</a>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" href="loja.php">Pequiá</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto my-2 my-lg-0">
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contato</a></li>
+                </ul>
+            </div>
         </div>
     </nav>
+    <header  class="masthead" style="height: 0; min-height: 0;" > </header>
 
     <section>
         <div class="row">
-            <div class="col-1">
+            <div class="col-2">
             </div>
             <div class="col">
                 <?php 
                $produto = new ProdutoDAO();
-               $produto->buscarProdutos($id_produto);
+               $produto->buscarProduto($id_produto);
             ?>
             </div>
-            <div class="col-1">
+            <div class="col-2">
             </div>
         </div>
     </section>
@@ -138,15 +157,15 @@
     <!-- Bootstrap core JS -->
     <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 
-    <script src="/assets/js/jquery-3.5.1.min.js"></script>
+    <script src="../assets/js/jquery-3.5.1.min.js"></script>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
     <!-- Third party plugin JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
-    <script src="/assets/fontawesome-free-5.15.1-web/js/all.js"> </script>
+    <script src="../assets/fontawesome-free-5.15.1-web/js/all.js"> </script>
     <!-- Core theme JS-->
-    <script src="/assets/js/scripts.js"></script>
+    <script src="../assets/js/scripts.js"></script>
 </body>
 
 </html>

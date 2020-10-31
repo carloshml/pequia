@@ -26,5 +26,13 @@ CREATE TABLE `produtos` (
   `data_publicacao` TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE `vendas` (
+  `id` int(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `id_cliente` int(11),
+  `id_produto` int(11),
+  `descricao` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
+  `data_criacao` TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 insert into  `usuarios` ( `nome`,  `login`,    `endereco` ,  `telefone` ,  `senha` ,  `email`,  `sexo`) 
                   value (  'Carlos',  'carlos',  'casa' ,  '6663356' ,  '827ccb0eea8a706c4c34a16891f84e7b' ,  'lala@gmail.com',  'M');

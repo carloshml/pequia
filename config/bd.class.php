@@ -22,7 +22,7 @@ class Banco{
             }
             catch(PDOException $exception)
             {
-                echo 'error do banco'.$exception->getMessage(); 
+                echo 'error do banco '.$exception->getMessage(); 
                 die($exception->getMessage());
             }
         }

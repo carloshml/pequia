@@ -1,5 +1,7 @@
 <?php
-    include '../produtos-dao.php';
+    include_once('../controllers/produto_dao.php');
+    $temEditar = 0;
+    $response = '';
     session_start();
     if (!isset($_SESSION['usuario'])){
     header('Location: ../index.php?erro=1');
@@ -9,11 +11,12 @@
         $id_produto = $_GET['id_produto'];
         $produto_dao = new ProdutoDAO();
         $response = $produto_dao->buscarProdutoPeloId($id_produto);  
+        $temEditar = 1;
     } 
     
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="utf-8">
@@ -26,23 +29,11 @@
     <link href="../assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
     <link href="../assets/css/styles.css" rel="stylesheet" />
     <script type="text/javascript">
-    document.addEventListener("DOMContentLoaded", function() {
-        /*
-                public $id;
-                public $titulo;
-                public $subtitulo;
-                public $local;
-                public $descricao;
-                public $tag1;
-                public $tag2;
-                public $tag3;
-                public $tag4;
-                public $tag5;
-                public $id_autor_publicacao;
-        */
+    document.addEventListener("DOMContentLoaded", function() {     
         const resposta = <?=$response?>;
         if (resposta) {
             $('#nome_produto').val(resposta.titulo);
+            $('#subtitulo').val(resposta.subtitulo);
             $('#descricao').val(resposta.descricao);
             $('#tag1').val(resposta.tag1);
             $('#tag2').val(resposta.tag2);
@@ -59,9 +50,9 @@
     <div id="wrapper">
         <!-- Navigation -->
         <nav class="navbar navbar-light bg-light">
-            <a class="navbar-brand" href="index.php">Pequia</a>
+            <a class="navbar-brand" href="home.php">Pequia</a>
             <div class="form-inline">
-                <a href="index.php" class="btn btn-outline-secondary">Dashboard </a>
+                <a href="home.php" class="btn btn-outline-secondary">Dashboard </a>
                 <a href="publicar.php" class="btn btn-outline-secondary">Publicar </a>
                 <a href="sair.php" class="btn btn-outline-warning"> <i class="fas fa-sign-out-alt"></i> </a>
             </div>
@@ -72,7 +63,7 @@
                 <div class="col-1">
                 </div>
                 <div class="col">
-                    <form method="post" action="../controllers/registra_produto.php" id="formCadastrarse"
+                    <form method="post" action="../controllers/registra_produto.php?temEdicao=<?=$temEditar?>&id_produto=<?=$id_produto?>" id="formCadastrarse"
                         enctype="multipart/form-data">
                         <div class="form-group">
                             <label>Escreva o Nome do Produto</label>
@@ -81,7 +72,7 @@
                         </div>
                         <div class="form-group">
                             <label>Escreva um Subtítulo</label>
-                            <input name="subtitulo" class="form-control">
+                            <input id="subtitulo" name="subtitulo" class="form-control">
                             <p class="help-block">Será a frase abaixo do título</p>
                         </div>
                         <div class="form-group">
@@ -107,8 +98,7 @@
                         </div>
                         <div class="form-group">
                             <label>Tag 4</label>
-                            <input id="tag4
-                            " name="tag4" class="form-control" placeholder="classifique uma tag">
+                            <input id="tag4" name="tag4" class="form-control" placeholder="classifique uma tag">
                         </div>
                         <div class="form-group">
                             <label>Tag 5</label>

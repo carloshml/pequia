@@ -1,5 +1,5 @@
 <?php
-    include '../config/bd.class.php';
+    include_once('../config/bd.class.php'); 
 	$id = null;	
 
 	if ( !empty($_POST)) {

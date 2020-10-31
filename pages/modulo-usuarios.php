@@ -12,21 +12,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Contatos-PHP</title>
+    <title>Pequia-Usuarios</title>
     <!-- Bootstrap core CSS -->
     <link href="../assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
     <link href="../assets/css/styles.css" rel="stylesheet" />
     <script src="../assets/js/jquery-3.5.1.min.js"></script>
     <script type="text/javascript">
-    $('#meuModal').on('shown.bs.modal', function() {
+       $('#meuModal').on('shown.bs.modal', function() {
         $('#meuInput').trigger('focus')
-    })
-    $(document).ready(function() {
+       });
+       $(document).ready(function() {
         $('#btn_salvar_contato').click(function() {
             console.log($('#form_contato').serialize());
             $.ajax({
-                url: '../modal/usuarios-dao.php',
+                url: '../controllers/usuarios-dao.php',
                 method: 'post',
                 data: $('#form_contato').serialize(),
                 success: function(data) {
@@ -82,7 +82,7 @@
 
         function verificaLoginExistente(login) {
             $.ajax({
-                url: '../modal/usuarios-dao.php',
+                url: '../controllers/usuarios-dao.php',
                 method: 'get',
                 data: {
                     'verificar-login': true,
@@ -104,7 +104,7 @@
 
         $('#btn-deletar-contato-concluir').click(function() {
             $.ajax({
-                url: '../modal/delete.php',
+                url: '../controllers/delete.php',
                 method: 'get',
                 data: 'id=' + this.getAttribute('idDeletar'),
                 success: function(data) {
@@ -140,7 +140,7 @@
             console.log(' updatate  M>>> ', 'id=' + idContato + '&' + $('#form_contato_update')
                 .serialize());
             $.ajax({
-                url: '../modal/update.php',
+                url: '../controllers/update.php',
                 method: 'post',
                 data: 'id=' + idContato + '&' + $('#form_contato_update').serialize(),
                 success: function(data) {
@@ -185,7 +185,7 @@
 
         function atualizarContatos() {
             $.ajax({
-                url: '../modal/atualizar.php',
+                url: '../controllers/atualizar.php',
                 success: function(data) {
                     $('#todo_contatos').html(data);
                     // colocado aqui pois só aqui os elementos existem
@@ -199,7 +199,7 @@
                     $('.btn_ler_contato').click(function() {
                         const id_contato = this.id.split('_')[1];
                         $.ajax({
-                            url: '../modal/usuarios-dao.php',
+                            url: '../controllers/usuarios-dao.php',
                             method: 'get',
                             data: 'id=' + id_contato,
                             success: function(data) {
@@ -219,7 +219,7 @@
                         const id_contato = this.id.split('_')[1];
                         console.log(' updat ', id_contato);
                         $.ajax({
-                            url: '../modal/usuarios-dao.php',
+                            url: '../controllers/usuarios-dao.php',
                             method: 'get',
                             data: 'id=' + id_contato,
                             success: function(data) {
@@ -253,9 +253,9 @@
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="index.php">Pequiá</a>
+        <a class="navbar-brand" href="home.php">Pequiá</a>
         <div class="form-inline">
-            <a href="index.php" class="btn btn-outline-secondary">Dashboard </a>
+            <a href="home.php" class="btn btn-outline-secondary">Dashboard </a>
             <a href="publicar.php" class="btn btn-outline-secondary">Publicar </a>
             <a href="sair.php" class="btn btn-outline-warning"> <i class="fas fa-sign-out-alt"></i> </a>
         </div>

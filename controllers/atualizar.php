@@ -1,5 +1,5 @@
 <?php
-     include '../config/bd.class.php';
+     include_once('../config/bd.class.php'); 
      $pdo = Banco::conectar();
      $sql = 'SELECT * FROM usuarios ORDER BY id DESC';
      foreach($pdo->query($sql)as $row)

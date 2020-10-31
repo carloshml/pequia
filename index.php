@@ -1,9 +1,9 @@
 <?php
-    include 'produtos-dao.php';
+    include_once('controllers/produto_dao.php');  
     $erro = isset($_GET['erro']) ? $_GET['erro'] : 0 ;   
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="utf-8">
@@ -28,6 +28,7 @@
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto my-2 my-lg-0">
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="pages/loja.php">Loja</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">Sobre</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#novidades">Novidades</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contato</a></li>
@@ -36,7 +37,7 @@
         </div>
     </nav>
     <!-- Masthead-->
-    <header class="masthead"> 
+    <header class="masthead">
         <div class="container h-100">
             <div class="row h-100 align-items-center justify-content-center text-center">
                 <div class="col-lg-10 align-self-end">
@@ -51,7 +52,7 @@
                         Sua decisão de compra ajuda a fomentar a economia local e a manutenção dos povos em seu ambiente
                         de origem.
                     </p>
-                    <a class="btn btn-primary btn-xl js-scroll-trigger" href="loja.php">Catálogo</a>
+                    <a class="btn btn-primary btn-xl js-scroll-trigger" href="pages/loja.php">Catálogo</a>
                 </div>
             </div>
         </div>
@@ -121,7 +122,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 mx-auto text-center">
-                    <h2 class="section-heading">Ultimos produtos</h2>
+                    <h2 class="section-heading">Últimos produtos</h2>
                     <?php
                         $produto_dao = new ProdutoDAO();
                         $produto_dao->buscarProdutosTelaInicial();                                         
@@ -172,22 +173,24 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header text-center">
-                    <img class="" id="img_logo" src="assets/img/logo.png">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    <img class="" height="40px" id="img_logo" src="assets/img/logo.png">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <!-- Begin # DIV Form -->
                 <div id="div-forms">
                     <!-- Begin # Login Form -->
-                    <form method="post" action="validar_acesso.php" id="formLogin">
+                    <form method="post" action="/controllers/validar_acesso.php" id="formLogin">
                         <div class="modal-body">
-                            <div id="div-login-msg">
-                                <div id="icon-login-msg" class="glyphicon glyphicon-chevron-right"></div>
-                                <span id="text-login-msg">Escreva seu usuário e senha.</span>
+                            <div id="div-login-msg" class="text-center" >
+                                <i class="fas fa-chevron-right"></i>
+                                <span id="text-login-msg">Escreva seu usuário e senha:</span>
                             </div>
+                            <label for="">usuário:</label>
                             <input type="text" class="form-control" id="campo_usuario" name="usuario"
                                 placeholder="Usuário" />
+                            <label for="">senha:</label>
                             <input type="password" class="form-control red" id="campo_senha" name="senha"
                                 placeholder="Senha" />
                             <div class="checkbox">
@@ -213,9 +216,9 @@
 
     <!-- Bootstrap core JavaScript -->
     <!-- Bootstrap core JS -->
-   <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+    <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 
-   <script src="/assets/js/jquery-3.5.1.min.js"></script>
+    <script src="/assets/js/jquery-3.5.1.min.js"></script>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
     <!-- Third party plugin JS-->

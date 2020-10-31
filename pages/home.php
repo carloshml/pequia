@@ -1,12 +1,14 @@
-<?php
-session_start();
-if (!isset($_SESSION['usuario'])){
-  header('Location: ../index.php?erro=1');
-}
-include '../controllers/produto_dao.php';
+<?php   
+    include_once('../controllers/produto_dao.php');
+    include_once('../controllers/usuarios-dao.php'); 
+    session_start();
+    if (!isset($_SESSION['usuario'])){
+    header('Location: ../index.php?erro=1');
+    }
+  
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="utf-8">
@@ -22,14 +24,15 @@ include '../controllers/produto_dao.php';
 
 <body>
 
-    <div id="wrapper">  
+    <div id="wrapper">
         <!-- Navigation -->
         <nav class="navbar navbar-light bg-light">
-            <a class="navbar-brand" href="index.php">Pequia</a>
+            <a class="navbar-brand" href="home.php">Pequia</a>
             <div class="form-inline">
-                <a href="index.php" class="btn btn-outline-secondary">Dashboard </a>
+                <a href="loja.php" class="btn btn-outline-secondary">loja </a>
                 <a href="publicar.php" class="btn btn-outline-secondary">Publicar </a>
-                <a href="sair.php" class="btn btn-outline-warning">  <i class="fas fa-sign-out-alt"></i> </a>             
+                <a href="../index.php" class="btn btn-outline-secondary"> <i class="fas fa-home"></i> </a>
+                <a href="sair.php" class="btn btn-outline-warning"> <i class="fas fa-sign-out-alt"></i> </a>
             </div>
         </nav>
         <div class="container">
@@ -54,8 +57,8 @@ include '../controllers/produto_dao.php';
                                         $produto_dao = new ProdutoDAO();
                                         echo $produto_dao->numeroTotalProduto();                                         
                                         ?>
-                                    </div>                                   
-                                    <a href="modulo-produtos.php"> Produtos!  </a>
+                                    </div>
+                                    <a href="modulo-produtos.php"> Produtos! </a>
                                 </div>
                             </div>
                         </div>
@@ -72,12 +75,17 @@ include '../controllers/produto_dao.php';
                     <div class="panel panel-green">
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-xs-3">                                  
+                                <div class="col-xs-3">
                                     <i class="fas fa-users fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge" id="numero_produtos" name="numero_produtos"></div>                               
-                                    <a href="modulo-usuarios.php"> Usuário!  </a>
+                                    <div class="huge">
+                                        <?php
+                                        $usuario_dao = new UsuariosDAO();
+                                        echo $usuario_dao->numeroTotal();                                         
+                                        ?>
+                                    </div>
+                                    <a href="modulo-usuarios.php"> Usuário! </a>
                                 </div>
                             </div>
                         </div>
@@ -99,7 +107,7 @@ include '../controllers/produto_dao.php';
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">124</div>
-                                    <div>New Orders!</div>
+                                    <div>Vendas</div>
                                 </div>
                             </div>
                         </div>
@@ -111,7 +119,7 @@ include '../controllers/produto_dao.php';
                             </div>
                         </a>
                     </div>
-                </div>             
+                </div>
             </div>
             <!-- /.row -->
             <div class="row">
