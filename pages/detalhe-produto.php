@@ -1,6 +1,7 @@
 <?php
-    include_once('../config/bd.class.php'); 
-    include_once('../modal/produtos.php');   
+    session_start();  
+    include_once('../config/bd.class.php');   
+    include_once('../controllers/produto_dao.php');   
      $nome_produto = '';
      $id_produto = null;
     if(!empty($_GET['id_produto'])) {   
@@ -9,81 +10,13 @@
     if(!empty($_GET['nome_produto'])) {   
         $nome_produto = $_GET['nome_produto'];   
     }  
-    class ProdutoDAO{          
-            public function buscarProduto($id_produto){     
-                
-                $produto = new Produto();    
-                $produto->id= null;                                        
-                $produto->tag1 = null; 
-                $produto->tag2= null; 
-                $produto->tag3= null; 
-                $produto->tag4= null; 
-                $produto->tag5= null;
-                $produto->descricao= null; 
-                $produto->subtitulo= null; 
-                $produto->titulo= null; 
-                $produto->localFoto= null; 
-                $produto->data_publicacao= null;  
-                $nome_autor= null;             
-
-                try {					
-                    $pdo = Banco::conectar();
-                    $sql = "SELECT  produtos.id as id,   tag1, tag2, tag3, tag4, tag5, descricao, subtitulo,"
-                    ."  titulo, localFoto ,  usuarios.nome as nome_autor , preco_venda"   
-                    ."  FROM produtos inner join usuarios  on   produtos.id_usuario_publicacao =  usuarios.id   " 
-                    ."  where produtos.id = ?;";
-                    $stmt = $pdo->prepare($sql);
-                    $stmt->execute(array($id_produto));
-                    $stmt->bindColumn('id', $produto->id );	
-                    $stmt->bindColumn('tag1', $produto->tag1 );	
-                    $stmt->bindColumn('tag2', $produto->tag2 );							
-                    $stmt->bindColumn('tag3', $produto->tag3);
-                    $stmt->bindColumn('tag4', $produto->tag4 );							
-                    $stmt->bindColumn('tag5', $produto->tag5);
-                    $stmt->bindColumn('descricao', $produto->descricao );	
-                    $stmt->bindColumn('subtitulo', $produto->subtitulo );							
-                    $stmt->bindColumn('titulo', $produto->titulo);
-                    $stmt->bindColumn('localFoto', $produto->localFoto);
-                    $stmt->bindColumn('preco_venda', $produto->preco_venda);
-                    $stmt->bindColumn('nome_autor', $nome_autor);
-                        while ($row = $stmt->fetch(PDO::FETCH_BOUND)) {
-                            $array = array(
-                                "id" => $produto->id,                                            
-                                "tag1" => $produto->tag1,
-                                "tag2" =>  $produto->tag2,
-                                "tag3" => $produto->tag3,
-                                "tag4" =>  $produto->tag4,
-                                "tag5" => $produto->tag5,
-                                "descricao" => $produto->descricao,
-                                "subtitulo" =>  $produto->subtitulo,
-                                "titulo" => $produto->titulo, 
-                                "localFoto" => $produto->localFoto,
-                                "preco_venda" => $produto->localFpreco_vendaoto
-                            );
-                        
-                            echo '    <div style="text-align:center" >';
-                            echo '            <h1  class="cor-laranja center">'.$produto->titulo.'</h1>';
-                            echo '            <img loading="lazy" class="img-responsive" height="400px"  src="/fotos/'.$produto->localFoto.'">';
-                            echo '   </div>';
-                            echo '    <p> '.$produto->descricao.'</p>';
-                            echo '    <div>Detalhes</div>';
-                            echo '<ul>';
-                            echo                '<li  class="glyphicon glyphicon-chevron-right">'.$produto->tag1.' </li>';
-                            echo                '<li  class="glyphicon glyphicon-chevron-right">'.$produto->tag2.' </li>';
-                            echo                '<li  class="glyphicon glyphicon-chevron-right">'.$produto->tag3.' </li>';
-                            echo                '<li  class="glyphicon glyphicon-chevron-right">'.$produto->tag4.' </li>';
-                            echo                '<li  class="glyphicon glyphicon-chevron-right">'.$produto->tag5.' </li>';
-                            echo '</ul>';  
-                            echo '<div> preço: '.$produto->preco_venda.' </div>';  
-                            echo '<span class="text-right" > publicado por '.$nome_autor.' | '.  date('d/m/Y', strtotime($produto->data_publicacao)).'</span>';     
-                            echo '<hr>';                  
-                        }			
-                    }catch (PDOException $e) {
-                        print $e->getMessage();
-                    }
-                    Banco::desconectar();  
-            }          
+    $retorno =   $_SESSION['vendas'];  
+    if($retorno){
+       $vendas =  unserialize($retorno);
+    } else {
+       $vendas = array();
     }
+    $vendasJson =  json_encode($vendas);     
 ?>
 
 <!DOCTYPE html>
@@ -99,6 +32,42 @@
     <link href="../assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
     <link href="../assets/css/styles.css" rel="stylesheet" />
+    <link href="../assets/css/estilo.css" rel="stylesheet" />
+    <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+
+        $('#btn_ver_compra').click(function() {
+            document.getElementById('painel-compra').style.display = 'block';
+            const produtos = <?=$vendasJson?>;
+            console.log('produtos', produtos);
+            produtosEscrito = '';
+            produtos.forEach(element => {
+                produtosEscrito +=
+
+                    '<form method="post"  action="../controllers/adicionar_venda_item.php?' +
+                    'id_produto=' + element.id_produto +
+                    '&preco_venda=' + element.preco_venda +
+                    '&titulo=' + element.titulo + '">' +
+                    '<div> Produto: ' + element.titulo + '</div>' +
+                    '<div> quantade:' +
+                    '<input  style="display:table-cell; width:25%;" id="quantidade" value="' +
+                    element.quantidade + '" name="quantidade" class="form-control" required>' +
+                    '<button class="btn btn-primary"> - </button>' +
+                    '<button class="btn btn-primary"> + </button>' +
+                    '</div>' +
+                    '<div> total:' + element.vl_total + '</div>' +
+                    '</form>' +
+                    '<hr>';
+            });
+            document.getElementById('descricao_compra').innerHTML = produtosEscrito;
+        });
+
+        $('#btn-fechar-painel-compra').click(function() {
+            document.getElementById('painel-compra').style.display = 'none';
+        });
+
+    });
+    </script>
 </head>
 
 
@@ -113,11 +82,32 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto my-2 my-lg-0">
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contato</a></li>
+                    <li class="nav-item">
+                        <a href="../controllers/sair.php"> sair </a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
-    <header  class="masthead" style="height: 0; min-height: 0;" > </header>
+    <header class="masthead" style="height: 0; min-height: 0;"> </header>
+    <div style="position: relative; width: 100%;">
+        <div id="painel-compra" class="painel-compra" style="display: none;">
+            <div class="row">
+                <div class="col-lg-10 ml-auto">
+                    <h4 class="branco"> Produtos: </h4>
+                </div>
+                <div class="pra-direita col-lg-2 ml-auto">
+                    <button id="btn-fechar-painel-compra" style="border:1px solid white" class="btn btn-danger branco">
+                        X </button>
+                </div>
+            </div>
+            <div id="descricao_compra"></div>
+            <div class="pra-direita">
+                <a href="compra.php"  style="border:1px solid white" class="btn btn-success branco"> Revisar </a>
+            </div>
+        </div>
+    </div>
+
 
     <section>
         <div class="row">

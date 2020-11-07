@@ -261,6 +261,86 @@
             echo 'Exceção capturada: '.  $e->getMessage(). "\n";
         }
      } 
+
+     public function buscarProduto($id_produto){     
+                
+        $produto = new Produto();    
+        $produto->id= null;                                        
+        $produto->tag1 = null; 
+        $produto->tag2= null; 
+        $produto->tag3= null; 
+        $produto->tag4= null; 
+        $produto->tag5= null;
+        $produto->descricao= null; 
+        $produto->subtitulo= null; 
+        $produto->titulo= null; 
+        $produto->localFoto= null; 
+        $produto->data_publicacao= null;  
+        $nome_autor= null;             
+
+        try {					
+            $pdo = Banco::conectar();
+            $sql = "SELECT  produtos.id as id,   tag1, tag2, tag3, tag4, tag5, descricao, subtitulo,"
+            ."  titulo, localFoto ,  usuarios.nome as nome_autor , preco_venda"   
+            ."  FROM produtos inner join usuarios  on   produtos.id_usuario_publicacao =  usuarios.id   " 
+            ."  where produtos.id = ?;";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(array($id_produto));
+            $stmt->bindColumn('id', $produto->id );	
+            $stmt->bindColumn('tag1', $produto->tag1 );	
+            $stmt->bindColumn('tag2', $produto->tag2 );							
+            $stmt->bindColumn('tag3', $produto->tag3);
+            $stmt->bindColumn('tag4', $produto->tag4 );							
+            $stmt->bindColumn('tag5', $produto->tag5);
+            $stmt->bindColumn('descricao', $produto->descricao );	
+            $stmt->bindColumn('subtitulo', $produto->subtitulo );							
+            $stmt->bindColumn('titulo', $produto->titulo);
+            $stmt->bindColumn('localFoto', $produto->localFoto);
+            $stmt->bindColumn('preco_venda', $produto->preco_venda);
+            $stmt->bindColumn('nome_autor', $nome_autor);
+                while ($stmt->fetch(PDO::FETCH_BOUND)) {   
+                    echo '<form method="post"  action="../controllers/adicionar_venda_item.php?id_produto='
+                          .$produto->id
+                          .'&preco_venda='.$produto->preco_venda
+                          .'&nome_produto='.$produto->titulo.'" ';
+                    echo 'id="formCadastrarse" enctype="multipart/form-data">';
+                    echo '<div style="text-align:center" >';
+                    echo '            <h1  class="cor-laranja center">'.$produto->titulo.'</h1>';
+                    echo '            <img loading="lazy" class="img-responsive" height="400px"  src="/fotos/'.$produto->localFoto.'">';
+                    echo '</div>';
+                    echo '<div class="row">';
+                    echo '      <div class="form-group col-sm-4">';  
+                    echo '      </div>';
+                    echo '      <div class="form-group col-sm-8">';                 
+                    echo '            <div style="display:table; width:100%; " >';
+                    echo '                 <div style="display:table-row" >';
+                    echo '                      <label  style="display:table-cell; width:25%;" class="pra-direita" >QUANTIDADE:</label>';
+                    echo '                      <input  style="display:table-cell; width:25%;" id="quantidade" value="1" name="quantidade" class="form-control" required>';  
+                    echo '                      <button style="display:table-cell; width:25%;" type="submit" class="btn btn-warning" > adicionar  </button> ';
+                    echo '                      <button style="display:table-cell; width:25%;" id="btn_ver_compra" type="button" class="btn btn-info" > ver compra  </button> ';
+                    echo '                 </div>';
+                    echo '            </div>';
+                    echo '      </div>';
+                    echo '</div>';                 
+                    echo '<p> '.$produto->descricao.'</p>';
+                    echo '<div>Detalhes</div>';
+                    echo '<ul>';
+                    echo                '<li  class="glyphicon glyphicon-chevron-right">'.$produto->tag1.' </li>';
+                    echo                '<li  class="glyphicon glyphicon-chevron-right">'.$produto->tag2.' </li>';
+                    echo                '<li  class="glyphicon glyphicon-chevron-right">'.$produto->tag3.' </li>';
+                    echo                '<li  class="glyphicon glyphicon-chevron-right">'.$produto->tag4.' </li>';
+                    echo                '<li  class="glyphicon glyphicon-chevron-right">'.$produto->tag5.' </li>';
+                    echo '</ul>';  
+                    echo '<div> preço: '.$produto->preco_venda.' </div>';  
+                    echo '<span class="text-right" > publicado por '.$nome_autor.' | '.  date('d/m/Y', strtotime($produto->data_publicacao)).'</span>';     
+                    echo '</form>';
+                    echo '<hr>';                  
+                }			
+            }catch (PDOException $e) {
+                print $e->getMessage();
+            }
+            Banco::desconectar();  
+    }    
      
   }
 ?>
