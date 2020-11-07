@@ -56,7 +56,7 @@
                         
                             echo '    <div style="text-align:center" >';
                             echo '            <h1  class="cor-laranja center">'.$titulo.'</h1>';
-                            echo '            <img loading="lazy" class="img-responsive" height="300px" width="550px" src="/fotos/'.$localFoto.'">';
+                            echo '            <img loading="lazy" class="img-responsive" height="400px"  src="/fotos/'.$localFoto.'">';
                             echo '   </div>';
                             echo '    <p> '.$descricao.'</p>';
                             echo '    <div>Detalhes</div>';

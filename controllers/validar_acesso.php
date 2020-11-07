@@ -17,7 +17,8 @@
         // acesso correto do usuario ;
         // criando variáveis globais seesion
         $_SESSION['id_usuario'] = $dados_usuario['id'];
-        $_SESSION['usuario'] = $dados_usuario['login'];
+        $_SESSION['usuario_nome'] = $dados_usuario['nome'];
+        $_SESSION['usuario_login'] = $dados_usuario['login'];
         $_SESSION['email'] = $dados_usuario['email'];
         header('Location: ../pages/home.php');
       }else{

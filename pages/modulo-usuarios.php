@@ -257,7 +257,7 @@
         <div class="form-inline">
             <a href="home.php" class="btn btn-outline-secondary">Dashboard </a>
             <a href="publicar.php" class="btn btn-outline-secondary">Publicar </a>
-            <a href="sair.php" class="btn btn-outline-warning"> <i class="fas fa-sign-out-alt"></i> </a>
+            <a href="../controllers/sair.php" class="btn btn-outline-warning"> <i class="fas fa-sign-out-alt"></i> </a>
         </div>
     </nav>
     <div class="container">

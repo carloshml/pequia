@@ -16,10 +16,16 @@
     <link href="../assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
     <link href="../assets/css/styles.css" rel="stylesheet" />
 
+    <style>
+    .imagem-detalhes {
+        max-width: 100%;
+        max-height: 300px;
+    }
+    </style>
 </head>
 
 <body id="page-top">
-    <!-- Navigation --> 
+    <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
         <div class="container">
             <a class="navbar-brand js-scroll-trigger" href="../index.php">Pequiá</a>
@@ -33,24 +39,21 @@
             </div>
         </div>
     </nav>
-    <header  class="masthead" style="height: 0; min-height: 0;" > </header>
+    <header class="masthead" style="height: 0; min-height: 0;"> </header>
 
     <!--Produtos da Loja-->
     <section>
-        <div>
+        <div class="container " block>
+            <div class="col-lg-12  text-center">
+                <h2 class="section-heading"> Escolha o Seu Produto de Hoje </h2>
+            </div>
+            <hr>
             <div class="row">
-                <div class="col-lg-12  text-center">
-                    <h2 class="section-heading"> Produtos </h2>
-                </div>
-                <div class="container " block>
-                    <div class="row">
-                        <div class="col-md-10" id="produtos" name="produtos">
-                            <?php
+                <div class="col-md-10" id="produtos" name="produtos">
+                    <?php
                                         $produto_dao = new ProdutoDAO();
                                         $produto_dao->buscarProdutos();                                         
-                             ?>
-                        </div>
-                    </div>
+                     ?>
                 </div>
             </div>
         </div>

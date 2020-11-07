@@ -1,6 +1,11 @@
 <?php
-    include_once('controllers/produto_dao.php');  
-    $erro = isset($_GET['erro']) ? $_GET['erro'] : 0 ;   
+    include_once('controllers/produto_dao.php');    
+    $usuario_nome = null;
+    session_start();
+    if (isset($_SESSION['usuario_nome'])){
+        $usuario_nome = $_SESSION['usuario_nome'];   
+     }
+    $erro = isset($_GET['erro']) ? $_GET['erro'] : 0 ;     
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -22,16 +27,21 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
         <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="#page-top">Pequiá</a>
+            <a class="navbar-brand js-scroll-trigger" href="#page-top">Pequiá </a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto my-2 my-lg-0">
+                <ul class="navbar-nav ml-auto my-2 my-lg-0">                  
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="pages/loja.php">Loja</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">Sobre</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#novidades">Novidades</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contato</a></li>
+                    <?php                 
+                        if($usuario_nome ){
+                            echo '<li class="nav-item"><a class="nav-link js-scroll-trigger" href="pages/home.php">DashBoard</a></li>';
+                        }                
+                    ?>
                 </ul>
             </div>
         </div>
@@ -183,7 +193,7 @@
                     <!-- Begin # Login Form -->
                     <form method="post" action="/controllers/validar_acesso.php" id="formLogin">
                         <div class="modal-body">
-                            <div id="div-login-msg" class="text-center" >
+                            <div id="div-login-msg" class="text-center">
                                 <i class="fas fa-chevron-right"></i>
                                 <span id="text-login-msg">Escreva seu usuário e senha:</span>
                             </div>

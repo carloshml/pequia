@@ -3,8 +3,8 @@
     $temEditar = 0;
     $response = '';
     session_start();
-    if (!isset($_SESSION['usuario'])){
-    header('Location: ../index.php?erro=1');
+    if (!isset($_SESSION['usuario_login'])){
+       header('Location: ../index.php?erro=1');
     }
 
     if(!empty($_GET['id_produto'])) {   
@@ -12,8 +12,7 @@
         $produto_dao = new ProdutoDAO();
         $response = $produto_dao->buscarProdutoPeloId($id_produto);  
         $temEditar = 1;
-    } 
-    
+    }     
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -54,7 +53,7 @@
             <div class="form-inline">
                 <a href="home.php" class="btn btn-outline-secondary">Dashboard </a>
                 <a href="publicar.php" class="btn btn-outline-secondary">Publicar </a>
-                <a href="sair.php" class="btn btn-outline-warning"> <i class="fas fa-sign-out-alt"></i> </a>
+                <a href="../controllers/sair.php" class="btn btn-outline-warning"> <i class="fas fa-sign-out-alt"></i> </a>
             </div>
         </nav>
         <h1 class="page-header">Publicar Produto</h1>

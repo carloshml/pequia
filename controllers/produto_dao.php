@@ -3,25 +3,15 @@
         $file = '../config/bd.class.php';
         if(file_exists($file)){
             include_once('../config/bd.class.php');
+            include_once('../modal/produtos.php');
         } else {
-            include_once('config/bd.class.php');    
+            include_once('config/bd.class.php');
+            include_once('modal/produtos.php');   
         }
     }
     __autoload('');
-    class Produto{
-       public $id;
-       public $titulo;
-       public $subtitulo;
-       public $local;
-       public $descricao;
-       public $tag1;
-       public $tag2;
-       public $tag3;
-       public $tag4;
-       public $tag5;
-       public $id_autor_publicacao;
-       public $data_publicacao;      
-    }
+  
+
     class ProdutoDAO{  
      public function buscarProdutos(){    
          
@@ -56,7 +46,8 @@
                $stmt->bindColumn('titulo', $titulo);
                $stmt->bindColumn('data_publicacao', $data_publicacao);
                $stmt->bindColumn('nome_autor', $nome_autor);
-               $stmt->bindColumn('localFoto', $localFoto);            
+               $stmt->bindColumn('localFoto', $localFoto);    
+               echo '<div class="row">';        
                   while ($row = $stmt->fetch(PDO::FETCH_BOUND)) {
                     $array = array(  
                         "id_produto" => $id_produto,                                            
@@ -70,28 +61,26 @@
                         "titulo" => $titulo, 
                         "localFoto" => $localFoto
                       );
-                      echo '<div class="row">';
-                      echo '     <div class="col-lg-7 ml-auto">';
-                      echo '         <a href="#">';
-                      echo '            <img loading="lazy" class="img-responsive" height="300px" width="550px" src="/fotos/'.$localFoto.'">';
-                      echo '           </a>';
-                      echo '      </div>';
-                      echo '  <div class="col-lg-5 ml-auto">';
-                      echo '            <a href="detalhe-produto.php?id_produto='.$id_produto.'&nome_produto='.$titulo.'" class="cor-laranja ">'.$titulo.'</a>';
-                      echo '            <h4>'.$subtitulo.'</h4>';
-                      echo '            <p> '.$descricao.'</p>';
-                      echo '            <ul>';
-                      echo '                <li  class="glyphicon glyphicon-chevron-right">'.$tag1.' </li>';
-                      echo '                <li  class="glyphicon glyphicon-chevron-right">'.$tag2.' </li>';
-                      echo '                <li  class="glyphicon glyphicon-chevron-right">'.$tag3.' </li>';
-                      echo '                <li  class="glyphicon glyphicon-chevron-right">'.$tag4.' </li>';
-                      echo '                <li  class="glyphicon glyphicon-chevron-right">'.$tag5.' </li>';
-                      echo '            </ul>';                
+                   
+                      echo '<div class="col-lg-3 ml-auto">';
+                      echo '<div>';
+                      echo '         <a href="detalhe-produto.php?id_produto='.$id_produto.'&nome_produto='.$titulo.'">';
+                      echo '            <img loading="lazy" class="img-responsive imagem-detalhes" height="300px"   src="/fotos/'.$localFoto.'">';
+                      echo '         </a>';     
+                      echo '</div>';                        
+                      echo '         <a href="detalhe-produto.php?id_produto='.$id_produto.'&nome_produto='.$titulo.'" class="cor-laranja  "> <strong> '.$titulo.' </strong></a>';
+                      echo '         <h6>'.$subtitulo.'</h6>';                   
+                      echo '         <ul>';
+                      echo '             <li  class="glyphicon glyphicon-chevron-right">'.$tag1.' </li>';
+                      echo '             <li  class="glyphicon glyphicon-chevron-right">'.$tag2.' </li>';
+                      echo '             <li  class="glyphicon glyphicon-chevron-right">'.$tag3.' </li>';
+                      echo '             <li  class="glyphicon glyphicon-chevron-right">'.$tag4.' </li>';
+                      echo '             <li  class="glyphicon glyphicon-chevron-right">'.$tag5.' </li>';
+                      echo '         </ul>';     
+                      echo '<span class="text-right" > publicado: '. date('d/m/Y', strtotime($data_publicacao)).'</span>';                  
                       echo '</div>';  
-                      echo '</div>'; 
-                      echo '<div class="text-right" > publicado por <strong>  '. $nome_autor .' </strong> | '. date('d/m/Y', strtotime($data_publicacao)).'</div>';                  
-                      echo '<hr class="divider my-4" />';                  
-                  }			
+                    }	
+                  echo '</div>';                  		
               }catch (PDOException $e) {
                       echo '<hr class="divider my-4" />';  
                       return  $e->getMessage();
@@ -168,44 +157,37 @@
      } 
 
      public function buscarProdutosTelaInicial(){    
-        $id= null;                                        
-        $tag1 = null; 
-        $tag2= null; 
-        $tag3= null; 
-        $descricao= null; 
-        $subtitulo= null; 
-        $titulo= null; 
-        $localFoto= null;      
+        $produto = new Produto();    
         try {					
             $pdo = Banco::conectar();
             $sql = "SELECT  id,  tag1, tag2, tag3, descricao, subtitulo, titulo, localFoto "
             ." FROM produtos   ORDER BY produtos.id DESC limit  6;";
             $stmt = $pdo->prepare($sql);
             $stmt->execute();
-            $stmt->bindColumn('id', $id );	
-            $stmt->bindColumn('tag1', $tag1 );	
-            $stmt->bindColumn('tag2', $tag2 );							
-            $stmt->bindColumn('tag3', $tag3);
-            $stmt->bindColumn('descricao', $descricao );	
-            $stmt->bindColumn('subtitulo', $subtitulo );							
-            $stmt->bindColumn('titulo', $titulo);
-            $stmt->bindColumn('localFoto', $localFoto);
+            $stmt->bindColumn('id', $produto->id );	
+            $stmt->bindColumn('tag1',$produto->tag1 );	
+            $stmt->bindColumn('tag2', $produto->tag2 );							
+            $stmt->bindColumn('tag3', $produto->tag3);
+            $stmt->bindColumn('descricao', $produto->descricao );	
+            $stmt->bindColumn('subtitulo', $produto->subtitulo );							
+            $stmt->bindColumn('titulo', $produto->titulo);
+            $stmt->bindColumn('localFoto', $produto->localFoto);
                echo '<div class="row">';
                   while ($row = $stmt->fetch(PDO::FETCH_BOUND)) {
                     $array = array(  
-                        "id" => $id,                                            
-                        "tag1" => $tag1,
-                        "tag2" =>  $tag2,
-                        "tag3" => $tag3,
-                        "descricao" => $descricao,
-                        "subtitulo" =>  $subtitulo,
-                        "titulo" => $titulo, 
-                        "localFoto" => $localFoto
+                        "id" => $produto->id,                                            
+                        "tag1" => $produto->tag1,
+                        "tag2" =>  $produto->tag2,
+                        "tag3" => $produto->tag3,
+                        "descricao" => $produto->descricao,
+                        "subtitulo" =>  $produto->subtitulo,
+                        "titulo" => $produto->titulo, 
+                        "localFoto" => $produto->localFoto
                       );
                    
                       echo '   <div class="col-md-3"'
                             .'  style="background:#ffd6cb; color:white !important; padding: 5px 10px; margin: 19px 2px; height:120px " >';
-                      echo '        <a href="detalhe-produto.php?id_produto='.$id.'%" class="cor-laranja">'.$titulo.'</a>';   
+                      echo '        <a href="pages/detalhe-produto.php?id_produto='.$produto->id.'%" class="cor-laranja">'.$produto->titulo.'</a>';   
                       echo '   </div>';                      
                                    
                   }	

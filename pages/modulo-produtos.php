@@ -62,7 +62,6 @@
             <hr class="divider my-4" />
             <div class="row">
                 <div class="col-lg-8 mx-auto text-center">
-
                     <p class="mb-5">Pronto pra comprar biojoias conosco, nos ligue ou envie um e-mail.</p>
                 </div>
             </div>
