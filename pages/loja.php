@@ -15,13 +15,8 @@
     <link href="../assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
     <link href="../assets/css/styles.css" rel="stylesheet" />
-
-    <style>
-    .imagem-detalhes {
-        max-width: 100%;
-        max-height: 300px;
-    }
-    </style>
+    <link href="../assets/css/estilo.css" rel="stylesheet" /> 
+   
 </head>
 
 <body id="page-top">
@@ -48,14 +43,10 @@
                 <h2 class="section-heading"> Escolha o Seu Produto de Hoje </h2>
             </div>
             <hr>
-            <div class="row">
-                <div class="col-md-10" id="produtos" name="produtos">
-                    <?php
-                                        $produto_dao = new ProdutoDAO();
-                                        $produto_dao->buscarProdutos();                                         
-                     ?>
-                </div>
-            </div>
+            <?php
+              $produto_dao = new ProdutoDAO();
+              $produto_dao->buscarProdutos();                                         
+             ?>
         </div>
     </section>
     <section id="contact">

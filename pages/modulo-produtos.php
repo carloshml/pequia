@@ -15,6 +15,7 @@
     <link href="../assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
     <link href="../assets/css/styles.css" rel="stylesheet" />
+    <link href="../assets/css/estilo.css" rel="stylesheet" /> 
 </head>
 
 

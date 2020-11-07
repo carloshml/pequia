@@ -23,38 +23,33 @@
     <!-- Bootstrap core CSS -->
     <link href="../assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
-    <!-- <link href="../assets/css/styles.css" rel="stylesheet" /> -->
+    <link href="../assets/css/estilo.css" rel="stylesheet" /> 
 
     <style>
-    .background-animado {
-        background: linear-gradient(-45deg, #88bbbb, #23d5ab, #004de6);
-        background-size: 400% 400%;
-        animation: gradient 15s ease infinite;
-        min-height: 100vh;
-    }
-
-    @keyframes gradient {
-        0% {
-            background-position: 0% 50%;
+        .background-animado {
+            background: linear-gradient(-45deg, #88bbbb, #23d5ab, #004de6);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            min-height: 100vh;
         }
 
-        50% {
-            background-position: 100% 50%;
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }     
+
+        .fa-5x {     
+            color: white;
         }
-
-        100% {
-            background-position: 0% 50%;
-        }
-    }
-
-    .a-titulo {
-        color: white;
-        text-decoration: none;
-    }
-
-    .fa-5x {     
-        color: white;
-    }
     </style>
 </head>
 
@@ -74,7 +69,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header a-titulo ">Painel de Controle</h1>
+                    <h1 class="page-header branco ">Painel de Controle</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -89,18 +84,18 @@
                                     <i class="fa fa-comments fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge a-titulo">
+                                    <div class="huge branco">
                                         <?php
                                         $produto_dao = new ProdutoDAO();
                                         echo $produto_dao->numeroTotalProduto();                                         
                                         ?>
                                     </div>
-                                    <a class="a-titulo" href="modulo-produtos.php"> Produtos! </a>
+                                    <a class="branco" href="modulo-produtos.php"> Produtos! </a>
                                 </div>
                             </div>
                         </div>
                         <a href="modulo-produtos.php">
-                            <div class="panel-footer a-titulo">
+                            <div class="panel-footer branco">
                                 <span class="pull-left">Editar Produtos</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                 <div class="clearfix"></div>
@@ -116,18 +111,18 @@
                                     <i class="fas fa-users fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge a-titulo">
+                                    <div class="huge branco">
                                         <?php
                                         $usuario_dao = new UsuariosDAO();
                                         echo $usuario_dao->numeroTotal();                                         
                                         ?>
                                     </div>
-                                    <a class="a-titulo" href="modulo-usuarios.php"> Usuário! </a>
+                                    <a class="branco" href="modulo-usuarios.php"> Usuário! </a>
                                 </div>
                             </div>
                         </div>
                         <a href="modulo-usuarios.php">
-                            <div class="panel-footer a-titulo">
+                            <div class="panel-footer branco">
                                 <span class="pull-left">Editar Usuários</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                 <div class="clearfix"></div>
@@ -143,18 +138,18 @@
                                     <i class="fa fa-shopping-cart fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge a-titulo">
+                                    <div class="huge branco">
                                         <?php
                                         $usuario_dao = new UsuariosDAO();
                                         echo $usuario_dao->numeroTotal();                                         
                                         ?>
                                     </div>
-                                    <a class="a-titulo" href="modulo-usuarios.php"> Vendas! </a>
+                                    <a class="branco" href="modulo-usuarios.php"> Vendas! </a>
                                 </div>
                             </div>
                         </div>
                         <a href="#">
-                            <div class="panel-footer a-titulo">
+                            <div class="panel-footer branco">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                 <div class="clearfix"></div>

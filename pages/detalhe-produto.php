@@ -1,5 +1,6 @@
 <?php
     include_once('../config/bd.class.php'); 
+    include_once('../modal/produtos.php');   
      $nome_produto = '';
      $id_produto = null;
     if(!empty($_GET['id_produto'])) {   
@@ -9,65 +10,73 @@
         $nome_produto = $_GET['nome_produto'];   
     }  
     class ProdutoDAO{          
-            public function buscarProduto($id_produto){      
-
-                $id= null;                                        
-                $tag1 = null; 
-                $tag2= null; 
-                $tag3= null; 
-                $tag4= null; 
-                $tag5= null;
-                $descricao= null; 
-                $subtitulo= null; 
-                $titulo= null; 
-                $localFoto= null; 
-                $data_publicacao= null; 
-                $nome_autor= null; 
+            public function buscarProduto($id_produto){     
+                
+                $produto = new Produto();    
+                $produto->id= null;                                        
+                $produto->tag1 = null; 
+                $produto->tag2= null; 
+                $produto->tag3= null; 
+                $produto->tag4= null; 
+                $produto->tag5= null;
+                $produto->descricao= null; 
+                $produto->subtitulo= null; 
+                $produto->titulo= null; 
+                $produto->localFoto= null; 
+                $produto->data_publicacao= null;  
+                $nome_autor= null;             
 
                 try {					
                     $pdo = Banco::conectar();
-                    $sql = "SELECT  id,  tag1, tag2, tag3, tag4, tag5, descricao, subtitulo, titulo, localFoto "
-                    ." FROM produtos where id = ?;";
+                    $sql = "SELECT  produtos.id as id,   tag1, tag2, tag3, tag4, tag5, descricao, subtitulo,"
+                    ."  titulo, localFoto ,  usuarios.nome as nome_autor , preco_venda"   
+                    ."  FROM produtos inner join usuarios  on   produtos.id_usuario_publicacao =  usuarios.id   " 
+                    ."  where produtos.id = ?;";
                     $stmt = $pdo->prepare($sql);
                     $stmt->execute(array($id_produto));
-                    $stmt->bindColumn('id', $id );	
-                    $stmt->bindColumn('tag1', $tag1 );	
-                    $stmt->bindColumn('tag2', $tag2 );							
-                    $stmt->bindColumn('tag3', $tag3);
-                    $stmt->bindColumn('tag4', $tag4 );							
-                    $stmt->bindColumn('tag5', $tag5);
-                    $stmt->bindColumn('descricao', $descricao );	
-                    $stmt->bindColumn('subtitulo', $subtitulo );							
-                    $stmt->bindColumn('titulo', $titulo);
-                    $stmt->bindColumn('localFoto', $localFoto);
+                    $stmt->bindColumn('id', $produto->id );	
+                    $stmt->bindColumn('tag1', $produto->tag1 );	
+                    $stmt->bindColumn('tag2', $produto->tag2 );							
+                    $stmt->bindColumn('tag3', $produto->tag3);
+                    $stmt->bindColumn('tag4', $produto->tag4 );							
+                    $stmt->bindColumn('tag5', $produto->tag5);
+                    $stmt->bindColumn('descricao', $produto->descricao );	
+                    $stmt->bindColumn('subtitulo', $produto->subtitulo );							
+                    $stmt->bindColumn('titulo', $produto->titulo);
+                    $stmt->bindColumn('localFoto', $produto->localFoto);
+                    $stmt->bindColumn('preco_venda', $produto->preco_venda);
+                    $stmt->bindColumn('nome_autor', $nome_autor);
                         while ($row = $stmt->fetch(PDO::FETCH_BOUND)) {
-                            $array = array(  
-                                "id" => $id,                                            
-                                "tag1" => $tag1,
-                                "tag2" =>  $tag2,
-                                "tag3" => $tag3,
-                                "tag4" =>  $tag4,
-                                "tag5" => $tag5,
-                                "descricao" => $descricao,
-                                "subtitulo" =>  $subtitulo,
-                                "titulo" => $titulo, 
-                                "localFoto" => $localFoto
+                            $array = array(
+                                "id" => $produto->id,                                            
+                                "tag1" => $produto->tag1,
+                                "tag2" =>  $produto->tag2,
+                                "tag3" => $produto->tag3,
+                                "tag4" =>  $produto->tag4,
+                                "tag5" => $produto->tag5,
+                                "descricao" => $produto->descricao,
+                                "subtitulo" =>  $produto->subtitulo,
+                                "titulo" => $produto->titulo, 
+                                "localFoto" => $produto->localFoto,
+                                "preco_venda" => $produto->localFpreco_vendaoto
                             );
                         
                             echo '    <div style="text-align:center" >';
-                            echo '            <h1  class="cor-laranja center">'.$titulo.'</h1>';
-                            echo '            <img loading="lazy" class="img-responsive" height="400px"  src="/fotos/'.$localFoto.'">';
+                            echo '            <h1  class="cor-laranja center">'.$produto->titulo.'</h1>';
+                            echo '            <img loading="lazy" class="img-responsive" height="400px"  src="/fotos/'.$produto->localFoto.'">';
                             echo '   </div>';
-                            echo '    <p> '.$descricao.'</p>';
+                            echo '    <p> '.$produto->descricao.'</p>';
                             echo '    <div>Detalhes</div>';
                             echo '<ul>';
-                            echo                '<li  class="glyphicon glyphicon-chevron-right">'.$tag1.' </li>';
-                            echo                '<li  class="glyphicon glyphicon-chevron-right">'.$tag2.' </li>';
-                            echo                '<li  class="glyphicon glyphicon-chevron-right">'.$tag3.' </li>';
-                            echo                '<li  class="glyphicon glyphicon-chevron-right">'.$tag4.' </li>';
-                            echo                '<li  class="glyphicon glyphicon-chevron-right">'.$tag5.' </li>';
+                            echo                '<li  class="glyphicon glyphicon-chevron-right">'.$produto->tag1.' </li>';
+                            echo                '<li  class="glyphicon glyphicon-chevron-right">'.$produto->tag2.' </li>';
+                            echo                '<li  class="glyphicon glyphicon-chevron-right">'.$produto->tag3.' </li>';
+                            echo                '<li  class="glyphicon glyphicon-chevron-right">'.$produto->tag4.' </li>';
+                            echo                '<li  class="glyphicon glyphicon-chevron-right">'.$produto->tag5.' </li>';
                             echo '</ul>';  
-                            echo     '    <hr>';                  
+                            echo '<div> preço: '.$produto->preco_venda.' </div>';  
+                            echo '<span class="text-right" > publicado por '.$nome_autor.' | '.  date('d/m/Y', strtotime($produto->data_publicacao)).'</span>';     
+                            echo '<hr>';                  
                         }			
                     }catch (PDOException $e) {
                         print $e->getMessage();
@@ -85,7 +94,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title><?php echo $nome_produto  ?></title>
+    <title><?=$nome_produto?></title>
     <!-- Bootstrap core CSS -->
     <link href="../assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
@@ -131,7 +140,6 @@
             <hr class="divider my-4" />
             <div class="row">
                 <div class="col-lg-8 mx-auto text-center">
-
                     <p class="mb-5">Pronto pra comprar biojoias conosco, nos ligue ou envie um e-mail.</p>
                 </div>
             </div>

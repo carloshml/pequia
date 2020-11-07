@@ -20,6 +20,7 @@
     <link href="/assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
     <link href="/assets/css/styles.css" rel="stylesheet" />
+    <link href="/assets/css/estilo.css" rel="stylesheet" />
 </head>
 
 <body id="page-top">
@@ -32,7 +33,7 @@
                 data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto my-2 my-lg-0">                  
+                <ul class="navbar-nav ml-auto my-2 my-lg-0">
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="pages/loja.php">Loja</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">Sobre</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#novidades">Novidades</a></li>
@@ -130,15 +131,11 @@
     </section>
     <section class="page-section bg-primary" id="novidades">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto text-center">
-                    <h2 class="section-heading">Últimos produtos</h2>
-                    <?php
+            <h2 class="section-heading text-center branco"> <strong> Últimos produtos </strong> </h2>
+            <?php
                         $produto_dao = new ProdutoDAO();
                         $produto_dao->buscarProdutosTelaInicial();                                         
-                    ?>
-                </div>
-            </div>
+            ?>
         </div>
     </section>
     <section id="contact">
@@ -148,7 +145,6 @@
             <hr class="divider my-4" />
             <div class="row">
                 <div class="col-lg-8 mx-auto text-center">
-
                     <p class="mb-5">Pronto pra comprar biojoias conosco, nos ligue ou envie um e-mail.</p>
                 </div>
             </div>

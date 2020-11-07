@@ -5,7 +5,7 @@
             include_once('../config/bd.class.php');
             include_once('../modal/produtos.php');
         } else {
-            include_once('config/bd.class.php');
+            include_once('config/bd.class.php'); 
             include_once('modal/produtos.php');   
         }
     }
@@ -30,7 +30,7 @@
         try {					
             $pdo = Banco::conectar();
             $sql = "  SELECT  produtos.id as id_produto,  tag1, tag2, tag3, tag4, tag5,  descricao, subtitulo, titulo, localFoto , data_publicacao ,  usuarios.nome as nome_autor"   
-                  ."  FROM produtos inner join usuarios  on   produtos.id_autor_publicacao =  usuarios.id   " 
+                  ."  FROM produtos inner join usuarios  on   produtos.id_usuario_publicacao =  usuarios.id   " 
                   ."  ORDER BY produtos.id DESC limit  6;";
 
             $stmt = $pdo->prepare($sql);
@@ -62,7 +62,7 @@
                         "localFoto" => $localFoto
                       );
                    
-                      echo '<div class="col-lg-3 ml-auto">';
+                      echo '<div class="col-sm-3 ml-auto">';
                       echo '<div>';
                       echo '         <a href="detalhe-produto.php?id_produto='.$id_produto.'&nome_produto='.$titulo.'">';
                       echo '            <img loading="lazy" class="img-responsive imagem-detalhes" height="300px"   src="/fotos/'.$localFoto.'">';
@@ -104,7 +104,7 @@
         try {					
             $pdo = Banco::conectar();
             $sql = "  SELECT  produtos.id as id_produto,  tag1, tag2, tag3, tag4, tag5, descricao, subtitulo, titulo, localFoto , data_publicacao ,  usuarios.nome as nome_autor"   
-            ."  FROM produtos inner join usuarios  on   produtos.id_autor_publicacao =  usuarios.id   " 
+            ."  FROM produtos inner join usuarios  on   produtos.id_usuario_publicacao =  usuarios.id   " 
             ."  ORDER BY produtos.id DESC limit  6;";
             $stmt = $pdo->prepare($sql);
                $stmt->execute();
@@ -117,39 +117,42 @@
                $stmt->bindColumn('descricao', $descricao );	
                $stmt->bindColumn('subtitulo', $subtitulo );							
                $stmt->bindColumn('titulo', $titulo);
-               $stmt->bindColumn('localFoto', $localFoto);
+               $stmt->bindColumn('localFoto', $localFoto);                
+                  
+                  echo '<div class="row">';        
                   while ($row = $stmt->fetch(PDO::FETCH_BOUND)) {
                     $array = array(  
                         "id_produto" => $id_produto,                                            
                         "tag1" => $tag1,
                         "tag2" =>  $tag2,
                         "tag3" => $tag3,
+                        "tag4" =>  $tag4,
+                        "tag5" => $tag5,
                         "descricao" => $descricao,
                         "subtitulo" =>  $subtitulo,
                         "titulo" => $titulo, 
                         "localFoto" => $localFoto
                       );
-                      echo '<div class="row">';
-                      echo '     <div class="col-md-7">';
-                      echo '         <a href="#">';
-                      echo '            <img  loading="lazy" class="img-responsive" height="300px" width="550px" src="/fotos/'.$localFoto.'">';
-                      echo '           </a>';
-                      echo '      </div>';
-                      echo '  <div class="col-md-5">';
-                      echo '            <a href="publicar.php?id_produto='.$id_produto.'" class="cor-laranja ">'.$titulo.'</a>';
-                      echo '            <h4>'.$subtitulo.'</h4>';
-                      echo '            <p> '.$descricao.'</p>';
-                      echo '            <ul>';
-                      echo '                <li  class="glyphicon glyphicon-chevron-right">'.$tag1.' </li>';
-                      echo '                <li  class="glyphicon glyphicon-chevron-right">'.$tag2.' </li>';
-                      echo '                <li  class="glyphicon glyphicon-chevron-right">'.$tag3.' </li>';
-                      echo '                <li  class="glyphicon glyphicon-chevron-right">'.$tag4.' </li>';
-                      echo '                <li  class="glyphicon glyphicon-chevron-right">'.$tag5.' </li>';
-                      echo '            </ul>';                
+                   
+                      echo '<div class="col-sm-3 ml-auto">';
+                      echo '<div>';
+                      echo '         <a  href="publicar.php?id_produto='.$id_produto.'"  >';
+                      echo '            <img loading="lazy" class="img-responsive imagem-detalhes" height="300px"   src="/fotos/'.$localFoto.'">';
+                      echo '         </a>';     
+                      echo '</div>';                        
+                      echo '         <a href="publicar.php?id_produto='.$id_produto.'"  class="cor-laranja  "> <strong> '.$titulo.' </strong></a>';
+                      echo '         <h6>'.$subtitulo.'</h6>';                   
+                      echo '         <ul>';
+                      echo '             <li  class="glyphicon glyphicon-chevron-right">'.$tag1.' </li>';
+                      echo '             <li  class="glyphicon glyphicon-chevron-right">'.$tag2.' </li>';
+                      echo '             <li  class="glyphicon glyphicon-chevron-right">'.$tag3.' </li>';
+                      echo '             <li  class="glyphicon glyphicon-chevron-right">'.$tag4.' </li>';
+                      echo '             <li  class="glyphicon glyphicon-chevron-right">'.$tag5.' </li>';
+                      echo '         </ul>';     
+                      echo '<span class="text-right" > publicado: '. date('d/m/Y', strtotime($data_publicacao)).'</span>';                  
                       echo '</div>';  
-                      echo '</div>';                   
-                      echo '<hr class="divider my-4" />';                  
-                  }			
+                    }	
+                  echo '</div>';     
               }catch (PDOException $e) {
                   print $e->getMessage();
               }
@@ -185,10 +188,21 @@
                         "localFoto" => $produto->localFoto
                       );
                    
-                      echo '   <div class="col-md-3"'
-                            .'  style="background:#ffd6cb; color:white !important; padding: 5px 10px; margin: 19px 2px; height:120px " >';
-                      echo '        <a href="pages/detalhe-produto.php?id_produto='.$produto->id.'%" class="cor-laranja">'.$produto->titulo.'</a>';   
-                      echo '   </div>';                      
+                      echo '<div class="col-sm-4">';                   
+                      echo '<a  href="pages/detalhe-produto.php?id_produto='.$produto->id.'"'
+                                .'style="background:#ffd6cb; margin: 19px 2px;'
+                                .'       height:120px; text-decoration:none;'
+                                .'       display: flex;'
+                                .'       align-items: center;'
+                                .'       justify-content: center; " >';
+                      echo  '<strong  class="cor-laranja"    '
+                                 .'style=" '
+                                 .'       color:#f4623a !impotant;'
+                                 .'       display:flex; justify-content: center; " >'
+                                 .$produto->titulo
+                             .'</strong>';   
+                      echo '</a>';  
+                      echo '</div>';                    
                                    
                   }	
                   echo '</div>';                                  
@@ -213,12 +227,13 @@
              $produto->subtitulo = $data['subtitulo'] ;
              $produto->local = $data['local'] ;
              $produto->descricao = $data['descricao'] ;
+             $produto->preco_venda = $data['preco_venda'] ;
              $produto->tag1 = $data['tag1'] ;
              $produto->tag2 = $data['tag2'] ;
              $produto->tag3 = $data['tag3'] ;
              $produto->tag4 = $data['tag4'] ;
              $produto->tag5 = $data['tag5'] ;
-             $produto->id_autor_publicacao = $data['id_autor_publicacao'] ;
+             $produto->id_usuario_publicacao = $data['id_usuario_publicacao'] ;
              return  json_encode($produto);         
             Banco::desconectar();  
         } catch (Exception $e) {

@@ -22,16 +22,25 @@ CREATE TABLE `produtos` (
   `tag3` varchar(35) COLLATE utf8_unicode_ci,
   `tag4` varchar(35) COLLATE utf8_unicode_ci,
   `tag5` varchar(35) COLLATE utf8_unicode_ci,
-  `id_autor_publicacao` int(11),
+  `id_usuario_publicacao` int(11),
+  `qtd_estoque` int(11),
+  `preco_venda` DECIMAL(10, 2),
   `data_publicacao` TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `vendas` (
   `id` int(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `id_cliente` int(11),
-  `id_produto` int(11),
   `descricao` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
-  `data_criacao` TIMESTAMP
+  `data_criacao` TIMESTAMP,
+  `vl_total` DECIMAL(10, 2)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `vendas_itens` (
+  `id` int(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `id_venda` int(11),
+  `id_produto` int(11),
+  `vl_total` DECIMAL(10, 2)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 insert into  `usuarios` ( `nome`,  `login`,    `endereco` ,  `telefone` ,  `senha` ,  `email`,  `sexo`) 

@@ -4,6 +4,7 @@
  
     //Declara variáveis com dados do formulário
     $produto = $_POST['produto'];
+    $preco_venda = $_POST['precovenda'];
     $subtitulo = $_POST['subtitulo'];
     $descricao = $_POST['descricao'];
     $tag1 = $_POST['tag1'];
@@ -42,10 +43,15 @@
             $pdo = Banco::conectar();  
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $sql = "UPDATE produtos  set "
-            ." titulo=?, subtitulo=?, localFoto =?, descricao =?, tag1 =?, tag2 =?, tag3 =?, tag4 =?, tag5 =?, id_autor_publicacao =?"
+            ." titulo=?, subtitulo=?, localFoto =?, descricao =?, tag1 =?, tag2 =?, tag3 =?,"
+            ." tag4 =?, tag5 =?, id_usuario_publicacao =?, preco_venda =?"
             ." WHERE id = ?";
             $q = $pdo->prepare($sql);
-            $result =   $q->execute(array($produto,$subtitulo,$nome_final,$descricao,$tag1,$tag2,$tag3,$tag4,$tag5,$id_usuario, $id_produto));
+            $result =   $q->execute(array(
+              $produto,$subtitulo,$nome_final,$descricao,$tag1,$tag2,$tag3,$tag4,$tag5,
+              $id_usuario, $preco_venda,
+              $id_produto
+            ));
             Banco::desconectar();          
             // execultar a query ;
             if ($result){
@@ -87,12 +93,15 @@
           $query = false ;
           if(move_uploaded_file($_FILES['imagem']['tmp_name'],$_UP['pasta'].$nome_final)){
             //upload afetuado com sucesso
-            $sql =  "INSERT INTO produtos( titulo, subtitulo, localFoto, descricao, tag1, tag2, tag3, tag4, tag5, id_autor_publicacao, data_publicacao)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?)"; 
+            $sql =  "INSERT INTO produtos( titulo, subtitulo, localFoto, descricao, tag1, tag2, tag3, tag4, tag5,"
+            ." id_usuario_publicacao, data_publicacao, preco_venda)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"; 
             $pdo = Banco::conectar();  
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $q = $pdo->prepare($sql);
-            $result =  $q->execute(array($produto,$subtitulo,$nome_final,$descricao,$tag1,$tag2,$tag3,$tag4,$tag5,$id_usuario,  date('Y-m-d H:i:s')));         
+            $result =  $q->execute(array($produto,$subtitulo,$nome_final,$descricao,
+            $tag1,$tag2,$tag3,$tag4,$tag5,
+            $id_usuario,  date('Y-m-d H:i:s'), $preco_venda));         
             echo  print_r( $result);
             Banco::desconectar();
             // execultar a query ;

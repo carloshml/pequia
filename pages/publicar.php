@@ -28,9 +28,10 @@
     <link href="../assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
     <link href="../assets/css/styles.css" rel="stylesheet" />
     <script type="text/javascript">
-    document.addEventListener("DOMContentLoaded", function() {     
+    document.addEventListener("DOMContentLoaded", function() {
         const resposta = <?=$response?>;
         if (resposta) {
+            $('#preco_venda').val(resposta.preco_venda);
             $('#nome_produto').val(resposta.titulo);
             $('#subtitulo').val(resposta.subtitulo);
             $('#descricao').val(resposta.descricao);
@@ -38,7 +39,7 @@
             $('#tag2').val(resposta.tag2);
             $('#tag3').val(resposta.tag3);
             $('#tag4').val(resposta.tag4);
-            $('#tag5').val(resposta.tag5);            
+            $('#tag5').val(resposta.tag5);
         }
     });
     </script>
@@ -53,7 +54,8 @@
             <div class="form-inline">
                 <a href="home.php" class="btn btn-outline-secondary">Dashboard </a>
                 <a href="publicar.php" class="btn btn-outline-secondary">Publicar </a>
-                <a href="../controllers/sair.php" class="btn btn-outline-warning"> <i class="fas fa-sign-out-alt"></i> </a>
+                <a href="../controllers/sair.php" class="btn btn-outline-warning"> <i class="fas fa-sign-out-alt"></i>
+                </a>
             </div>
         </nav>
         <h1 class="page-header">Publicar Produto</h1>
@@ -62,8 +64,9 @@
                 <div class="col-1">
                 </div>
                 <div class="col">
-                    <form method="post" action="../controllers/registra_produto.php?temEdicao=<?=$temEditar?>&id_produto=<?=$id_produto?>" id="formCadastrarse"
-                        enctype="multipart/form-data">
+                    <form method="post"
+                        action="../controllers/registra_produto.php?temEdicao=<?=$temEditar?>&id_produto=<?=$id_produto?>"
+                        id="formCadastrarse" enctype="multipart/form-data">
                         <div class="form-group">
                             <label>Escreva o Nome do Produto</label>
                             <input id="nome_produto" name="produto" class="form-control" required>
@@ -76,12 +79,18 @@
                         </div>
                         <div class="form-group">
                             <label>Selecione Uma Foto</label>
-                            <input name="imagem" type="file" required>
+                            <div>
+                                <input name="imagem" type="file" required>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Fale sobre o Produto</label>
                             <textarea id="descricao" name="descricao" maxlength="250" class="form-control"
                                 rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Preço: </label>
+                            <input id="preco_venda" name="precovenda" maxlength="7" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Tag 1</label>

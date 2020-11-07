@@ -10,7 +10,9 @@ class Produto{
     public $tag3;
     public $tag4;
     public $tag5;
-    public $id_autor_publicacao;
+    public $id_usuario_publicacao;
     public $data_publicacao;      
+    public $qtd_estoque ;
+    public $preco_venda ;
  }
 ?>
