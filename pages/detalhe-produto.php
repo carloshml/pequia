@@ -10,6 +10,12 @@
     if(!empty($_GET['nome_produto'])) {   
         $nome_produto = $_GET['nome_produto'];   
     }  
+    $com_abrir_compra = 0 ; 
+    if(!empty($_GET['com_abrir_compra'])) {   
+        if( $_GET['com_abrir_compra'] > 0){
+            $com_abrir_compra = $_GET['com_abrir_compra'];   
+        }  
+    }  
     $retorno =   $_SESSION['vendas'];  
     if($retorno){
        $vendas =  unserialize($retorno);
@@ -35,36 +41,57 @@
     <link href="../assets/css/estilo.css" rel="stylesheet" />
     <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function() {
+        const produtos = <?=$vendasJson?>;
+        let produtosEscrito = '';
 
-        $('#btn_ver_compra').click(function() {
-            document.getElementById('painel-compra').style.display = 'block';
-            const produtos = <?=$vendasJson?>;
-            console.log('produtos', produtos);
+        function mostrarProdutos(){
             produtosEscrito = '';
             produtos.forEach(element => {
                 produtosEscrito +=
-
-                    '<form method="post"  action="../controllers/adicionar_venda_item.php?' +
-                    'id_produto=' + element.id_produto +
-                    '&preco_venda=' + element.preco_venda +
-                    '&titulo=' + element.titulo + '">' +
                     '<div> Produto: ' + element.titulo + '</div>' +
                     '<div> quantade:' +
                     '<input  style="display:table-cell; width:25%;" id="quantidade" value="' +
                     element.quantidade + '" name="quantidade" class="form-control" required>' +
-                    '<button class="btn btn-primary"> - </button>' +
-                    '<button class="btn btn-primary"> + </button>' +
+                    '<form style="display: inline;" method="post"  action="../controllers/adicionar_venda_item.php?' +
+                    'id_produto=' + element.id_produto +
+                    '&preco_venda=' + element.preco_venda +
+                    '&com_abrir_compra=1' +
+                    '&titulo=' + element.titulo + '">' +
+                    '<input   type="hidden"  id="quantidade" value="' +
+                    (-1) + '" name="quantidade" class="form-control" required>' +
+                    '<button class="btn btn-primary"> <strong>  - </strong>  </button>' +
+                    '</form>' +
+                    '<form  style="display: inline;" method="post"  action="../controllers/adicionar_venda_item.php?' +
+                    'id_produto=' + element.id_produto +
+                    '&preco_venda=' + element.preco_venda +
+                    '&com_abrir_compra=1' +
+                    '&titulo=' + element.titulo + '">' +
+                    '<input   type="hidden"  id="quantidade" value="' +
+                    1 + '" name="quantidade" class="form-control" required>' +
+                    '<button class="btn btn-primary"> <strong>  + </strong>  </button>' +
+                    '</form>' +
                     '</div>' +
                     '<div> total:' + element.vl_total + '</div>' +
-                    '</form>' +
                     '<hr>';
             });
             document.getElementById('descricao_compra').innerHTML = produtosEscrito;
+            document.getElementById('painel-compra').style.display = 'block'; 
+        }
+
+        $('.btn_ver_compra').click(function() {
+                  
+            console.log('produtos', produtos);          
+            mostrarProdutos();
         });
 
         $('#btn-fechar-painel-compra').click(function() {
             document.getElementById('painel-compra').style.display = 'none';
         });
+
+        if(<?=$com_abrir_compra?> > 0 ){
+            mostrarProdutos();
+         
+        }
 
     });
     </script>
@@ -83,7 +110,11 @@
                 <ul class="navbar-nav ml-auto my-2 my-lg-0">
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contato</a></li>
                     <li class="nav-item">
-                        <a href="../controllers/sair.php"> sair </a>
+                        <a class="nav-link js-scroll-trigger btn_ver_compra" id="btn_ver_compra" type="button"> Ver
+                            Compra </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="../controllers/sair.php"> SAIR </a>
                     </li>
                 </ul>
             </div>
@@ -103,7 +134,7 @@
             </div>
             <div id="descricao_compra"></div>
             <div class="pra-direita">
-                <a href="compra.php"  style="border:1px solid white" class="btn btn-success branco"> Revisar </a>
+                <a href="compra.php" style="border:1px solid white" class="btn btn-success branco"> Revisar </a>
             </div>
         </div>
     </div>

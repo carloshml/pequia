@@ -7,6 +7,18 @@
     $nome_produto = $_GET['nome_produto'];  
     $quantidade= $_POST['quantidade'];
     $retorno =   $_SESSION['vendas'];  
+    $com_abrir_compra = 0 ; 
+    if(!empty($_GET['com_abrir_compra'])) {   
+        if( $_GET['com_abrir_compra'] > 0){
+            $com_abrir_compra = $_GET['com_abrir_compra'];   
+        }  
+    }  
+    $ir_para = 0; 
+    if(!empty($_GET['ir_para'])) {   
+        if( $_GET['ir_para'] > 0){
+            $ir_para = $_GET['ir_para'];   
+        }  
+    }  
     if($retorno){
        $vendas =  unserialize($retorno);
     } else {
@@ -31,7 +43,12 @@
     }
     $_SESSION['vendas']  = serialize($vendas);
     // print("<pre>".print_r($vendas,true)."</pre>");
-   header('Location: ../pages/detalhe-produto.php?id_produto='.$id_produto.'&nome_produto='.$nome_produto);  
+
+    if($ir_para > 0 ){
+        header('Location: ../pages/compra.php');  
+    }else{
+        header('Location: ../pages/detalhe-produto.php?id_produto='.$id_produto.'&nome_produto='.$nome_produto.'&com_abrir_compra='.$com_abrir_compra);  
+    }
 ?>
   
 

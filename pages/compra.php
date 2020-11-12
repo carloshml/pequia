@@ -40,7 +40,6 @@
         produtosEscrito = '';
         produtos.forEach(element => {
             produtosEscrito +=
-
                 '<form method="post"  action="../controllers/adicionar_venda_item.php?' +
                 'id_produto=' + element.id_produto +
                 '&preco_venda=' + element.preco_venda +
@@ -49,10 +48,28 @@
                 '<div> quantade:' +
                 '<input  style="display:table-cell; width:25%;" id="quantidade" value="' +
                 element.quantidade + '" name="quantidade" class="form-control" required>' +
-                '<button class="btn btn-primary"> - </button>' +
-                '<button class="btn btn-primary"> + </button>' +
+                '<form style="display: inline;" method="post"  action="../controllers/adicionar_venda_item.php?' +
+                'id_produto=' + element.id_produto +
+                '&preco_venda=' + element.preco_venda +
+                '&com_abrir_compra=1' +
+                '&ir_para=2' +
+                '&titulo=' + element.titulo + '">' +
+                '<input   type="hidden"  id="quantidade" value="' +
+                (-1) + '" name="quantidade" class="form-control" required>' +
+                '<button class="btn btn-primary"> <strong>  - </strong>  </button>' +
+                '</form>' +
+                '<form  style="display: inline;" method="post"  action="../controllers/adicionar_venda_item.php?' +
+                'id_produto=' + element.id_produto +
+                '&preco_venda=' + element.preco_venda +
+                '&com_abrir_compra=1' +
+                '&ir_para=2' +
+                '&titulo=' + element.titulo + '">' +
+                '<input   type="hidden"  id="quantidade" value="' +
+                1 + '" name="quantidade" class="form-control" required>' +
+                '<button class="btn btn-primary"> <strong>  + </strong>  </button>' +
+                '</form>' +
                 '</div>' +
-                '<div> total:R$' + element.vl_total + '</div>' +
+                '<div> TOTAL R$' + element.vl_total + '</div>' +
                 '</form>' +
                 '<hr>';
         });
@@ -90,7 +107,7 @@
 
         </div>
         <div class="pra-direita">
-            <a  style="border:1px solid white" class="btn btn-success branco"> Finalizar </a>
+            <a style="border:1px solid white" class="btn btn-success branco"> Finalizar </a>
         </div>
     </div>
 

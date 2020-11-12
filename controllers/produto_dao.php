@@ -317,7 +317,7 @@
                     echo '                      <label  style="display:table-cell; width:25%;" class="pra-direita" >QUANTIDADE:</label>';
                     echo '                      <input  style="display:table-cell; width:25%;" id="quantidade" value="1" name="quantidade" class="form-control" required>';  
                     echo '                      <button style="display:table-cell; width:25%;" type="submit" class="btn btn-warning" > adicionar  </button> ';
-                    echo '                      <button style="display:table-cell; width:25%;" id="btn_ver_compra" type="button" class="btn btn-info" > ver compra  </button> ';
+                    echo '                      <button style="display:table-cell; width:25%;" id="btn_ver_compra" type="button" class="btn btn-info btn_ver_compra" > compra  </button> ';
                     echo '                 </div>';
                     echo '            </div>';
                     echo '      </div>';
