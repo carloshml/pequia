@@ -13,6 +13,7 @@
   
 
     class ProdutoDAO{  
+        
      public function buscarProdutos(){    
          
         $id_produto= null;                                        

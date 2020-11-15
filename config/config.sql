@@ -33,6 +33,7 @@ CREATE TABLE `vendas` (
   `id_cliente` int(11),
   `descricao` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
   `data_criacao` TIMESTAMP,
+  `fechada` boolean,
   `vl_total` DECIMAL(10, 2),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -40,7 +41,7 @@ CREATE TABLE `vendas_items` (
   `id` int(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `id_venda` int(11),
   `quantidade` int(11),
-  `id_produto` int(11),
+  `id_produto` int(11), 
   `vl_total` DECIMAL(10, 2),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

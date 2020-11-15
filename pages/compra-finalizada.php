@@ -1,14 +1,5 @@
 <?php
     session_start();  
-    if (!isset($_SESSION['usuario_login'])){
-            unset( $_SESSION['vendas']);
-    }
-     $retorno =   $_SESSION['vendas'];  
-     if($retorno){
-        $vendas =  unserialize($retorno);
-     } else {
-        $vendas = array();
-     }
     include_once('../config/bd.class.php');   
     include_once('../controllers/produto_dao.php');   
      $nome_produto = '';
@@ -19,7 +10,12 @@
     if(!empty($_GET['nome_produto'])) {   
         $nome_produto = $_GET['nome_produto'];   
     }  
-   
+    $retorno =   $_SESSION['vendas'];  
+    if($retorno){
+       $vendas =  unserialize($retorno);
+    } else {
+       $vendas = array();
+    }
     $vendasJson =  json_encode($vendas);     
 ?>
 
@@ -37,7 +33,6 @@
     <link href="../assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
     <link href="../assets/css/styles.css" rel="stylesheet" />
     <link href="../assets/css/estilo.css" rel="stylesheet" />
-    <script src="../assets/js/script-local.js"></script>
     <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function() {
         const produtos = <?=$vendasJson?>;
@@ -45,7 +40,10 @@
         produtosEscrito = '';
         produtos.forEach(element => {
             produtosEscrito +=
-                '<div>' +
+                '<form method="post"  action="../controllers/adicionar_venda_item.php?' +
+                'id_produto=' + element.id_produto +
+                '&preco_venda=' + element.preco_venda +
+                '&titulo=' + element.titulo + '">' +
                 '<div> Produto: <strong>  ' + element.titulo + ' </strong></div>' +
                 '<div> quantade:' +
                 '<input  style="display:table-cell; width:25%;" id="quantidade" value="' +
@@ -71,14 +69,12 @@
                 '<button class="btn btn-primary"> <strong>  + </strong>  </button>' +
                 '</form>' +
                 '</div>' +
-                '<div> TOTAL R$' + trunc10(element.vl_total, -2) + '</div>' +
-                '</div>' +
+                '<div> TOTAL R$' + element.vl_total + '</div>' +
+                '</form>' +
                 '<hr>';
         });
-
-        produtosEscrito += '<label for="">Observacao:</label>' +
-            '<textarea id="observacao_venda"  height="300px" width="100%" name="observacao_venda" class="form-control"   ></textarea>';
         document.getElementById('descricao_compra').innerHTML = produtosEscrito;
+
 
     });
     </script>
@@ -106,15 +102,13 @@
     <header class="masthead" style="height: 0; min-height: 0;"> </header>
 
     <div class="container">
-        <form  method="post"  action="../controllers/adicionar_venda.php"  >
-            <h4> Compra: </h4>
-            <div id="descricao_compra"> </div>
-            <div class="pra-direita">
-             <button type="submit" style="border:1px solid white" class="btn btn-success branco" >
-                Finalizar 
-              </button>
-            </div>
-        </form>
+        <h4> Compra: </h4>
+        <div id="descricao_compra">
+
+        </div>
+        <div class="pra-direita">
+            <a style="border:1px solid white" class="btn btn-success branco"> Finalizar </a>
+        </div>
     </div>
 
     <section id="contact">

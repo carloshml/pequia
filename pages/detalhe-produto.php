@@ -1,5 +1,8 @@
 <?php
     session_start();  
+    if (!isset($_SESSION['usuario_login'])){
+          unset( $_SESSION['vendas']);
+     }
     include_once('../config/bd.class.php');   
     include_once('../controllers/produto_dao.php');   
      $nome_produto = '';
@@ -39,6 +42,7 @@
     <link href="../assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
     <link href="../assets/css/styles.css" rel="stylesheet" />
     <link href="../assets/css/estilo.css" rel="stylesheet" />
+    <script src="../assets/js/script-local.js"></script>
     <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function() {
         const produtos = <?=$vendasJson?>;
@@ -71,7 +75,7 @@
                     '<button class="btn btn-primary"> <strong>  + </strong>  </button>' +
                     '</form>' +
                     '</div>' +
-                    '<div> total:' + element.vl_total + '</div>' +
+                    '<div> total R$ ' + trunc10(element.vl_total,-2)   + '</div>' +
                     '<hr>';
             });
             document.getElementById('descricao_compra').innerHTML = produtosEscrito;
@@ -93,7 +97,11 @@
          
         }
 
+       
+
     });
+
+
     </script>
 </head>
 
@@ -102,7 +110,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
         <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="loja.php">Pequiá</a>
+            <a class="navbar-brand js-scroll-trigger" href="loja.php">Pequiá | Voltar a Loja</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>

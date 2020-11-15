@@ -1,26 +1,7 @@
 <?php
     session_start();  
-    if (!isset($_SESSION['usuario_login'])){
-            unset( $_SESSION['vendas']);
-    }
-     $retorno =   $_SESSION['vendas'];  
-     if($retorno){
-        $vendas =  unserialize($retorno);
-     } else {
-        $vendas = array();
-     }
     include_once('../config/bd.class.php');   
-    include_once('../controllers/produto_dao.php');   
-     $nome_produto = '';
-     $id_produto = null;
-    if(!empty($_GET['id_produto'])) {   
-        $id_produto = $_GET['id_produto'];   
-    }
-    if(!empty($_GET['nome_produto'])) {   
-        $nome_produto = $_GET['nome_produto'];   
-    }  
-   
-    $vendasJson =  json_encode($vendas);     
+    include_once('../controllers/vendas-dao.php');    
 ?>
 
 <!DOCTYPE html>
@@ -40,45 +21,9 @@
     <script src="../assets/js/script-local.js"></script>
     <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function() {
-        const produtos = <?=$vendasJson?>;
-        console.log('produtos', produtos);
-        produtosEscrito = '';
-        produtos.forEach(element => {
-            produtosEscrito +=
-                '<div>' +
-                '<div> Produto: <strong>  ' + element.titulo + ' </strong></div>' +
-                '<div> quantade:' +
-                '<input  style="display:table-cell; width:25%;" id="quantidade" value="' +
-                element.quantidade + '" name="quantidade" class="form-control" required>' +
-                '<form style="display: inline;" method="post"  action="../controllers/adicionar_venda_item.php?' +
-                'id_produto=' + element.id_produto +
-                '&preco_venda=' + element.preco_venda +
-                '&com_abrir_compra=1' +
-                '&ir_para=2' +
-                '&titulo=' + element.titulo + '">' +
-                '<input   type="hidden"  id="quantidade" value="' +
-                (-1) + '" name="quantidade" class="form-control" required>' +
-                '<button class="btn btn-primary"> <strong>  - </strong>  </button>' +
-                '</form>' +
-                '<form  style="display: inline;" method="post"  action="../controllers/adicionar_venda_item.php?' +
-                'id_produto=' + element.id_produto +
-                '&preco_venda=' + element.preco_venda +
-                '&com_abrir_compra=1' +
-                '&ir_para=2' +
-                '&titulo=' + element.titulo + '">' +
-                '<input   type="hidden"  id="quantidade" value="' +
-                1 + '" name="quantidade" class="form-control" required>' +
-                '<button class="btn btn-primary"> <strong>  + </strong>  </button>' +
-                '</form>' +
-                '</div>' +
-                '<div> TOTAL R$' + trunc10(element.vl_total, -2) + '</div>' +
-                '</div>' +
-                '<hr>';
-        });
-
-        produtosEscrito += '<label for="">Observacao:</label>' +
-            '<textarea id="observacao_venda"  height="300px" width="100%" name="observacao_venda" class="form-control"   ></textarea>';
-        document.getElementById('descricao_compra').innerHTML = produtosEscrito;
+    
+      
+          
 
     });
     </script>
@@ -89,7 +34,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
         <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="loja.php">Pequiá</a>
+            <a class="navbar-brand js-scroll-trigger" href="loja.php">Pequiá | Vendas</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -106,15 +51,13 @@
     <header class="masthead" style="height: 0; min-height: 0;"> </header>
 
     <div class="container">
-        <form  method="post"  action="../controllers/adicionar_venda.php"  >
-            <h4> Compra: </h4>
-            <div id="descricao_compra"> </div>
-            <div class="pra-direita">
-             <button type="submit" style="border:1px solid white" class="btn btn-success branco" >
-                Finalizar 
-              </button>
-            </div>
-        </form>
+         <h1> Vendas</h1>
+       <div>
+       <?php
+         $vendaDAO = new VendaDAO();
+           $vendaDAO->buscarVendas();
+         ?>
+       </div>
     </div>
 
     <section id="contact">

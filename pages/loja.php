@@ -1,6 +1,11 @@
 <?php
     include_once('../controllers/produto_dao.php');   
+    session_start();
+    if (!isset($_SESSION['usuario_login'])){
+            unset( $_SESSION['vendas']);
+    }
     $erro = isset($_GET['erro']) ? $_GET['erro'] : 0 ;   
+    $mesangem = isset($_GET['mesangem']) ? $_GET['mesangem'] : '' ;   
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -15,15 +20,34 @@
     <link href="../assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
     <link href="../assets/css/styles.css" rel="stylesheet" />
-    <link href="../assets/css/estilo.css" rel="stylesheet" /> 
-   
+    <link href="../assets/css/estilo.css" rel="stylesheet" />
+    <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        const mesangem = <?=$mesangem?>;
+        const elementoAviso =  document.getElementById('corpo_aviso');
+        let corpoAviso = '';
+        if(mesangem === 'sucessoCompra'){
+            corpoAviso += '<div>Parabéns sua compra foi finalizada!</div>';
+        }   
+        elementoAviso.innerHTML = corpoAviso;
+        elementoAviso.style.display ='block';
+        setTimeout(() => {
+             elementoAviso.style.display ='none'; 
+        }, 2000);
+
+    });
+    </script>
+
 </head>
 
 <body id="page-top">
+    <div style="position: relative;" >
+        <div id="corpo_aviso"  class="corpo-aviso" ></div>
+    </div>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
         <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="../index.php">Pequiá</a>
+            <a class="navbar-brand js-scroll-trigger" href="../index.php">Pequiá | Loja </a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -49,7 +73,7 @@
             <?php
                                         $produto_dao = new ProdutoDAO();
                                         $produto_dao->buscarProdutos();                                         
-                     ?>
+             ?>
         </div>
     </section>
     <section id="contact">

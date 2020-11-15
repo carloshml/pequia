@@ -1,6 +1,7 @@
 <?php   
     include_once('../controllers/produto_dao.php');
     include_once('../controllers/usuarios-dao.php'); 
+    include_once('../controllers/vendas-dao.php'); 
     session_start();
     if (!isset($_SESSION['usuario_login'])){
          header('Location: ../index.php?erro=1');
@@ -140,15 +141,15 @@
                                 <div class="col-xs-9 text-right">
                                     <div class="huge branco">
                                         <?php
-                                        $usuario_dao = new UsuariosDAO();
-                                        echo $usuario_dao->numeroTotal();                                         
+                                        $venda_dao = new VendaDAO();
+                                        echo $venda_dao->numeroTotal();                                         
                                         ?>
                                     </div>
-                                    <a class="branco" href="modulo-usuarios.php"> Vendas! </a>
+                                    <a class="branco" href="venda.php"> Vendas! </a>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="venda.php">
                             <div class="panel-footer branco">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
