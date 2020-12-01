@@ -20,7 +20,17 @@
         $_SESSION['usuario_nome'] = $dados_usuario['nome'];
         $_SESSION['usuario_login'] = $dados_usuario['login'];
         $_SESSION['email'] = $dados_usuario['email'];
-        header('Location: ../pages/home.php');
+
+
+        if($dados_usuario['tipo']  == 'CLIENTE'){
+          header('Location: ../pages/loja.php');
+        }else{
+          header('Location: ../pages/home.php');
+        }
+
+     
+
+
       }else{
         header('Location: index.php?erro=1');
       }

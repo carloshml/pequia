@@ -1,5 +1,8 @@
 <?php
     session_start();  
+    if (!isset($_SESSION['usuario_login'])){
+        header('Location: ../index.php?erro=1');
+   }
     include_once('../config/bd.class.php');   
     include_once('../controllers/vendas-dao.php');    
 ?>
@@ -34,13 +37,12 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
         <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="loja.php">Pequiá | Vendas</a>
+            <a class="navbar-brand js-scroll-trigger" href="home.php">Pequiá | Painel </a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto my-2 my-lg-0">
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contato</a></li>
+                <ul class="navbar-nav ml-auto my-2 my-lg-0">               
                     <li class="nav-item">
                         <a href="../controllers/sair.php"> sair </a>
                     </li>
@@ -59,35 +61,6 @@
          ?>
        </div>
     </div>
-
-    <section id="contact">
-        <div class="container">
-            <hr class="divider my-4" />
-            <h2 class="text-center mt-0">Nossos Contatos</h2>
-            <hr class="divider my-4" />
-            <div class="row">
-                <div class="col-lg-8 mx-auto text-center">
-                    <p class="mb-5">Pronto pra comprar biojoias conosco, nos ligue ou envie um e-mail.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 ml-auto text-center">
-                    <i class="fa fa-phone fa-3x mb-3 sr-contact"></i>
-                    <p>(63) 3554-8989</p>
-                </div>
-                <div class="col-lg-4 ml-auto text-center">
-                    <i class="fab fa-whatsapp fa-3x mb-3 sr-contact"></i>
-                    <p>(63) 3554-8989</p>
-                </div>
-                <div class="col-lg-4 mr-auto text-center">
-                    <i class="fa fa-envelope fa-3x mb-3 sr-contact"></i>
-                    <p>
-                        <a href="mailto:your-email@your-domain.com">pequia@yahoo.com</a>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
     <!-- Bootstrap core JavaScript -->
     <!-- Bootstrap core JS -->
     <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->

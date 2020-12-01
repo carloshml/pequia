@@ -7,5 +7,6 @@
         public $email ;
         public $login  ;
         public $sexo ; 
+        public $tipo ; // ADMINISTRADOR,  CLIENTE
    }
 ?>

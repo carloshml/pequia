@@ -93,7 +93,10 @@
         $loginErro = null;
         $senhaErro = null;
         $senhaErro2 = null;
-
+        $tipo = 'ADMINISTADOR';
+        if(isset($_POST['tipo'])){
+            $tipo = $_POST['tipo'];
+        }
         $nome = $_POST['nome'];
         $endereco = $_POST['endereco'];
         $telefone = $_POST['telefone'];
@@ -157,6 +160,12 @@
             $valido = false;
         }
 
+        if(empty($tipo))
+        {
+            $sexoErro = 'Por favor digite esse campo!';
+            $valido = false;
+        }
+
         if(!empty($login)){
             try {   
                 $total = null;   
@@ -182,9 +191,9 @@
         {
             $pdo = Banco::conectar();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "INSERT INTO usuarios (nome, endereco, telefone, email, sexo, senha, login) VALUES(?,?,?,?,?,?,?)";
+            $sql = "INSERT INTO usuarios (nome, endereco, telefone, email, sexo, senha, login, tipo) VALUES(?,?,?,?,?,?,?, ?)";
             $q = $pdo->prepare($sql);
-            $q->execute(array($nome,$endereco,$telefone,$email,$sexo,$senha, $login));        
+            $q->execute(array($nome,$endereco,$telefone,$email,$sexo,$senha, $login, $tipo));        
             Banco::desconectar();
             // header("Location: index.php");    
             $valido  =  $valido  ? 'true' : 'false';  

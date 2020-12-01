@@ -48,9 +48,15 @@
          
              while ($row = $stmt->fetch(PDO::FETCH_BOUND)) {  
              
-                 echo '<div > Cliente: '. $nome_cliente.'</div>';
-                 echo '<div > Data compra '.date('d/m/Y', strtotime($venda->data_criacao)) .'</div>';  
-                 echo '<div  > Valor total: '. $venda->vl_total.' </div>';  
+                 echo '<div> Cliente: '. $nome_cliente.'</div>';
+                 echo '<div> Data compra '.date('d/m/Y', strtotime($venda->data_criacao)) .'</div>';  
+                 echo '<div> Valor total: '. $venda->vl_total.' </div>';
+                 echo '<div class="row">';   
+                 echo '<label> Observação do cliente para a venda: </label>';    
+                 echo '<textarea>'.$venda->descricao.'</textarea>';            
+                 echo '</div>';  
+
+             
           
                     
                 }
@@ -67,15 +73,17 @@
                $stmt->bindColumn('produto_nome', $produto_nome );	
                $stmt->bindColumn('vl_total', $venda_item ->vl_total );	
                $stmt->bindColumn('quantidade', $venda_item ->quantidade );	
-               echo '<div class="row barra-titulo center-align">';   
-               echo 'itens da venda';            
-               echo '</div>';    
+               echo '<h1 class="row center-align">';   
+               echo 'Itens da Venda';            
+               echo '</h1>';    
                echo '<div class="row _mat-animation-noopable barra-titulo">';   
-               echo '<div class="col-sm-2 ml-auto"> Nome produto </div>'; 
-               echo '<div class="col-sm-2 ml-auto"> Total  </div>'; 
-               echo '<div class="col-sm-2 ml-auto">  QTD </div>'; 
-               echo '<div class="col-sm-2 ml-auto"> Nome produto </div>'; 
-               echo '</div>';    
+               echo '     <div class="col-sm-2 ml-auto"> Nome produto </div>';  
+               echo '     <div class="col-sm-2 ml-auto"> Nome produto </div>'; 
+               echo '     <div class="col-sm-2 ml-auto"> QTD </div>'; 
+               echo '     <div class="col-sm-2 ml-auto"> Total  </div>'; 
+               echo '</div>';   
+               
+             
        
                   
                while ($row = $stmt->fetch(PDO::FETCH_BOUND)) {  
@@ -86,12 +94,19 @@
                   
                   );
                    echo '<div class="row itens">';   
-                   echo '<div class="col-sm-2 ml-auto">'. $produto_nome.'</div>';     
+                   echo '<div class="col-sm-2 ml-auto">'. $produto_nome.'</div>';   
+                   echo '<div class="col-sm-2 ml-auto">'. $produto_nome.'</div>'; 
+                   echo '<div class="col-sm-2 ml-auto">'.$venda_item ->quantidade.'</div>';   
                    echo '<div class="col-sm-2 ml-auto">'. $venda_item ->vl_total.'</div>';     
-                   echo '<div class="col-sm-2 ml-auto">'.$venda_item ->quantidade.'</div>';     
-                   echo '<div class="col-sm-2 ml-auto">'. $produto_nome.'</div>';       
                    echo '</div>';                     
                }	
+
+               echo '<div class="row _mat-animation-noopable barra-titulo">';   
+               echo '     <div class="col-sm-2 ml-auto"> </div>';  
+               echo '     <div class="col-sm-2 ml-auto"> </div>'; 
+               echo '     <div class="col-sm-2 ml-auto"> Total Geral: </div>'; 
+               echo '     <div class="col-sm-2 ml-auto"> '. $venda->vl_total.'  </div>'; 
+               echo '</div>';
           	
                
         }catch (PDOException $e) {

@@ -38,6 +38,7 @@
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">Sobre</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#novidades">Novidades</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contato</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#" role="button" data-toggle="modal" data-target="#login-modal">Entrar</a></li>
                     <?php                 
                         if($usuario_nome ){
                             echo '<li class="nav-item"><a class="nav-link js-scroll-trigger" href="pages/home.php">DashBoard</a></li>';
@@ -167,9 +168,7 @@
         </div>
     </section>
     <footer style="text-align:right;">
-
-        <a href="#" class="btn btn-primary" role="button" data-toggle="modal" data-target="#login-modal">login</a>
-
+      
     </footer>
 
 
@@ -206,9 +205,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <div>
-                                <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
-                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
+                            <a class="btn btn-primary btn-lg btn-block" href="pages/login-cliente.php">Criar conta </a>
                         </div>
                     </form>
                     <!-- End # Login Form -->
