@@ -1,0 +1,48 @@
+.painel-compra{   
+    background: rgb(197, 89, 26);
+    position: absolute;
+    width: 502px;
+    padding: 20px;
+    border-radius: 2px;
+    z-index: 2;
+    margin-left: 50%;
+}
+
+.corpo-aviso{
+    background: rgb(238, 104, 26);
+    position: absolute;
+    width: 502px;
+    padding: 20px;
+    border-radius: 2px;
+    z-index: 2;
+    margin-left: 50%;
+    color:white;
+    font-weight: bold;    
+}
+
+.itens:nth-child(odd){
+    background: rgb(226, 150, 137);
+    color: white;
+}
+
+.barra-titulo{
+    background: tomato;
+    color: white;
+}
+
+.item-destaque{
+    background: rgb(166, 166, 166);
+    border-radius: 5px;
+    margin: 12px;
+    color: white;
+    border-bottom: 2px solid  rgb(49, 49, 49);
+}
+
+a {
+    color: #013684;
+    text-decoration: none;
+}
+
+.branco{
+    color: white !important;
+}

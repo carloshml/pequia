@@ -26,13 +26,9 @@
           header('Location: ../pages/loja.php');
         }else{
           header('Location: ../pages/home.php');
-        }
-
-     
-
-
+        }  
       }else{
-        header('Location: index.php?erro=1');
+        header('Location: ../index.php?erro=1');
       }
       Banco::desconectar();   
     }

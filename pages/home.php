@@ -1,16 +1,16 @@
-<?php   
-    include_once('../controllers/produto_dao.php');
-    include_once('../controllers/usuarios-dao.php'); 
-    include_once('../controllers/vendas-dao.php'); 
-    session_start();
-    if (!isset($_SESSION['usuario_login'])){
-         header('Location: ../index.php?erro=1');
-    }
-    $usuario_nome = '' ;
-    if (isset($_SESSION['usuario_nome'])){
-        $usuario_nome = ' Bem vindo '.$_SESSION['usuario_nome'];  
-    }
-  
+<?php
+include_once('../controllers/produto_dao.php');
+include_once('../controllers/usuarios-dao.php');
+include_once('../controllers/vendas-dao.php');
+session_start();
+if (!isset($_SESSION['usuario_login'])) {
+    header('Location: ../index.php?erro=1');
+}
+$usuario_nome = '';
+if (isset($_SESSION['usuario_nome'])) {
+    $usuario_nome = ' Bem vindo ' . $_SESSION['usuario_nome'];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -24,7 +24,7 @@
     <!-- Bootstrap core CSS -->
     <link href="../assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
-    <link href="../assets/css/estilo.css" rel="stylesheet" /> 
+    <link href="../assets/css/estilo.css" rel="stylesheet" />
 
     <style>
         .background-animado {
@@ -46,9 +46,9 @@
             100% {
                 background-position: 0% 50%;
             }
-        }     
+        }
 
-        .fa-5x {     
+        .fa-5x {
             color: white;
         }
     </style>
@@ -59,10 +59,10 @@
     <div id="wrapper" class="background-animado">
         <!-- Navigation -->
         <nav class="navbar navbar-light bg-light">
-            <a class="navbar-brand" href="home.php">Pequia <span style="font-size: 14px;"> <?=$usuario_nome?> </span></a>
+            <a class="navbar-brand" href="home.php">Pequia <span style="font-size: 14px;"> <?= $usuario_nome ?> </span></a>
             <div class="form-inline">
                 <a href="loja.php" class="btn btn-outline-secondary">loja </a>
-                <a href="publicar.php" class="btn btn-outline-secondary">Publicar </a>
+                <a href="produto-detalhe.php" class="btn btn-outline-secondary">Publicar </a>
                 <a href="../index.php" class="btn btn-outline-secondary"> <i class="fas fa-home"></i> </a>
                 <a href="../controllers/sair.php" class="btn btn-outline-warning"> <i class="fas fa-sign-out-alt"></i> </a>
             </div>
@@ -77,7 +77,7 @@
             <hr>
             <!-- /.row -->
             <div class="row">
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-3 col-md-6 item-destaque">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="row">
@@ -88,7 +88,7 @@
                                     <div class="huge branco">
                                         <?php
                                         $produto_dao = new ProdutoDAO();
-                                        echo $produto_dao->numeroTotalProduto();                                         
+                                        echo $produto_dao->numeroTotalProduto();
                                         ?>
                                     </div>
                                     <a class="branco" href="modulo-produtos.php"> Produtos! </a>
@@ -104,7 +104,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-3 col-md-6 item-destaque">
                     <div class="panel panel-green">
                         <div class="panel-heading">
                             <div class="row">
@@ -115,7 +115,7 @@
                                     <div class="huge branco">
                                         <?php
                                         $usuario_dao = new UsuariosDAO();
-                                        echo $usuario_dao->numeroTotal();                                         
+                                        echo $usuario_dao->numeroTotal();
                                         ?>
                                     </div>
                                     <a class="branco" href="modulo-usuarios.php"> Usuário! </a>
@@ -131,7 +131,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-3 col-md-6 item-destaque">
                     <div class="panel panel-yellow">
                         <div class="panel-heading">
                             <div class="row">
@@ -142,7 +142,7 @@
                                     <div class="huge branco">
                                         <?php
                                         $venda_dao = new VendaDAO();
-                                        echo $venda_dao->numeroTotal();                                         
+                                        echo $venda_dao->numeroTotal();
                                         ?>
                                     </div>
                                     <a class="branco" href="venda.php"> Vendas! </a>

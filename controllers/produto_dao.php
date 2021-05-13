@@ -26,7 +26,7 @@
         $subtitulo= null; 
         $titulo= null; 
         $localFoto= null; 
-        $data_publicacao= null; 
+        $data_publicacao= ''; 
         $nome_autor= null; 
         try {					
             $pdo = Banco::conectar();
@@ -66,7 +66,7 @@
                       echo '<div class="col-sm-3 ml-auto">';
                       echo '<div>';
                       echo '         <a href="detalhe-produto.php?id_produto='.$id_produto.'&nome_produto='.$titulo.'">';
-                      echo '            <img loading="lazy" class="img-responsive imagem-detalhes" height="300px"   src="/fotos/'.$localFoto.'">';
+                      echo '            <img loading="lazy" class="img-responsive imagem-detalhes" height="300px"   src="../fotos/'.$localFoto.'">';
                       echo '         </a>';     
                       echo '</div>';                        
                       echo '         <a href="detalhe-produto.php?id_produto='.$id_produto.'&nome_produto='.$titulo.'" class="cor-laranja  "> <strong> '.$titulo.' </strong></a>';
@@ -100,7 +100,7 @@
         $subtitulo= null; 
         $titulo= null; 
         $localFoto= null; 
-        $data_publicacao= null; 
+        $data_publicacao= ''; 
         $nome_autor= null;    
         try {					
             $pdo = Banco::conectar();
@@ -137,11 +137,11 @@
                    
                       echo '<div class="col-sm-3 ml-auto">';
                       echo '<div>';
-                      echo '         <a  href="publicar.php?id_produto='.$id_produto.'"  >';
-                      echo '            <img loading="lazy" class="img-responsive imagem-detalhes" height="300px"   src="/fotos/'.$localFoto.'">';
+                      echo '         <a  href="produto-detalhe.php?id_produto='.$id_produto.'"  >';
+                      echo '            <img loading="lazy" class="img-responsive imagem-detalhes" height="300px"   src="../fotos/'.$localFoto.'">';
                       echo '         </a>';     
                       echo '</div>';                        
-                      echo '         <a href="publicar.php?id_produto='.$id_produto.'"  class="cor-laranja  "> <strong> '.$titulo.' </strong></a>';
+                      echo '         <a href="produto-detalhe.php?id_produto='.$id_produto.'"  class="cor-laranja  "> <strong> '.$titulo.' </strong></a>';
                       echo '         <h6>'.$subtitulo.'</h6>';                   
                       echo '         <ul>';
                       echo '             <li  class="glyphicon glyphicon-chevron-right">'.$tag1.' </li>';
@@ -276,7 +276,7 @@
         $produto->subtitulo= null; 
         $produto->titulo= null; 
         $produto->localFoto= null; 
-        $produto->data_publicacao= null;  
+        $produto->data_publicacao= '';  
         $nome_autor= null;             
 
         try {					
@@ -307,7 +307,7 @@
                     echo 'id="formCadastrarse" enctype="multipart/form-data">';
                     echo '<div style="text-align:center" >';
                     echo '            <h1  class="cor-laranja center">'.$produto->titulo.'</h1>';
-                    echo '            <img loading="lazy" class="img-responsive" height="400px"  src="/fotos/'.$produto->localFoto.'">';
+                    echo '            <img loading="lazy" class="img-responsive" height="400px"  src="../fotos/'.$produto->localFoto.'">';
                     echo '</div>';
                     echo '<div class="row">';
                     echo '      <div class="form-group col-sm-4">';  

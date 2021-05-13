@@ -42,25 +42,27 @@
 
 <body id="page-top">
     <div style="position: relative;" >
-        <div id="corpo_aviso"  class="corpo-aviso" ></div>
+        <div id="corpo_aviso"  class="corpo-aviso" style="display: none;"> </div>
     </div>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
-        <div class="container">
-            <a class="navbar-brand js-scroll-trigger" >Pequiá | Loja </a>
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto my-2 my-lg-0">
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contato</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="../controllers/sair.php"> Sair </a>
-                    </li>
-                </ul>
+
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Pequiá | Loja 01</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">                         
+                <li class="nav-item">
+                   <a class="nav-link" href="../controllers/sair.php"> sair </a>
+                </li>              
+                 
+            </ul>            
             </div>
         </div>
-    </nav>
+    </nav>   
     <header class="masthead" style="height: 0; min-height: 0;"> </header>
 
     <!--Produtos da Loja-->

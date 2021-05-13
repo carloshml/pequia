@@ -17,34 +17,45 @@
     <meta name="author" content="">
     <title>Pequiá</title>
     <!-- Bootstrap core CSS -->
-    <link href="/assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
-    <link href="/assets/css/styles.css" rel="stylesheet" />
-    <link href="/assets/css/estilo.css" rel="stylesheet" />
+    <link href="assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/fontawesome-free-5.15.1-web/js/all.js" rel="stylesheet">
+    <link href="assets/css/styles.css" rel="stylesheet" />
+    <link href="assets/css/estilo.css" rel="stylesheet" />
+    <script type="module">
+        import { Toast } from 'assets/bootstrap-4.5.3-dist/css/bootstrap.esm.min.js'
+
+        Array.from(document.querySelectorAll('.toast'))
+            .forEach(toastNode => new Toast(toastNode))
+    </script>
+
 </head>
 
 <body id="page-top">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
-        <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="#page-top">Pequiá </a>
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto my-2 my-lg-0">
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="pages/loja.php">Loja</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">Sobre</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#novidades">Novidades</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contato</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#" role="button" data-toggle="modal" data-target="#login-modal">Entrar</a></li>
-                    <?php                 
-                        if($usuario_nome ){
-                            echo '<li class="nav-item"><a class="nav-link js-scroll-trigger" href="pages/home.php">DashBoard</a></li>';
-                        }                
-                    ?>
-                </ul>
+     
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Pequiá</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                   <a class="nav-link active" aria-current="page"href="/pages/loja.php">Loja</a> 
+                </li>
+                          
+               
+            </ul>
+            <div class="d-flex">
+            <a class="nav-link active" aria-current="page" href="#" role="button" data-toggle="modal" data-target="#login-modal">Entrar</a>   
+                <?php 
+                    if (isset($_SESSION['usuario_nome'])){
+                    echo '   <a href="/pages/home.php" class="btn btn-outline-secondary"> <i class="fas fa-home"></i> </a>';
+                    }                
+                ?>              
+            </div>
             </div>
         </div>
     </nav>
@@ -64,7 +75,7 @@
                         Sua decisão de compra ajuda a fomentar a economia local e a manutenção dos povos em seu ambiente
                         de origem.
                     </p>
-                    <a class="btn btn-primary btn-xl js-scroll-trigger" href="pages/loja.php">Catálogo</a>
+                    <a class="btn btn-primary btn-xl js-scroll-trigger" href="/pages/loja.php">Catálogo</a>
                 </div>
             </div>
         </div>
@@ -186,7 +197,7 @@
                 <!-- Begin # DIV Form -->
                 <div id="div-forms">
                     <!-- Begin # Login Form -->
-                    <form method="post" action="/controllers/validar_acesso.php" id="formLogin">
+                    <form method="post" action="controllers/validar_acesso.php" id="formLogin">
                         <div class="modal-body">
                             <div id="div-login-msg" class="text-center">
                                 <i class="fas fa-chevron-right"></i>
@@ -222,13 +233,13 @@
     <!-- Bootstrap core JS -->
     <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 
-    <script src="/assets/js/jquery-3.5.1.min.js"></script>
+    <script src="assets/js/jquery-3.5.1.min.js"></script>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
     <!-- Third party plugin JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
-    <script src="/assets/fontawesome-free-5.15.1-web/js/all.js"> </script>
+    <script src="assets/fontawesome-free-5.15.1-web/js/all.js"> </script>
     <!-- Core theme JS-->
     <script src="assets/js/scripts.js"></script>
 </body>

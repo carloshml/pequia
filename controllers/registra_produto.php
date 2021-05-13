@@ -1,6 +1,8 @@
 <?php
     session_start(); 
     include_once('../config/bd.class.php');
+
+    try {
  
     //Declara variáveis com dados do formulário
     $produto = $_POST['produto'];
@@ -58,7 +60,7 @@
               echo "<script type=\"text/javascript\">;
                       console.log('Produto cadastrado com sucesso');
                       </script>" ;
-              header('Location: ../pages/publicar.php');
+              header('Location: ../pages/produto-detalhe.php');
             }else{
               echo "<script type=\"text/javascript\">;
                       console.log('Produto Não Foi cadastrado');
@@ -109,7 +111,7 @@
               echo "<script type=\"text/javascript\">;
                       console.log('Produto cadastrado com sucesso');
                       </script>" ;
-              header('Location: ../pages/publicar.php');
+              header('Location: ../pages/produto-detalhe.php');
             }else{
               echo "<script type=\"text/javascript\">;
                       console.log('Produto Não Foi cadastrado');
@@ -124,7 +126,23 @@
             
           }
      }
+
+
+     
+       //code...
+     } catch (\Throwable $th) {
+
+   
+      echo 'Exceção capturada: '.  $th->getMessage(). "\n";
   
+ 
+      echo $th;
+      echo "<script type=\"text/javascript\">; 
+      console.log('Não moveu a imagem'); 
+      </script>" ; 
+
+       //throw $th;
+     }
 
     
 

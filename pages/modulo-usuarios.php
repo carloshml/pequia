@@ -256,7 +256,7 @@
         <a class="navbar-brand" href="home.php">Pequiá</a>
         <div class="form-inline">
             <a href="home.php" class="btn btn-outline-secondary">Dashboard </a>
-            <a href="publicar.php" class="btn btn-outline-secondary">Publicar </a>
+            <a href="produto-detalhe.php" class="btn btn-outline-secondary">Publicar </a>
             <a href="../controllers/sair.php" class="btn btn-outline-warning"> <i class="fas fa-sign-out-alt"></i> </a>
         </div>
     </nav>

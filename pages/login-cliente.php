@@ -99,28 +99,36 @@
         <div id="corpo_aviso" class="corpo-aviso"></div>
     </div>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
-        <div class="container">
-            <a class="navbar-brand js-scroll-trigger">Pequiá | Loja </a>
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto my-2 my-lg-0">
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contato</a></li>
-                    <li class="nav-item">
-                        <a href="../controllers/sair.php"> sair </a>
-                    </li>
-                </ul>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Pequiá | Loja </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                   <a class="nav-link active" aria-current="page"href="../pages/loja.php">Loja</a> 
+                </li>
+                <li class="nav-item">
+                   <a class="nav-link active" aria-current="page" href="#" role="button" data-toggle="modal" data-target="#login-modal">Entrar</a>
+                </li>
+                <li class="nav-item">
+                   <a class="nav-link" href="../controllers/sair.php"> sair </a>
+                </li>              
+                 
+            </ul>            
             </div>
         </div>
     </nav>
+
+
     <header class="masthead" style="height: 0; min-height: 0;"> </header>
     <div class="container">
         <form method="post"    id="form_contato" enctype="multipart/form-data">
             <!-- action="index.php" method="post" -->
             <div class="control-group">
-                <label class="control-label">Nome</label>
+                <label class="control-label">Nome: </label>
                 <div class="controls">
                     <input id="in_m_c_nome" size="50" class="form-control" name="nome" type="text" placeholder="Nome"
                         required="" value=" ">
