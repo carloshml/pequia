@@ -1,6 +1,7 @@
 <?php
-    include_once('../controllers/produto_dao.php');
-    $erro = isset($_GET['erro']) ? $_GET['erro'] : 0 ;   
+include_once('../controllers/produto_dao.php');
+include_once('componentes.php');
+$erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -15,40 +16,16 @@
     <link href="../assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
     <link href="../assets/css/styles.css" rel="stylesheet" />
-    <link href="../assets/css/estilo.css" rel="stylesheet" /> 
+    <link href="../assets/css/estilo.css" rel="stylesheet" />
 </head>
 
 
 <body id="page-top">
-    <!-- Navigation --> 
-        <!-- Navigation -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="home.php">Pequiá</a> 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                   <a class="nav-link active" aria-current="page"href="../pages/loja.php">Loja</a> 
-                </li>
-                <li class="nav-item">
-                   <a class="nav-link active" aria-current="page" href="#" role="button" data-toggle="modal" data-target="#login-modal">Entrar</a>
-                </li>
-                <li class="nav-item">
-                   <a class="nav-link" href="../controllers/sair.php"> sair </a>
-                </li>              
-                 
-            </ul>            
-            </div>
-        </div>
-    </nav>
-    <header  class="masthead" style="height: 0; min-height: 0;" > </header>
-
+    <!-- Navigation-->
+    <?php
+    $produto_dao = new Componente();
+    $produto_dao->nav();
+    ?>
     <!--Produtos da Loja-->
     <section>
         <div>
@@ -60,8 +37,8 @@
                     <div class="row">
                         <div class="col-md-10" id="produtos" name="produtos">
                             <?php
-                                        $produto_dao = new ProdutoDAO();
-                                        $produto_dao->buscarProdutosParaEdicao();                                         
+                            $produto_dao = new ProdutoDAO();
+                            $produto_dao->buscarProdutosParaEdicao();
                             ?>
                         </div>
                     </div>

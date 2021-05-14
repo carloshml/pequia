@@ -1,10 +1,11 @@
 <?php
 session_start();
+include_once('componentes.php');
+include_once('../config/bd.class.php');
+include_once('../controllers/produto_dao.php');
 if (!isset($_SESSION['usuario_login'])) {
     unset($_SESSION['vendas']);
 }
-include_once('../config/bd.class.php');
-include_once('../controllers/produto_dao.php');
 $nome_produto = '';
 $id_produto = null;
 if (!empty($_GET['id_produto'])) {
@@ -17,6 +18,12 @@ $com_abrir_compra = 0;
 if (!empty($_GET['com_abrir_compra'])) {
     if ($_GET['com_abrir_compra'] > 0) {
         $com_abrir_compra = $_GET['com_abrir_compra'];
+    }
+}
+$error = 0;
+if (!empty($_GET['error'])) {
+    if ($_GET['error'] > 0) {
+        $error = $_GET['error'];
     }
 }
 $retorno =   $_SESSION['vendas'];
@@ -83,7 +90,6 @@ $vendasJson =  json_encode($vendas);
             }
 
             $('.btn_ver_compra').click(function() {
-
                 console.log('produtos', produtos);
                 mostrarProdutos();
             });
@@ -94,35 +100,55 @@ $vendasJson =  json_encode($vendas);
 
             if (<?= $com_abrir_compra ?> > 0) {
                 mostrarProdutos();
-
             }
 
+            if (<?= $error ?> > 0) {
+                let mensagem = '';
+                let corpoAviso = '';
+                if (<?= $error ?> === 1) {
+                    mensagem = 'Login é Necessário!';
+                }
+                console.log('mensagem', mensagem);
+                const elementoAviso = document.getElementById('corpo_aviso');
+                corpoAviso += '<div>' + mensagem + '</div>';
+                elementoAviso.innerHTML = corpoAviso;
+                elementoAviso.style.display = 'block';
+                setTimeout(() => {
+                   elementoAviso.style.display = 'none';
+                }, 2000);
+                console.log('elementoAviso', elementoAviso);
+            }
 
-
+            $('#btn_login').click(function() {
+                const usuarioNovo = $('#form-login').serialize();
+                $.ajax({
+                    url: '../controllers/validar_acesso.php',
+                    method: 'post',
+                    data: usuarioNovo + '&tipo=CLIENTE',
+                    success: function(data) {
+                        console.log('data   ', data);
+                        if (data.includes('erro')) {
+                            $('#mensagem-login').html('Usuário ou senha incorretos');
+                        } else {
+                            document.location.reload(true);
+                            //   window.location.href = data;
+                        }
+                    }
+                });
+            });
         });
     </script>
 </head>
 
-
 <body id="page-top">
-    <!-- Navigation -->
-    <nav class="navbar navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="loja.php">Pequiá | Voltar a Loja</a>
-            <div class="form-inline">
-                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contato</a></li>
-                <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger btn_ver_compra" id="btn_ver_compra" type="button">
-                        Ver Compra
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="../controllers/sair.php"> SAIR </a>
-                </li>
-            </div>
-        </div>
-    </nav>
-    <header class="masthead" style="height: 0; min-height: 0;"> </header>
+    <div style="position: relative;">
+        <div id="corpo_aviso" class="corpo-aviso" style="display: none;"> </div>
+    </div>
+    <!-- Navigation-->
+    <?php
+    $produto_dao = new Componente();
+    $produto_dao->nav();
+    ?>
     <div style="position: relative; width: 100%;">
         <div id="painel-compra" class="painel-compra" style="display: none;">
             <div class="row">
@@ -141,8 +167,6 @@ $vendasJson =  json_encode($vendas);
             </div>
         </div>
     </div>
-
-
     <section>
         <div class="row">
             <div class="col-2">
@@ -188,16 +212,16 @@ $vendasJson =  json_encode($vendas);
     <!-- Bootstrap core JavaScript -->
     <!-- Bootstrap core JS -->
     <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
-
     <script src="../assets/js/jquery-3.5.1.min.js"></script>
-
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
-    <!-- Third party plugin JS-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
     <script src="../assets/fontawesome-free-5.15.1-web/js/all.js"> </script>
     <!-- Core theme JS-->
     <script src="../assets/js/scripts.js"></script>
+    <!-- MODAL-->
+    <?php
+    $produto_dao = new Componente();
+    $produto_dao->modalLogin();
+    ?>
 </body>
 
 </html>

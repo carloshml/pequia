@@ -1,11 +1,12 @@
 <?php
-    include_once('../controllers/produto_dao.php');   
-    session_start();
-    if (!isset($_SESSION['usuario_login'])){
-            unset( $_SESSION['vendas']);
-    }
-    $erro = isset($_GET['erro']) ? $_GET['erro'] : 0 ;   
-    $mesangem = isset($_GET['mesangem']) ? $_GET['mesangem'] : '' ;   
+include_once('../controllers/produto_dao.php');
+include_once('componentes.php');
+session_start();
+if (!isset($_SESSION['usuario_login'])) {
+    unset($_SESSION['vendas']);
+}
+$erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
+$mesangem = isset($_GET['mesangem']) ? $_GET['mesangem'] : '';
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -21,50 +22,50 @@
     <link href="../assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
     <link href="../assets/css/styles.css" rel="stylesheet" />
     <link href="../assets/css/estilo.css" rel="stylesheet" />
+    <script src="../assets/js/jquery-3.5.1.min.js"></script>
     <script type="text/javascript">
-    document.addEventListener("DOMContentLoaded", function() {
-        const mesangem = <?=$mesangem?>;
-        const elementoAviso =  document.getElementById('corpo_aviso');
-        let corpoAviso = '';
-        if(mesangem === 'sucessoCompra'){
-            corpoAviso += '<div>Parabéns sua compra foi finalizada!</div>';
-        }   
-        elementoAviso.innerHTML = corpoAviso;
-        elementoAviso.style.display ='block';
-        setTimeout(() => {
-             elementoAviso.style.display ='none'; 
-        }, 2000);
-
-    });
+        document.addEventListener("DOMContentLoaded", function() {
+            const mesangem = <?= $mesangem ? $mesangem : '\'\'' ?>;
+            const elementoAviso = document.getElementById('corpo_aviso');
+            let corpoAviso = '';
+            if (mesangem === 'sucessoCompra') {
+                corpoAviso += '<div>Parabéns sua compra foi finalizada!</div>';
+                elementoAviso.innerHTML = corpoAviso;
+                elementoAviso.style.display = 'block';
+                setTimeout(() => {
+                    elementoAviso.style.display = 'none';
+                }, 2000);
+            }
+            $('#btn_login').click(function() {
+                const usuarioNovo = $('#form-login').serialize();
+                $.ajax({
+                    url: '../controllers/validar_acesso.php',
+                    method: 'post',
+                    data: usuarioNovo + '&tipo=CLIENTE',
+                    success: function(data) {
+                        console.log('data   ', data);
+                        if (data.includes('erro')) {
+                            $('#mensagem-login').html('Usuário ou senha incorretos');
+                        } else {
+                            document.location.reload(true);
+                            //   window.location.href = data;
+                        }
+                    }
+                });
+            });
+        });
     </script>
-
 </head>
 
 <body id="page-top">
-    <div style="position: relative;" >
-        <div id="corpo_aviso"  class="corpo-aviso" style="display: none;"> </div>
+    <div style="position: relative;">
+        <div id="corpo_aviso" class="corpo-aviso" style="display: none;"> </div>
     </div>
-    <!-- Navigation -->
-
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Pequiá | Loja 01</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">                         
-                <li class="nav-item">
-                   <a class="nav-link" href="../controllers/sair.php"> sair </a>
-                </li>              
-                 
-            </ul>            
-            </div>
-        </div>
-    </nav>   
-    <header class="masthead" style="height: 0; min-height: 0;"> </header>
-
+    <!-- Navigation-->
+    <?php
+    $produto_dao = new Componente();
+    $produto_dao->nav();
+    ?>
     <!--Produtos da Loja-->
     <section>
         <div class="container " block>
@@ -73,9 +74,9 @@
             </div>
             <hr>
             <?php
-                                        $produto_dao = new ProdutoDAO();
-                                        $produto_dao->buscarProdutos();                                         
-             ?>
+            $produto_dao = new ProdutoDAO();
+            $produto_dao->buscarProdutos();
+            ?>
         </div>
     </section>
     <section id="contact">
@@ -111,7 +112,7 @@
     <!-- Bootstrap core JS -->
     <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 
-    <script src="../assets/js/jquery-3.5.1.min.js"></script>
+
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
     <!-- Third party plugin JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
@@ -119,6 +120,11 @@
     <script src="../assets/fontawesome-free-5.15.1-web/js/all.js"> </script>
     <!-- Core theme JS-->
     <script src="../assets/js/scripts.js"></script>
+    <!-- MODAL-->
+    <?php
+    $produto_dao = new Componente();
+    $produto_dao->modalLogin();
+    ?>
 </body>
 
 </html>

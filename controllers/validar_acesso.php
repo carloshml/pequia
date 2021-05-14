@@ -1,37 +1,41 @@
 <?php
-    session_start(); 
-    include_once('../config/bd.class.php');
+session_start();
+include_once('../config/bd.class.php');
 
-    if(!empty($_POST)){
-      // print_r($_POST);
-      $usuario = $_POST['usuario'];
-      $senha = md5($_POST['senha']); 
-      $pdo = Banco::conectar(); 
-      $sql = "SELECT * FROM usuarios WHERE login =  ? AND senha = ?  ";
-      $q = $pdo->prepare($sql);
-      $q->execute(array($usuario, $senha ));
-      $dados_usuario = $q->fetch(PDO::FETCH_ASSOC);
-      // echo 'resultado'; 
-      print_r($dados_usuario);
-      if (isset($dados_usuario['login'])){
-        // acesso correto do usuario ;
-        // criando variáveis globais seesion
-        $_SESSION['id_usuario'] = $dados_usuario['id'];
-        $_SESSION['usuario_nome'] = $dados_usuario['nome'];
-        $_SESSION['usuario_login'] = $dados_usuario['login'];
-        $_SESSION['email'] = $dados_usuario['email'];
+if (!empty($_POST)) {
+  try {
+    // print_r($_POST);
+    $usuario = $_POST['usuario'];
+    $senha = md5($_POST['senha']);
+    $pdo = Banco::conectar();
+    $sql = "SELECT * FROM usuarios WHERE login =  ? AND senha = ?  ";
+    $q = $pdo->prepare($sql);
+    $q->execute(array($usuario, $senha));
+    $dados_usuario = $q->fetch(PDO::FETCH_ASSOC);
+    // echo 'resultado';     
+    if (isset($dados_usuario['login'])) {
+      // acesso correto do usuario ;
+      // criando variáveis globais seesion
+      $_SESSION['id_usuario'] = $dados_usuario['id'];
+      $_SESSION['usuario_nome'] = $dados_usuario['nome'];
+      $_SESSION['usuario_login'] = $dados_usuario['login'];
+      $_SESSION['email'] = $dados_usuario['email'];
+      $_SESSION['tipo'] = $dados_usuario['tipo'];
 
 
-        if($dados_usuario['tipo']  == 'CLIENTE'){
-          header('Location: ../pages/loja.php');
-        }else{
-          header('Location: ../pages/home.php');
-        }  
-      }else{
-        header('Location: ../index.php?erro=1');
+      if ($dados_usuario['tipo']  == 'CLIENTE') {
+        echo 'pages/loja.php';
+      } else {
+        echo 'pages/home.php';
       }
-      Banco::desconectar();   
+    } else {
+      echo 'pages/index.php?erro=1';
     }
+    Banco::desconectar();
+  } catch (\Throwable $th) {
+    echo 'Exceção capturada: ' .  $th->getMessage() . "\n";
+  }
+}
     /*
     if (isset($dados_usuario['login'])){
           // acesso correto do usuario ;
@@ -44,5 +48,3 @@
           header('Location: index.php?erro=1');
         }
     */
-?>
-

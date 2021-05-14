@@ -1,12 +1,16 @@
 <?php
     session_start();  
-    include_once('../modal/venda_item.php'); 
+    include_once('../modal/venda_item.php');    
     //Declara variáveis com dados do formulário
     $id_produto = $_GET['id_produto']; 
     $preco_venda = $_GET['preco_venda'];     
     $nome_produto = $_GET['nome_produto'];  
     $quantidade= $_POST['quantidade'];
     $retorno =   $_SESSION['vendas'];  
+    if (!isset($_SESSION['usuario_nome'])) {       
+        header('Location: ../pages/detalhe-produto.php?error=1&id_produto='.$id_produto.'&nome_produto='.$nome_produto.'&com_abrir_compra='.$com_abrir_compra); 
+        return;
+    }    
     $com_abrir_compra = 0 ; 
     if(!empty($_GET['com_abrir_compra'])) {   
         if( $_GET['com_abrir_compra'] > 0){

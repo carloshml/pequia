@@ -1,18 +1,18 @@
 <?php
-    include_once('../controllers/produto_dao.php');
-    $temEditar = 0;
-    $response = '';
-    session_start();
-    if (!isset($_SESSION['usuario_login'])){
-       header('Location: ../index.php?erro=1');
-    }
-
-    if(!empty($_GET['id_produto'])) {   
-        $id_produto = $_GET['id_produto'];
-        $produto_dao = new ProdutoDAO();
-        $response = $produto_dao->buscarProdutoPeloId($id_produto);  
-        $temEditar = 1;
-    }     
+include_once('../controllers/produto_dao.php');
+include_once('componentes.php');
+$temEditar = 0;
+$response = '';
+session_start();
+if (!isset($_SESSION['usuario_login'])) {
+    header('Location: ../index.php?erro=1');
+}
+if (!empty($_GET['id_produto'])) {
+    $id_produto = $_GET['id_produto'];
+    $produto_dao = new ProdutoDAO();
+    $response = $produto_dao->buscarProdutoPeloId($id_produto);
+    $temEditar = 1;
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -28,45 +28,38 @@
     <link href="../assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
     <link href="../assets/css/styles.css" rel="stylesheet" />
     <script type="text/javascript">
-    document.addEventListener("DOMContentLoaded", function() {
-        const resposta = <?=$response?>;
-        if (resposta) {
-            $('#preco_venda').val(resposta.preco_venda);
-            $('#nome_produto').val(resposta.titulo);
-            $('#subtitulo').val(resposta.subtitulo);
-            $('#descricao').val(resposta.descricao);
-            $('#tag1').val(resposta.tag1);
-            $('#tag2').val(resposta.tag2);
-            $('#tag3').val(resposta.tag3);
-            $('#tag4').val(resposta.tag4);
-            $('#tag5').val(resposta.tag5);
-        }
-    });
+        document.addEventListener("DOMContentLoaded", function() {
+            const resposta = <?= $response ?>;
+            if (resposta) {
+                $('#preco_venda').val(resposta.preco_venda);
+                $('#nome_produto').val(resposta.titulo);
+                $('#subtitulo').val(resposta.subtitulo);
+                $('#descricao').val(resposta.descricao);
+                $('#tag1').val(resposta.tag1);
+                $('#tag2').val(resposta.tag2);
+                $('#tag3').val(resposta.tag3);
+                $('#tag4').val(resposta.tag4);
+                $('#tag5').val(resposta.tag5);
+            }
+        });
     </script>
 </head>
 
 <body>
-
+    <!-- Navigation-->
+    <?php
+    $produto_dao = new Componente();
+    $produto_dao->nav();
+    ?>
     <div id="wrapper">
-        <!-- Navigation -->
-        <nav class="navbar navbar-light bg-light">
-            <a class="navbar-brand" href="home.php">Pequia</a>
-            <div class="form-inline">
-                <a href="home.php" class="btn btn-outline-secondary">Dashboard </a>
-                <a href="produto-detalhe.php" class="btn btn-outline-secondary">Publicar </a>
-                <a href="../controllers/sair.php" class="btn btn-outline-warning"> <i class="fas fa-sign-out-alt"></i>
-                </a>
-            </div>
-        </nav>
+
         <h1 class="page-header">Publicar Produto</h1>
         <div class="container">
             <div class="row">
                 <div class="col-1">
                 </div>
                 <div class="col">
-                    <form method="post"
-                        action="../controllers/registra_produto.php?temEdicao=<?=$temEditar?>&id_produto=<?=$id_produto?>"
-                        id="formCadastrarse" enctype="multipart/form-data">
+                    <form method="post" action="../controllers/registra_produto.php?temEdicao=<?= $temEditar ?>&id_produto=<?= $id_produto ?>" id="formCadastrarse" enctype="multipart/form-data">
                         <div class="form-group">
                             <label>Escreva o Nome do Produto</label>
                             <input id="nome_produto" name="produto" class="form-control" required>
@@ -85,8 +78,7 @@
                         </div>
                         <div class="form-group">
                             <label>Fale sobre o Produto</label>
-                            <textarea id="descricao" name="descricao" maxlength="250" class="form-control"
-                                rows="3"></textarea>
+                            <textarea id="descricao" name="descricao" maxlength="250" class="form-control" rows="3"></textarea>
                         </div>
                         <div class="form-group">
                             <label>Preço: </label>
@@ -119,6 +111,34 @@
                 </div>
             </div>
         </div>
+        <section id="contact">
+            <div class="container">
+                <hr class="divider my-4" />
+                <h2 class="text-center mt-0">Nossos Contatos</h2>
+                <hr class="divider my-4" />
+                <div class="row">
+                    <div class="col-lg-8 mx-auto text-center">
+                        <p class="mb-5">Pronto pra comprar biojoias conosco, nos ligue ou envie um e-mail.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 ml-auto text-center">
+                        <i class="fa fa-phone fa-3x mb-3 sr-contact"></i>
+                        <p>(63) 3554-8989</p>
+                    </div>
+                    <div class="col-lg-4 ml-auto text-center">
+                        <i class="fab fa-whatsapp fa-3x mb-3 sr-contact"></i>
+                        <p>(63) 3554-8989</p>
+                    </div>
+                    <div class="col-lg-4 mr-auto text-center">
+                        <i class="fa fa-envelope fa-3x mb-3 sr-contact"></i>
+                        <p>
+                            <a href="mailto:your-email@your-domain.com">pequia@yahoo.com</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
         <!-- /#wrapper -->
         <!-- Bootstrap core JavaScript -->
         <!-- Bootstrap core JS -->

@@ -1,10 +1,11 @@
 <?php
 session_start();
+include_once('../config/bd.class.php');
+include_once('../controllers/vendas-dao.php');
+include_once('componentes.php');
 if (!isset($_SESSION['usuario_login'])) {
     header('Location: ../index.php?erro=1');
 }
-include_once('../config/bd.class.php');
-include_once('../controllers/vendas-dao.php');
 ?>
 
 <!DOCTYPE html>
@@ -34,16 +35,11 @@ include_once('../controllers/vendas-dao.php');
 
 
 <body id="page-top">
-    <!-- Navigation -->
-    <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="home.php">Pequia <span style="font-size: 14px;"> <?= $usuario_nome ?> </span></a>
-        <div class="form-inline">
-            <a href="loja.php" class="btn btn-outline-secondary">loja </a>
-            <a href="produto-detalhe.php" class="btn btn-outline-secondary">Publicar </a>
-            <a href="../index.php" class="btn btn-outline-secondary"> <i class="fas fa-home"></i> </a>
-            <a href="../controllers/sair.php" class="btn btn-outline-warning"> <i class="fas fa-sign-out-alt"></i> </a>
-        </div>
-    </nav>
+    <!-- Navigation-->
+    <?php
+    $produto_dao = new Componente();
+    $produto_dao->nav();
+    ?>
 
     <div class="container">
         <h1> Vendas</h1>

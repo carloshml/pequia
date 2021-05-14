@@ -29,17 +29,21 @@
        
         $venda = new Venda(); 
         $nome_cliente ='';   
+        $cliente_telefone ='';  
 
         try {					
             $pdo = Banco::conectar();
-             $sql = "  SELECT vendas.id as id,  usuarios.nome as nome_cliente,  descricao, data_criacao, vl_total, fechada "   
+             $sql = "  SELECT vendas.id as id,  usuarios.nome as nome_cliente, "
+             ."  usuarios.telefone as  cliente_telefone, "  
+             ."  descricao, data_criacao, vl_total, fechada "   
              ."  FROM  vendas " 
              ."  inner join usuarios  on   vendas.id_cliente =  usuarios.id   " 
              ."  where vendas.id = ?   " 
              ."  ORDER BY vendas.id DESC limit  6;";
              $stmt = $pdo->prepare($sql);
              $stmt->execute(array($id));
-             $stmt->bindColumn('nome_cliente', $nome_cliente );	
+             $stmt->bindColumn('nome_cliente', $nome_cliente );
+             $stmt->bindColumn('cliente_telefone', $cliente_telefone );		
              $stmt->bindColumn('id', $venda->id );	
              $stmt->bindColumn('descricao', $venda->descricao );	
              $stmt->bindColumn('data_criacao',  $venda->data_criacao );							
@@ -49,6 +53,7 @@
              while ($row = $stmt->fetch(PDO::FETCH_BOUND)) {  
              
                  echo '<div> Cliente: '. $nome_cliente.'</div>';
+                 echo '<div> Telefone: '. $cliente_telefone.'</div>';
                  echo '<div> Data compra '.date('d/m/Y', strtotime($venda->data_criacao)) .'</div>';  
                  echo '<div> Valor total: '. $venda->vl_total.' </div>';
                  echo '<div class="row">';   

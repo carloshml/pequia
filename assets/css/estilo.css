@@ -13,8 +13,9 @@
     position: absolute;
     width: 502px;
     padding: 20px;
-    border-radius: 2px;
+    border-radius: 8px;
     z-index: 2;
+    margin-top: 350px;
     margin-left: 50%;
     color:white;
     font-weight: bold;    
@@ -45,4 +46,10 @@ a {
 
 .branco{
     color: white !important;
+}
+
+textarea{
+    border: 2px solid gray;
+    resize: none;
+    border-radius: 9px;
 }

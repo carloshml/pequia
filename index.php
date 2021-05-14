@@ -1,11 +1,11 @@
 <?php
-    include_once('controllers/produto_dao.php');    
-    $usuario_nome = null;
-    session_start();
-    if (isset($_SESSION['usuario_nome'])){
-        $usuario_nome = $_SESSION['usuario_nome'];   
-     }
-    $erro = isset($_GET['erro']) ? $_GET['erro'] : 0 ;     
+include_once('controllers/produto_dao.php');
+$usuario_nome = null;
+session_start();
+if (isset($_SESSION['usuario_nome'])) {
+    $usuario_nome = $_SESSION['usuario_nome'];
+}
+$erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -21,41 +21,69 @@
     <link href="assets/fontawesome-free-5.15.1-web/js/all.js" rel="stylesheet">
     <link href="assets/css/styles.css" rel="stylesheet" />
     <link href="assets/css/estilo.css" rel="stylesheet" />
-    <script type="module">
-        import { Toast } from 'assets/bootstrap-4.5.3-dist/css/bootstrap.esm.min.js'
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            $('#btn_login').click(function() {
+                const usuarioNovo = $('#form-login').serialize();
 
-        Array.from(document.querySelectorAll('.toast'))
-            .forEach(toastNode => new Toast(toastNode))
+                $.ajax({
+                    url: 'controllers/validar_acesso.php',
+                    method: 'post',
+                    data: usuarioNovo + '&tipo=CLIENTE',
+                    success: function(data) {
+                        console.log('data   ', data);
+
+
+                        if (data.includes('erro')) {
+                            $('#mensagem-login').html('Usuário ou senha incorretos');
+                        } else {
+                            window.location.href = data;
+                        }
+
+
+                    }
+                });
+            });
+        });
     </script>
 
 </head>
 
 <body id="page-top">
-
-    <!-- Navigation -->
-     
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Pequiá</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" href="#page-top">Pequia</a>
+            <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                   <a class="nav-link active" aria-current="page"href="/pages/loja.php">Loja</a> 
-                </li>
-                          
-               
-            </ul>
-            <div class="d-flex">
-            <a class="nav-link active" aria-current="page" href="#" role="button" data-toggle="modal" data-target="#login-modal">Entrar</a>   
-                <?php 
-                    if (isset($_SESSION['usuario_nome'])){
-                    echo '   <a href="/pages/home.php" class="btn btn-outline-secondary"> <i class="fas fa-home"></i> </a>';
-                    }                
-                ?>              
-            </div>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item mx-0 mx-lg-1">
+                        <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="pages/loja.php">loja </a>
+                    </li>  
+                    <?php
+                    if (isset($_SESSION['usuario_nome'])) {
+                        echo '   <li class="nav-item mx-0 mx-lg-1">
+                                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/pages/home.php">
+                                        <i class="fas fa-home"></i>
+                                    </a>
+                                </li>
+                                <li class="nav-item mx-0 mx-lg-1">
+                                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/controllers/sair.php">                              
+                                        <i class="fas fa-sign-out-alt"></i>
+                                    </a>
+                                </li>';
+                    } else {
+                        echo ' <li class="nav-item mx-0 mx-lg-1">
+                                      <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" aria-current="page" href="#" role="button" data-toggle="modal" data-target="#login-modal">
+                                          Entrar
+                                       </a>
+                               </li>';
+                    }
+                    ?>
+                </ul>
             </div>
         </div>
     </nav>
@@ -96,7 +124,6 @@
                         existente no país, influenciada por diferentes povos: indígenas, africanos,
                         europeus e asiáticos. Seus materiais exploram também a diversidade natural,
                         utilizando diferentes recursos.
-
                     </p>
                     <!--      <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">Get Started!</a>-->
                 </div>
@@ -145,8 +172,8 @@
         <div class="container">
             <h2 class="section-heading text-center branco"> <strong> Últimos produtos </strong> </h2>
             <?php
-                        $produto_dao = new ProdutoDAO();
-                        $produto_dao->buscarProdutosTelaInicial();                                         
+            $produto_dao = new ProdutoDAO();
+            $produto_dao->buscarProdutosTelaInicial();
             ?>
         </div>
     </section>
@@ -179,50 +206,44 @@
         </div>
     </section>
     <footer style="text-align:right;">
-      
+
     </footer>
 
 
     <!-- BEGIN # MODAL LOGIN -->
-    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-        aria-hidden="true" style="display: none;">
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header text-center">
                     <img class="" height="40px" id="img_logo" src="assets/img/logo.png">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <button id="btn-fechar-modal" type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <!-- Begin # DIV Form -->
-                <div id="div-forms">
-                    <!-- Begin # Login Form -->
-                    <form method="post" action="controllers/validar_acesso.php" id="formLogin">
-                        <div class="modal-body">
-                            <div id="div-login-msg" class="text-center">
-                                <i class="fas fa-chevron-right"></i>
-                                <span id="text-login-msg">Escreva seu usuário e senha:</span>
-                            </div>
-                            <label for="">usuário:</label>
-                            <input type="text" class="form-control" id="campo_usuario" name="usuario"
-                                placeholder="Usuário" />
-                            <label for="">senha:</label>
-                            <input type="password" class="form-control red" id="campo_senha" name="senha"
-                                placeholder="Senha" />
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox"> Remember me
-                                </label>
-                            </div>
+                <!-- Begin # Login Form -->
+                <form id="form-login" class="form-horizontal">
+                    <div class="modal-body">
+                        <div id="div-login-msg" class="text-center">
+                            <i class="fas fa-chevron-right"></i>
+                            <span id="text-login-msg">Escreva seu usuário e senha:</span>
+                            <div class="help-inline text-warning" id="mensagem-login"></div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
-                            <a class="btn btn-primary btn-lg btn-block" href="pages/login-cliente.php">Criar conta </a>
+                        <label for="">usuário:</label>
+                        <input type="text" class="form-control" id="campo_usuario" name="usuario" placeholder="Usuário" />
+                        <label for="">senha:</label>
+                        <input type="password" class="form-control red" id="campo_senha" name="senha" placeholder="Senha" />
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox"> Remember me
+                            </label>
                         </div>
-                    </form>
-                    <!-- End # Login Form -->
-                </div>
-                <!-- End # DIV Form -->
+                    </div>
+                    <div class="modal-footer">
+                        <div id="btn_login" class="btn btn-primary btn-lg btn-block">Login </div>
+                        <a class="btn btn-primary btn-lg btn-block" href="pages/login-cliente.php">Criar conta </a>
+                    </div>
+                </form>
+                <!-- End # Login Form -->
 
             </div>
         </div>
