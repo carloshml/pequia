@@ -1,6 +1,7 @@
 <?php
 session_start();
 include_once('../config/bd.class.php');
+ 
 include_once('../controllers/vendas-dao.php');
 include_once('componentes.php');
 if (!isset($_SESSION['usuario_login'])) {
@@ -13,13 +14,15 @@ if (!isset($_SESSION['usuario_login'])) {
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title><?= $nome_produto ?></title>
-    <!-- Bootstrap core CSS -->
-    <link href="../assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Pequia</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="../assets/fontawesome-free-5.15.1-web/js/all.js" crossorigin="anonymous"></script>
+     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="../assets/css/styles.css" rel="stylesheet" />
     <link href="../assets/css/estilo.css" rel="stylesheet" />
     <script src="../assets/js/script-local.js"></script>
@@ -35,11 +38,11 @@ if (!isset($_SESSION['usuario_login'])) {
 
 
 <body id="page-top">
-    <!-- Navigation-->
-    <?php
-    $produto_dao = new Componente();
-    $produto_dao->nav();
-    ?>
+   <!-- Navigation-->
+    <script>
+        const a = document.getElementById('page-top').innerHTML;
+        document.getElementById('page-top').innerHTML = nav() + a;
+    </script>
 
     <div class="container">
         <h1> Vendas</h1>

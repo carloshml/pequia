@@ -1,6 +1,7 @@
 <?php
     session_start(); 
     include_once('../config/bd.class.php');
+include_once('../config/api-config.php');
 
     try {
  
@@ -130,21 +131,12 @@
 
      
        //code...
-     } catch (\Throwable $th) {
-
-   
-      echo 'Exceção capturada: '.  $th->getMessage(). "\n";
-  
- 
+     } catch (\Throwable $th) {   
+      echo 'Exceção capturada: '.  $th->getMessage(). "\n";  
       echo $th;
       echo "<script type=\"text/javascript\">; 
       console.log('Não moveu a imagem'); 
       </script>" ; 
-
        //throw $th;
-     }
-
-    
-
- 
+     }   
   ?>

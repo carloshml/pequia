@@ -4,6 +4,7 @@ function __autoload($class_name)
     $file = '../config/bd.class.php';
     if (file_exists($file)) {
         include_once('../config/bd.class.php');
+include_once('../config/api-config.php');
         include_once('../modal/produtos.php');
     } else {
         include_once('config/bd.class.php');

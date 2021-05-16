@@ -1,9 +1,6 @@
 <?php
 session_start();
 include_once('componentes.php');
-if (!isset($_SESSION['id_usuario'])) {
-    header("Location: ../index.php?erro=2");
-}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -16,26 +13,150 @@ if (!isset($_SESSION['id_usuario'])) {
     <title>Pequia-Usuarios</title>
     <!-- Bootstrap core CSS -->
     <link href="../assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
+    <script src="../assets/fontawesome-free-5.15.1-web/js/all.js" crossorigin="anonymous"></script>
     <link href="../assets/css/styles.css" rel="stylesheet" />
     <script src="../assets/js/jquery-3.5.1.min.js"></script>
+    <script src="../assets/js/script-local.js"></script>
     <script type="text/javascript">
-        $('#meuModal').on('shown.bs.modal', function() {
-            $('#meuInput').trigger('focus')
+        $('#meu_modal').on('shown.bs.modal', function() {
+            $('#in_m_c_nome').trigger('focus')
         });
-        $(document).ready(function() {
-            $('#btn_salvar_contato').click(function() {
-                console.log($('#form_contato').serialize());
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log(' local host ', localStorage.getItem('usuario_nome'));
+            if (!localStorage.getItem('usuario_nome')) {
+                window.location.href = '../index.php?erro=1';
+            }
+            // verificar login para não usar o mesmo usuario
+            function verificaLoginExistente(login) {
                 $.ajax({
-                    url: '../controllers/usuarios-dao.php',
+                    url: `${obterAPI()}controllers/usuarios-dao.php`,
+                    method: 'get',
+                    data: {
+                        'verificar-login': true,
+                        login
+                    },
+                    success: function(data) {
+                        $('#erro_login').html(data);
+                        $('#erro_loginup').html(data);
+                    }
+                });
+            }
+
+            function atualizarContatos() {
+                var myInit = {
+                    method: 'GET',
+                    headers: {},
+                    cache: 'default'
+                };
+                fetch(`${obterAPI()}controllers/usuarios-dao.php?atulizar-usuarios=true`, myInit)
+                    .then(response => {
+                        var contentType = response.headers.get("content-type");
+                        if (contentType && contentType.indexOf("application/json") !== -1) {
+                            return response.json().then(function(usuarios) {
+                                let textoUsu = '';
+                                for (const usuario of usuarios) {
+                                    console.log(usuario);
+                                    textoUsu += '<tr>';
+                                    textoUsu += '<th scope="row">' + usuario.id + '</th>';
+                                    textoUsu += '<td>' + usuario.nome + '</td>';
+                                    textoUsu += '<td>' + usuario.login + '</td>';
+                                    textoUsu += '<td>' + usuario.endereco + '</td>';
+                                    textoUsu += '<td>' + usuario.telefone + '</td>';
+                                    textoUsu += '<td>' + usuario.tipo + '</td>';
+                                    textoUsu += '<td>' + usuario.email + '</td>';
+                                    textoUsu += '<td width=20 >' + usuario.sexo + '</td>';
+                                    textoUsu += '<td width=170>';
+                                    textoUsu += '<a class="btn btn-primary  btn_ler_contato btn-table" id="btnrd_' + usuario.id + '" data-toggle="modal" data-target="#modal_read"  >Info</a>';
+                                    textoUsu += ' ';
+                                    textoUsu += '<a class="btn btn-warning  btn_update_contato btn-table"  id="btnupdt_' + usuario.id + '"   data-toggle="modal" data-target="#modal_update">Up</a>';
+                                    textoUsu += ' ';
+                                    textoUsu += '<a class="btn btn-danger btn_apaga_contato btn-table" id="btndlt_' + usuario.id +
+                                        '" data-toggle="modal" data-target="#modal_delete" href="delete.php?id=' + usuario.id +
+                                        '">  <span aria-hidden="true">&times;</span></a>';
+                                    textoUsu += '</td>';
+                                    textoUsu += '</tr>';
+                                }
+                                $('#todo_contatos').html(textoUsu);
+                                // colocado aqui pois só aqui os elementos existem
+                                $('.btn_apaga_contato').click(function() {
+                                    const id_contato = this.id.split('_')[1];
+                                    document.getElementById('btn-deletar-contato-concluir')
+                                        .setAttribute('idDeletar', id_contato);
+                                });
+
+                                $('.btn_ler_contato').click(function() {
+                                    const id_contato = this.id.split('_')[1];
+                                    $.ajax({
+                                        url: `${obterAPI()}controllers/usuarios-dao.php`,
+                                        method: 'get',
+                                        data: 'id=' + id_contato,
+                                        success: function(usuario) {
+                                            $('#rd_nome_contato').html(usuario.nome);
+                                            $('#rd_endereco_contato').html(usuario.endereco);
+                                            $('#rd_telefone_contato').html(usuario.telefone);
+                                            $('#rd_email_contato').html(usuario.email);
+                                            $('#rd_sexo_contato').html(usuario.sexo);
+                                            $('#rd_login_contato').html(usuario.login);
+                                        }
+                                    });
+                                });
+
+
+                                $('.btn_update_contato').click(function() {
+                                    const id_contato = this.id.split('_')[1];
+                                    $.ajax({
+                                        url: `${obterAPI()}controllers/usuarios-dao.php`,
+                                        method: 'get',
+                                        data: 'id=' + id_contato,
+                                        success: function(data) {
+                                            document.getElementById(
+                                                    'btn_concluir_update_contato')
+                                                .setAttribute('idUpdate', id_contato);
+
+                                            $('#input_id_contato').val(data.id);
+                                            $('#input_nome_contato').val(data.nome);
+                                            $('#input_login_contato').val(data.login);
+                                            $('#input_endereco_contato').val(data.endereco);
+                                            $('#input_telefone_contato').val(data.telefone);
+                                            $('#input_email_contato').val(data.email);
+                                            if (data.sexo == "M") {
+                                                $('#sexo_M').attr('checked', 'checked');
+                                            } else {
+                                                $('#sexo_F').attr('checked', 'checked');
+                                            }
+                                        }
+                                    });
+                                });
+
+
+
+                            });
+                        } else {
+                            console.log("Oops, we haven't got JSON!");
+                        }
+
+
+
+
+
+
+
+                    })
+                    .catch(e => {
+                        console.log('error:  ', e);
+                    });
+            }
+
+            $('#btn_salvar_contato').click(function() {
+                $.ajax({
+                    url: `${obterAPI()}controllers/usuarios-dao.php`,
                     method: 'post',
                     data: $('#form_contato').serialize(),
                     success: function(data) {
-                        console.log('modal criacao', data);
-                        const validacao = JSON.parse(data);
-                        console.log('modal criacao', validacao);
+                        console.log('data salvar ', data);
+                        const validacao = data;
                         if (validacao[0].valido) {
-                            $('#meuModal').modal('hide');
+                            $('#meu_modal').modal('hide');
                             atualizarContatos();
                         } else {
                             $('#erro_nome').html('');
@@ -78,31 +199,12 @@ if (!isset($_SESSION['id_usuario'])) {
                     }
                 });
             });
-
-            // verificar login para não usar o mesmo usuario
-
-            function verificaLoginExistente(login) {
-                $.ajax({
-                    url: '../controllers/usuarios-dao.php',
-                    method: 'get',
-                    data: {
-                        'verificar-login': true,
-                        login
-                    },
-                    success: function(data) {
-                        $('#erro_login').html(data);
-                        $('#erro_loginup').html(data);
-                    }
-                });
-            }
             $("#in_m_c_login").keyup(function() {
                 verificaLoginExistente($("#in_m_c_login").val());
             });
-
             $("#input_login_contato").keyup(function() {
                 verificaLoginExistente($("#input_login_contato").val());
             });
-
             $('#btn-deletar-contato-concluir').click(function() {
                 $.ajax({
                     url: '../controllers/delete.php',
@@ -114,7 +216,6 @@ if (!isset($_SESSION['id_usuario'])) {
                     }
                 });
             });
-
             $('#btn_abrir_modal_para_inserir').click(function() {
                 $('#in_m_c_nome').val('');
                 $('#in_m_c_endereco').val('');
@@ -135,17 +236,13 @@ if (!isset($_SESSION['id_usuario'])) {
                 $('#erro_login').html('');
 
             });
-
             $('#btn_concluir_update_contato').click(function() {
                 const idContato = this.getAttribute('idUpdate');
-                console.log(' updatate  M>>> ', 'id=' + idContato + '&' + $('#form_contato_update')
-                    .serialize());
                 $.ajax({
                     url: '../controllers/update.php',
                     method: 'post',
                     data: 'id=' + idContato + '&' + $('#form_contato_update').serialize(),
                     success: function(data) {
-                        console.log('up up up', data);
                         const validacao = JSON.parse(data);
                         if (validacao[0].valido) {
                             $('#modal_update').modal('hide');
@@ -183,111 +280,61 @@ if (!isset($_SESSION['id_usuario'])) {
                     }
                 });
             });
-
-            function atualizarContatos() {
-                $.ajax({
-                    url: '../controllers/atualizar.php',
-                    success: function(data) {
-                        $('#todo_contatos').html(data);
-                        // colocado aqui pois só aqui os elementos existem
-                        $('.btn_apaga_contato').click(function() {
-                            const id_contato = this.id.split('_')[1];
-                            console.log('clichou id_contato', id_contato)
-                            document.getElementById('btn-deletar-contato-concluir')
-                                .setAttribute('idDeletar', id_contato);
-                        });
-
-                        $('.btn_ler_contato').click(function() {
-                            const id_contato = this.id.split('_')[1];
-                            $.ajax({
-                                url: '../controllers/usuarios-dao.php',
-                                method: 'get',
-                                data: 'id=' + id_contato,
-                                success: function(data) {
-                                    data = JSON.parse(data);
-                                    $('#rd_nome_contato').html(data.nome);
-                                    $('#rd_endereco_contato').html(data.endereco);
-                                    $('#rd_telefone_contato').html(data.telefone);
-                                    $('#rd_email_contato').html(data.email);
-                                    $('#rd_sexo_contato').html(data.sexo);
-                                    $('#rd_login_contato').html(data.login);
-                                }
-                            });
-                        });
-
-
-                        $('.btn_update_contato').click(function() {
-                            const id_contato = this.id.split('_')[1];
-                            console.log(' updat ', id_contato);
-                            $.ajax({
-                                url: '../controllers/usuarios-dao.php',
-                                method: 'get',
-                                data: 'id=' + id_contato,
-                                success: function(data) {
-                                    document.getElementById(
-                                            'btn_concluir_update_contato')
-                                        .setAttribute('idUpdate', id_contato);
-                                    data = JSON.parse(data);
-                                    console.log(data);
-                                    $('#input_id_contato').val(data.id);
-                                    $('#input_nome_contato').val(data.nome);
-                                    $('#input_login_contato').val(data.login);
-                                    $('#input_endereco_contato').val(data.endereco);
-                                    $('#input_telefone_contato').val(data.telefone);
-                                    $('#input_email_contato').val(data.email);
-                                    if (data.sexo == "M") {
-                                        $('#sexo_M').attr('checked', 'checked');
-                                    } else {
-                                        $('#sexo_F').attr('checked', 'checked');
-                                    }
-                                }
-                            });
-                        });
-                    }
-                });
-            }
             atualizarContatos();
         });
     </script>
+
+    <style>
+        .btn-table {
+            cursor: pointer;
+            width: 46px;
+            padding: 2px 0;
+            float: left;
+        }
+    </style>
+
+
 </head>
 
-<body>
+<body id="page-top">
     <!-- Navigation-->
-    <?php
-    $produto_dao = new Componente();
-    $produto_dao->nav();
-    ?>
+    <script>
+        const a = document.getElementById('page-top').innerHTML;
+        document.getElementById('page-top').innerHTML = nav() + a;
+    </script>
     <div class="container">
         <div class="form-row">
             <div class="col">
                 <h2>Usuários</h2>
             </div>
             <div class="col text-right">
-                <button id="btn_abrir_modal_para_inserir" type="button" class="btn btn-success " data-toggle="modal" data-target="#meuModal">
+                <button id="btn_abrir_modal_para_inserir" type="button" class="btn btn-success " data-toggle="modal" data-target="#meu_modal">
                     novo
                 </button>
             </div>
         </div>
 
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Login</th>
-                    <th scope="col">Endereço</th>
-                    <th scope="col">Telefone</th>
-                    <th scope="col">TIPO</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Sexo</th>
-                    <th scope="col">Ação</th>
-                </tr>
-            </thead>
-            <tbody id="todo_contatos">
-                <!--  os contatos aqui são gerado dinamicamento com a funcao  atualizarContatos(); -->
-            </tbody>
-        </table>
-    </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Login</th>
+                        <th scope="col">Endereço</th>
+                        <th scope="col">Telefone</th>
+                        <th scope="col">TIPO</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Sexo</th>
+                        <th scope="col">Ação</th>
+                    </tr>
+                </thead>
+                <tbody id="todo_contatos">
+                    <!--  os contatos aqui são gerado dinamicamento com a funcao  atualizarContatos(); -->
+                </tbody>
+            </table>
+        </div>
+
     </div>
     <!-- Bootstrap core JavaScript -->
     <!-- Bootstrap core JS -->
@@ -297,22 +344,20 @@ if (!isset($_SESSION['id_usuario'])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js">
     </script>
-    <script src="../assets/fontawesome-free-5.15.1-web/js/all.js"> </script>
+    
     <!-- Core theme JS
      <script src="../assets/js/scripts.js"></script> -->
 </body>
 
 </html>
 
-</html>
-
 
 <!-- Modal Create -->
-<div class="modal fade" id="meuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="meu_modal" tabindex="-1" role="dialog" aria-labelledby="Modais" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Adicionar Contato</h5>
+                <h5 class="modal-title" id="Modais">Adicionar Contato</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -423,13 +468,12 @@ if (!isset($_SESSION['id_usuario'])) {
         </div>
     </div>
 </div>
-
 <!-- Modal  Delete-->
-<div class="modal fade" id="modal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_delete" tabindex="-1" role="dialog" aria-labelledby="Modais" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Deseja Deletar</h5>
+                <h5 class="modal-title" id="Modais">Deseja Deletar</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -448,13 +492,12 @@ if (!isset($_SESSION['id_usuario'])) {
         </div>
     </div>
 </div>
-
 <!-- Modal  informacao-->
-<div class="modal fade" id="modal_read" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_read" tabindex="-1" role="dialog" aria-labelledby="Modais" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Informações do Contato</h5>
+                <h5 class="modal-title" id="Modais">Informações do Contato</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -519,14 +562,12 @@ if (!isset($_SESSION['id_usuario'])) {
         </div>
     </div>
 </div>
-
-
 <!-- Modal  Update-->
-<div class="modal fade" id="modal_update" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_update" tabindex="-1" role="dialog" aria-labelledby="Modais" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"> Atualizar Contato</h5>
+                <h5 class="modal-title" id="Modais"> Atualizar Contato</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                     <span aria-hidden="true">&times;</span>
                 </button>

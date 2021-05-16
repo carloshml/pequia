@@ -1,17 +1,7 @@
 <?php
-session_start();
 include_once('../controllers/produto_dao.php');
-include_once('../controllers/usuarios-dao.php');
 include_once('../controllers/vendas-dao.php');
 include_once('componentes.php');
-if (!isset($_SESSION['usuario_login'])) {
-    header('Location: ../index.php?erro=1');
-}
-$usuario_nome = '';
-if (isset($_SESSION['usuario_nome'])) {
-    $usuario_nome = ' Bem vindo ' . $_SESSION['usuario_nome'];
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -25,13 +15,11 @@ if (isset($_SESSION['usuario_nome'])) {
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
-    <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
-    <!-- Google fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <script src="../assets/fontawesome-free-5.15.1-web/js/all.js" crossorigin="anonymous"></script>
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="../assets/css/styles.css" rel="stylesheet" />
     <link href="../assets/css/estilo.css" rel="stylesheet" />
+    <script src="../assets/js/script-local.js"></script>
     <style>
         .background-animado {
             background: linear-gradient(-45deg, #88bbbb, #23d5ab, #004de6);
@@ -58,16 +46,40 @@ if (isset($_SESSION['usuario_nome'])) {
             color: white;
         }
     </style>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log(' local host ', localStorage.getItem('usuario_nome'));
+            if (!localStorage.getItem('usuario_nome')) {
+                window.location.href = '../index.php?erro=1';
+            }
+            var myInit = {
+                method: 'GET',
+                headers: {},
+                cache: 'default'
+            };
+            fetch(`${obterAPI()}controllers/usuarios-dao.php?contar-usuarios=true`, myInit)
+                .then(response => {
+                    return response.text()
+                        .then(function(totUsuarios) {
+                            console.log('usuarios totUsuarios', totUsuarios);
+
+                            document.getElementById('id-usuario').innerHTML = totUsuarios;
+                        });
+                })
+                .catch(err => {
+                    console.log('err', err)
+                })
+
+        });
+    </script>
 </head>
 
 <body id="page-top" class="background-animado">
-
-
     <!-- Navigation-->
-    <?php
-    $produto_dao = new Componente();
-    $produto_dao->nav();
-    ?>
+    <script>
+        const a = document.getElementById('page-top').innerHTML;
+        document.getElementById('page-top').innerHTML = nav() + a;
+    </script>
     <div class="container" style="padding-top: 10em;">
         <div class="row">
             <div class="col-lg-12">
@@ -117,13 +129,8 @@ if (isset($_SESSION['usuario_nome'])) {
 
                         </div>
                     </div>
-                    <div>
-                        <a class="branco" href="modulo-usuarios.php">
-                            <?php
-                            $usuario_dao = new UsuariosDAO();
-                            echo $usuario_dao->numeroTotal();
-                            ?> Usuário!
-                        </a>
+                    <div  class="branco">
+                       <span id="id-usuario" > </span> Usuário!
                     </div>
                     <a href="modulo-usuarios.php">
                         <div class="panel-footer branco">

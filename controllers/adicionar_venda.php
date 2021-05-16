@@ -1,6 +1,7 @@
 <?php
     session_start();  
     include_once('../config/bd.class.php');
+include_once('../config/api-config.php');
     // modais dos Objetos que serão salvos 
     include_once('../modal/venda_item.php'); 
     include_once('../modal/venda.php'); 

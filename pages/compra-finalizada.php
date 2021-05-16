@@ -1,24 +1,14 @@
 <?php
 session_start();
-session_start();
-session_start();
-include_once('../config/bd.class.php');
-include_once('../config/bd.class.php');
-include_once('../config/bd.class.php');
-include_once('../controllers/produto_dao.php');
-include_once('../controllers/produto_dao.php');
+include_once('../config/bd.class.php'); 
 include_once('../controllers/produto_dao.php');
 include_once('componentes.php');
 $nome_produto = '';
 $id_produto = null;
 if (!empty($_GET['id_produto'])) {
     $id_produto = $_GET['id_produto'];
-    $id_produto = $_GET['id_produto'];
-    $id_produto = $_GET['id_produto'];
 }
 if (!empty($_GET['nome_produto'])) {
-    $nome_produto = $_GET['nome_produto'];
-    $nome_produto = $_GET['nome_produto'];
     $nome_produto = $_GET['nome_produto'];
 }
 $retorno =   $_SESSION['vendas'];
@@ -28,8 +18,6 @@ if ($retorno) {
     $vendas = array();
 }
 $vendasJson =  json_encode($vendas);
-$vendasJson =  json_encode($vendas);
-$vendasJson =  json_encode($vendas);
 ?>
 
 <!DOCTYPE html>
@@ -37,15 +25,18 @@ $vendasJson =  json_encode($vendas);
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title><?= $nome_produto ?></title>
-    <!-- Bootstrap core CSS -->
-    <link href="../assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../assets/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Pequia</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="../assets/fontawesome-free-5.15.1-web/js/all.js" crossorigin="anonymous"></script>
+     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="../assets/css/styles.css" rel="stylesheet" />
     <link href="../assets/css/estilo.css" rel="stylesheet" />
+    <script src="../assets/js/script-local.js"></script>
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function() {
             const produtos = <?= $vendasJson ?>;
@@ -87,19 +78,17 @@ $vendasJson =  json_encode($vendas);
                     '<hr>';
             });
             document.getElementById('descricao_compra').innerHTML = produtosEscrito;
-
-
         });
     </script>
 </head>
 
 
 <body id="page-top">
-    <!-- Navigation-->
-    <?php
-    $produto_dao = new Componente();
-    $produto_dao->nav();
-    ?>
+   <!-- Navigation-->
+    <script>
+        const a = document.getElementById('page-top').innerHTML;
+        document.getElementById('page-top').innerHTML = nav() + a;
+    </script>
     <header class="masthead" style="height: 0; min-height: 0;"> </header>
 
     <div class="container">

@@ -18,29 +18,35 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
     <title>Pequiá</title>
     <!-- Bootstrap core CSS -->
     <link href="assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/fontawesome-free-5.15.1-web/js/all.js" rel="stylesheet">
+    <script src="../assets/fontawesome-free-5.15.1-web/js/all.js" crossorigin="anonymous"></script>
     <link href="assets/css/styles.css" rel="stylesheet" />
     <link href="assets/css/estilo.css" rel="stylesheet" />
+    <script src="assets/js/script-local.js"></script>
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function() {
             $('#btn_login').click(function() {
                 const usuarioNovo = $('#form-login').serialize();
-
                 $.ajax({
-                    url: 'controllers/validar_acesso.php',
-                    method: 'post',
+                    url: `${obterAPI()}controllers/usuarios-dao.php`,
+                    method: 'get',
                     data: usuarioNovo + '&tipo=CLIENTE',
-                    success: function(data) {
-                        console.log('data   ', data);
-
-
-                        if (data.includes('erro')) {
+                    success: function(data) {  
+                        localStorage.setItem('id_usuario', data['id']);
+                        localStorage.setItem('usuario_login', data['login']);
+                        localStorage.setItem('email', data['email']);
+                        localStorage.setItem('usuario_nome', data['nome']);                       
+                        localStorage.setItem('tipo', data['tipo']);                     
+                        console.log('data', data, data['nome']);
+                        console.log(' local host ',  localStorage.getItem('usuario_nome'));
+                        if (!data.id) {
                             $('#mensagem-login').html('Usuário ou senha incorretos');
                         } else {
-                            window.location.href = data;
+                            if (data['tipo'] === 'CLIENTE') {
+                                window.location.href = 'pages/loja.php';
+                            } else {
+                                window.location.href = 'pages/home.php';
+                            }
                         }
-
-
                     }
                 });
             });
@@ -53,7 +59,7 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
         <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="#page-top">Pequia</a>
+            <a class="navbar-brand js-scroll-trigger" href="#page-top">Pequiá</a>
             <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 Menu
                 <i class="fas fa-bars"></i>
@@ -62,7 +68,7 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item mx-0 mx-lg-1">
                         <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="pages/loja.php">loja </a>
-                    </li>  
+                    </li>
                     <?php
                     if (isset($_SESSION['usuario_nome'])) {
                         echo '   <li class="nav-item mx-0 mx-lg-1">
