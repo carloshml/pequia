@@ -1,13 +1,9 @@
 <?php
 session_start();
 include_once('componentes.php');
-include_once('../config/bd.class.php');
- 
+include_once('../config/bd.class.php'); 
 include_once('../controllers/produto_dao.php');
 
-if (!isset($_SESSION['usuario_login'])) {
-    unset($_SESSION['vendas']);
-}
 $retorno =   $_SESSION['vendas'];
 if ($retorno) {
     $vendas =  unserialize($retorno);

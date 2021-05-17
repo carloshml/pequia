@@ -60,9 +60,7 @@ include_once('componentes.php');
             fetch(`${obterAPI()}controllers/usuarios-dao.php?contar-usuarios=true`, myInit)
                 .then(response => {
                     return response.text()
-                        .then(function(totUsuarios) {
-                            console.log('usuarios totUsuarios', totUsuarios);
-
+                        .then(function(totUsuarios) {                           
                             document.getElementById('id-usuario').innerHTML = totUsuarios;
                         });
                 })

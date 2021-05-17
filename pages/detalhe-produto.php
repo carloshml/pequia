@@ -1,12 +1,9 @@
 <?php
 session_start();
 include_once('componentes.php');
-include_once('../config/bd.class.php');
- 
+include_once('../config/bd.class.php'); 
 include_once('../controllers/produto_dao.php');
-if (!isset($_SESSION['usuario_login'])) {
-    unset($_SESSION['vendas']);
-}
+
 $nome_produto = '';
 $id_produto = null;
 if (!empty($_GET['id_produto'])) {

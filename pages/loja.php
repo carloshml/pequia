@@ -2,9 +2,6 @@
 include_once('../controllers/produto_dao.php');
 include_once('componentes.php');
 session_start();
-if (!isset($_SESSION['usuario_login'])) {
-    unset($_SESSION['vendas']);
-}
 $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
 $mesangem = isset($_GET['mesangem']) ? $_GET['mesangem'] : '';
 ?>
@@ -21,7 +18,7 @@ $mesangem = isset($_GET['mesangem']) ? $_GET['mesangem'] : '';
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
     <script src="../assets/fontawesome-free-5.15.1-web/js/all.js" crossorigin="anonymous"></script>
-     <!-- Core theme CSS (includes Bootstrap)-->
+    <!-- Core theme CSS (includes Bootstrap)-->
     <link href="../assets/css/styles.css" rel="stylesheet" />
     <link href="../assets/css/estilo.css" rel="stylesheet" />
     <script src="../assets/js/script-local.js"></script>
@@ -44,7 +41,7 @@ $mesangem = isset($_GET['mesangem']) ? $_GET['mesangem'] : '';
                     url: `${obterAPI()}controllers/validar_acesso.php`,
                     method: 'post',
                     data: usuarioNovo + '&tipo=CLIENTE',
-                    success: function(data) {                       
+                    success: function(data) {
                         if (data.includes('erro')) {
                             $('#mensagem-login').html('Usuário ou senha incorretos');
                         } else {
@@ -62,7 +59,7 @@ $mesangem = isset($_GET['mesangem']) ? $_GET['mesangem'] : '';
     <div style="position: relative;">
         <div id="corpo_aviso" class="corpo-aviso" style="display: none;"> </div>
     </div>
-   <!-- Navigation-->
+    <!-- Navigation-->
     <script>
         const a = document.getElementById('page-top').innerHTML;
         document.getElementById('page-top').innerHTML = nav() + a;
@@ -113,6 +110,7 @@ $mesangem = isset($_GET['mesangem']) ? $_GET['mesangem'] : '';
     <!-- Bootstrap core JS -->
     <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 
+    <script src="../assets/js/jquery-3.5.1.min.js"></script>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
     <!-- Third party plugin JS-->
@@ -121,7 +119,6 @@ $mesangem = isset($_GET['mesangem']) ? $_GET['mesangem'] : '';
     <script src="../assets/fontawesome-free-5.15.1-web/js/all.js"> </script>
     <!-- Core theme JS-->
     <script src="../assets/js/scripts.js"></script>
-    <!-- MODAL-->
     <?php
     $produto_dao = new Componente();
     $produto_dao->modalLogin();

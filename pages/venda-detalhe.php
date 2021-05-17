@@ -2,9 +2,7 @@
 session_start();
 include_once('../controllers/vendas-dao.php');
 include_once('componentes.php');
-if (!isset($_SESSION['usuario_login'])) {
-    header('Location: ../index.php?erro=1');
-}
+ 
 $venda_id = 0;
 if ($_GET['venda_id']) {
     $venda_id = $_GET['venda_id'];
@@ -29,6 +27,12 @@ if ($_GET['venda_id']) {
     <script src="../assets/js/script-local.js"></script>
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function() {
+
+            if (!localStorage.getItem('usuario_nome')) {
+                window.location.href = '../index.php?erro=1';
+            }
+
+
         });
     </script>
 </head>

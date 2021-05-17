@@ -30,14 +30,14 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
                     url: `${obterAPI()}controllers/usuarios-dao.php`,
                     method: 'get',
                     data: usuarioNovo + '&tipo=CLIENTE',
-                    success: function(data) {  
+                    success: function(data) {
                         localStorage.setItem('id_usuario', data['id']);
                         localStorage.setItem('usuario_login', data['login']);
                         localStorage.setItem('email', data['email']);
-                        localStorage.setItem('usuario_nome', data['nome']);                       
-                        localStorage.setItem('tipo', data['tipo']);                     
+                        localStorage.setItem('usuario_nome', data['nome']);
+                        localStorage.setItem('tipo', data['tipo']);
                         console.log('data', data, data['nome']);
-                        console.log(' local host ',  localStorage.getItem('usuario_nome'));
+                        console.log(' local host ', localStorage.getItem('usuario_nome'));
                         if (!data.id) {
                             $('#mensagem-login').html('Usuário ou senha incorretos');
                         } else {
@@ -52,47 +52,15 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
             });
         });
     </script>
-
 </head>
 
 <body id="page-top">
     <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
-        <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="#page-top">Pequiá</a>
-            <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                Menu
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item mx-0 mx-lg-1">
-                        <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="pages/loja.php">loja </a>
-                    </li>
-                    <?php
-                    if (isset($_SESSION['usuario_nome'])) {
-                        echo '   <li class="nav-item mx-0 mx-lg-1">
-                                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/pages/home.php">
-                                        <i class="fas fa-home"></i>
-                                    </a>
-                                </li>
-                                <li class="nav-item mx-0 mx-lg-1">
-                                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/controllers/sair.php">                              
-                                        <i class="fas fa-sign-out-alt"></i>
-                                    </a>
-                                </li>';
-                    } else {
-                        echo ' <li class="nav-item mx-0 mx-lg-1">
-                                      <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" aria-current="page" href="#" role="button" data-toggle="modal" data-target="#login-modal">
-                                          Entrar
-                                       </a>
-                               </li>';
-                    }
-                    ?>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <script>
+        const a = document.getElementById('page-top').innerHTML;
+        document.getElementById('page-top').innerHTML = nav() + a;
+    </script>
+    
     <!-- Masthead-->
     <header class="masthead">
         <div class="container h-100">

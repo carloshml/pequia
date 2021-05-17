@@ -1,12 +1,8 @@
 <?php
 session_start();
-include_once('../config/bd.class.php');
- 
+include_once('../config/bd.class.php'); 
 include_once('../controllers/vendas-dao.php');
 include_once('componentes.php');
-if (!isset($_SESSION['usuario_login'])) {
-    header('Location: ../index.php?erro=1');
-}
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +25,9 @@ if (!isset($_SESSION['usuario_login'])) {
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function() {
 
-
+            if (!localStorage.getItem('usuario_nome')) {
+                window.location.href = '../index.php?erro=1';
+            }
 
 
         });

@@ -1,12 +1,9 @@
 <?php
+session_start();
 include_once('../controllers/produto_dao.php');
 include_once('componentes.php');
 $temEditar = 0;
 $response = '';
-session_start();
-if (!isset($_SESSION['usuario_login'])) {
-    header('Location: ../index.php?erro=1');
-}
 if (!empty($_GET['id_produto'])) {
     $id_produto = $_GET['id_produto'];
     $produto_dao = new ProdutoDAO();
@@ -27,11 +24,14 @@ if (!empty($_GET['id_produto'])) {
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
     <script src="../assets/fontawesome-free-5.15.1-web/js/all.js" crossorigin="anonymous"></script>
-     <!-- Core theme CSS (includes Bootstrap)-->
+    <!-- Core theme CSS (includes Bootstrap)-->
     <link href="../assets/css/styles.css" rel="stylesheet" />
     <link href="../assets/css/estilo.css" rel="stylesheet" />
     <script src="../assets/js/script-local.js"></script>
     <script type="text/javascript">
+        if (!localStorage.getItem('usuario_nome')) {
+            window.location.href = '../index.php?erro=1';
+        }
         document.addEventListener("DOMContentLoaded", function() {
             const resposta = <?= $response ?>;
             if (resposta) {
@@ -47,10 +47,12 @@ if (!empty($_GET['id_produto'])) {
             }
         });
     </script>
+
+
 </head>
 
 <body id="page-top">
-   <!-- Navigation-->
+    <!-- Navigation-->
     <script>
         const a = document.getElementById('page-top').innerHTML;
         document.getElementById('page-top').innerHTML = nav() + a;
