@@ -81,7 +81,7 @@ if (!empty($_GET['id_produto'])) {
                         <div class="form-group">
                             <label>Selecione Uma Foto</label>
                             <div>
-                                <input name="imagem" type="file" required>
+                                <input type="file" id="imagem_file" name="imagem" class="form-control" accept="image/*">
                             </div>
                         </div>
                         <div class="form-group">
