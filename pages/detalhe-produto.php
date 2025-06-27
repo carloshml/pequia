@@ -1,8 +1,8 @@
 <?php
 session_start();
-include_once('componentes.php');
-include_once('../config/bd.class.php'); 
-include_once('../controllers/produto_dao.php');
+require_once('componentes.php');
+require_once('../config/bd.class.php');
+require_once('../controllers/produto_dao.php');
 
 $nome_produto = '';
 $id_produto = null;
@@ -24,13 +24,14 @@ if (!empty($_GET['error'])) {
         $error = $_GET['error'];
     }
 }
-$retorno =   $_SESSION['vendas'];
+$retorno = $_SESSION['vendas'] ?? null;
+$vendas = null;
 if ($retorno) {
-    $vendas =  unserialize($retorno);
+    $vendas = unserialize($retorno);
 } else {
     $vendas = array();
 }
-$vendasJson =  json_encode($vendas);
+$vendasJson = json_encode($vendas);
 ?>
 
 <!DOCTYPE html>
@@ -46,12 +47,12 @@ $vendasJson =  json_encode($vendas);
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
     <script src="../assets/fontawesome-free-5.15.1-web/js/all.js" crossorigin="anonymous"></script>
-     <!-- Core theme CSS (includes Bootstrap)-->
+    <!-- Core theme CSS (includes Bootstrap)-->
     <link href="../assets/css/styles.css" rel="stylesheet" />
     <link href="../assets/css/estilo.css" rel="stylesheet" />
     <script src="../assets/js/script-local.js"></script>
     <script type="text/javascript">
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const produtos = <?= $vendasJson ?>;
             let produtosEscrito = '';
 
@@ -89,12 +90,12 @@ $vendasJson =  json_encode($vendas);
                 document.getElementById('painel-compra').style.display = 'block';
             }
 
-            $('.btn_ver_compra').click(function() {
+            $('.btn_ver_compra').click(function () {
                 console.log('produtos', produtos);
                 mostrarProdutos();
             });
 
-            $('#btn-fechar-painel-compra').click(function() {
+            $('#btn-fechar-painel-compra').click(function () {
                 document.getElementById('painel-compra').style.display = 'none';
             });
 
@@ -114,18 +115,18 @@ $vendasJson =  json_encode($vendas);
                 elementoAviso.innerHTML = corpoAviso;
                 elementoAviso.style.display = 'block';
                 setTimeout(() => {
-                   elementoAviso.style.display = 'none';
+                    elementoAviso.style.display = 'none';
                 }, 2000);
                 console.log('elementoAviso', elementoAviso);
             }
 
-            $('#btn_login').click(function() {
+            $('#btn_login').click(function () {
                 const usuarioNovo = $('#form-login').serialize();
                 $.ajax({
                     url: `${obterAPI()}controllers/validar_acesso.php`,
                     method: 'post',
                     data: usuarioNovo + '&tipo=CLIENTE',
-                    success: function(data) {
+                    success: function (data) {
                         console.log('data   ', data);
                         if (data.includes('erro')) {
                             $('#mensagem-login').html('Usuário ou senha incorretos');
@@ -144,7 +145,7 @@ $vendasJson =  json_encode($vendas);
     <div style="position: relative;">
         <div id="corpo_aviso" class="corpo-aviso" style="display: none;"> </div>
     </div>
-   <!-- Navigation-->
+    <!-- Navigation-->
     <script>
         const a = document.getElementById('page-top').innerHTML;
         document.getElementById('page-top').innerHTML = nav() + a;

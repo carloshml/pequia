@@ -57,7 +57,7 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
 </head>
 
 <body id="page-top">
-    <!-- Navigation-->
+ 
     <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
         <div class="container">
             <a class="navbar-brand" href="index.php">Pequiá</a>

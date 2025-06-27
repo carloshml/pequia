@@ -73,7 +73,7 @@ $mesangem = isset($_GET['mesangem']) ? $_GET['mesangem'] : '';
             <hr>
             <?php
             $produto_dao = new ProdutoDAO();
-            $produto_dao->buscarProdutos();
+            $produto_dao->buscarProdutosLoja();
             ?>
         </div>
     </section>

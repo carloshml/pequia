@@ -1,8 +1,8 @@
 <?php
 session_start();
-include_once('../controllers/produto_dao.php');
-include_once('../controllers/vendas-dao.php');
-include_once('componentes.php');
+require_once('../controllers/produto_dao.php');
+require_once('../controllers/vendas-dao.php');
+require_once('componentes.php');
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -75,10 +75,35 @@ include_once('componentes.php');
 
 <body id="page-top" class="background-animado">
     <!-- Navigation-->
-    <script>
-        const a = document.getElementById('page-top').innerHTML;
-        document.getElementById('page-top').innerHTML = nav() + a;
-    </script>
+    <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="../index.php">Pequiá</a>
+            <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+                Menu <i class="fas fa-bars ms-2"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+
+                    <?php
+                    if (isset($_SESSION['usuario_nome'])) {
+                        echo ' <li class="nav-item mx-0 mx-lg-1">
+                        <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="home.php">
+                            <i class="fas fa-home"></i> home
+                        </a>
+                        </li> 
+                        <li class="nav-item mx-0 mx-lg-1">
+                                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="../controllers/sair.php">
+                                    <i class="fas fa-home"></i> sair
+                                </a>
+                        </li>';
+                    }
+                    ?>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <div class="container" style="padding-top: 10em;">
         <div class="row">
             <div class="col-lg-12">

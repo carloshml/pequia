@@ -5,7 +5,7 @@ require_once __DIR__ . '/../modal/produtos.php';
 class ProdutoDAO
 {
 
-    public function buscarProdutos()
+    public function buscarProdutosLoja()
     {
 
         $id_produto = null;
@@ -20,9 +20,11 @@ class ProdutoDAO
         $localFoto = null;
         $data_publicacao = '';
         $nome_autor = null;
+        $fileFoto = null;
         try {
             $pdo = Banco::conectar();
-            $sql = "  SELECT  produtos.id as id_produto,  tag1, tag2, tag3, tag4, tag5,  descricao, subtitulo, titulo, localFoto , data_publicacao ,  usuarios.nome as nome_autor"
+            $sql = "  SELECT  produtos.id as id_produto,  tag1, tag2, tag3, tag4, tag5,  descricao, subtitulo, titulo, localFoto"
+                . " , data_publicacao ,  usuarios.nome as nome_autor , fileFoto "
                 . "  FROM produtos inner join usuarios  on   produtos.id_usuario_publicacao =  usuarios.id   "
                 . "  ORDER BY produtos.id DESC limit  6;";
 
@@ -40,6 +42,7 @@ class ProdutoDAO
             $stmt->bindColumn('data_publicacao', $data_publicacao);
             $stmt->bindColumn('nome_autor', $nome_autor);
             $stmt->bindColumn('localFoto', $localFoto);
+            $stmt->bindColumn('fileFoto', $fileFoto);
             echo '<div class="row">';
             while ($row = $stmt->fetch(PDO::FETCH_BOUND)) {
                 $array = array(
@@ -52,15 +55,18 @@ class ProdutoDAO
                     "descricao" => $descricao,
                     "subtitulo" => $subtitulo,
                     "titulo" => $titulo,
-                    "localFoto" => $localFoto
+                    "localFoto" => $localFoto,
+                    "fileFoto" => $fileFoto
                 );
 
-                echo '<div class="col-sm-3 ml-auto">';
+                $foto_content = $fileFoto;
+                if (is_resource($foto_content)) {
+                    $foto_content = stream_get_contents($foto_content);
+                }
+                $base64 = $foto_content ? base64_encode($foto_content) : '';
+
                 echo '<div>';
-                echo '         <a href="detalhe-produto.php?id_produto=' . $id_produto . '&nome_produto=' . $titulo . '">';
-                echo '            <img loading="lazy" class="img-responsive imagem-detalhes" height="300px"   src="../fotos/' . $localFoto . '">';
-                echo '         </a>';
-                echo '</div>';
+                echo '<img width="100px" src="data:image/jpeg;base64,' . $base64 . '" alt="' . htmlspecialchars($titulo) . '">';
                 echo '         <a href="detalhe-produto.php?id_produto=' . $id_produto . '&nome_produto=' . $titulo . '" class="cor-laranja  "> <strong> ' . $titulo . ' </strong></a>';
                 echo '         <h6>' . $subtitulo . '</h6>';
                 echo '         <ul>';
@@ -279,18 +285,19 @@ class ProdutoDAO
         $produto->descricao = null;
         $produto->subtitulo = null;
         $produto->titulo = null;
-        $produto->localFoto = null;
+        $produto->localFoto = '';
         $produto->data_publicacao = '';
         $nome_autor = null;
+        $fileFoto = null;
+        $base64 = null;
 
         try {
             $pdo = Banco::conectar();
             $sql = "SELECT  produtos.id as id,   tag1, tag2, tag3, tag4, tag5, descricao, subtitulo,"
-                . "  titulo, localFoto ,  usuarios.nome as nome_autor , preco_venda"
+                . "  titulo, localFoto ,  usuarios.nome as nome_autor , preco_venda, produtos.fileFoto"
                 . "  FROM produtos inner join usuarios  on   produtos.id_usuario_publicacao =  usuarios.id   "
                 . "  where produtos.id = ?;";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute(array($id_produto));
             $stmt->bindColumn('id', $produto->id);
             $stmt->bindColumn('tag1', $produto->tag1);
             $stmt->bindColumn('tag2', $produto->tag2);
@@ -303,15 +310,28 @@ class ProdutoDAO
             $stmt->bindColumn('localFoto', $produto->localFoto);
             $stmt->bindColumn('preco_venda', $produto->preco_venda);
             $stmt->bindColumn('nome_autor', $nome_autor);
+            $stmt->bindColumn('fileFoto', $fileFoto);
+            $stmt->execute(array($id_produto));
+            $foto_content = $fileFoto;
+
+
             while ($stmt->fetch(PDO::FETCH_BOUND)) {
+                // Convert image blob to base64 after binding
+                $foto_content = $fileFoto;
+                if (is_resource($foto_content)) {
+                    $foto_content = stream_get_contents($foto_content);
+                }
+                $base64 = $foto_content ? base64_encode($foto_content) : '';
+
+
                 echo '<form method="post"  action="../controllers/adicionar_venda_item.php?id_produto='
                     . $produto->id
                     . '&preco_venda=' . $produto->preco_venda
                     . '&nome_produto=' . $produto->titulo . '" ';
                 echo 'id="formCadastrarse" enctype="multipart/form-data">';
                 echo '<div style="text-align:center" >';
-                echo '            <h1  class="cor-laranja center">' . $produto->titulo . '</h1>';
-                echo '            <img loading="lazy" class="img-responsive" height="400px"  src="../fotos/' . $produto->localFoto . '">';
+                echo '  <h1  class="cor-laranja center">' . $produto->titulo . '</h1>';
+                echo '<img width="100px" src="data:image/jpeg;base64,' . $base64 . '" alt="' . htmlspecialchars($produto->titulo) . '">';
                 echo '</div>';
                 echo '<div class="row">';
                 echo '      <div class="form-group col-sm-4">';
