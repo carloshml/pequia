@@ -1,5 +1,6 @@
-<?php 
-class Produto{
+<?php
+class Produto
+{
     public $id;
     public $titulo;
     public $subtitulo;
@@ -11,8 +12,10 @@ class Produto{
     public $tag4;
     public $tag5;
     public $id_usuario_publicacao;
-    public $data_publicacao;      
-    public $qtd_estoque ;
-    public $preco_venda ;
- }
+    public $data_publicacao;
+    public $qtd_estoque;
+    public $preco_venda;
+     public $localFoto;
+    public $fileFoto;
+}
 ?>
