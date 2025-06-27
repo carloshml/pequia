@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../config/bd.class.php';
-require_once __DIR__ . '/../modal/produtos.php'; 
+require_once __DIR__ . '/../modal/produtos.php';
 
 class ProdutoDAO
 {
@@ -95,9 +95,11 @@ class ProdutoDAO
         $localFoto = null;
         $data_publicacao = '';
         $nome_autor = null;
+        $fileFoto = null;
         try {
             $pdo = Banco::conectar();
-            $sql = "  SELECT  produtos.id as id_produto,  tag1, tag2, tag3, tag4, tag5, descricao, subtitulo, titulo, localFoto , data_publicacao ,  usuarios.nome as nome_autor"
+            $sql = "  SELECT  produtos.id as id_produto,  tag1, tag2, tag3, tag4, tag5, descricao, subtitulo, titulo, localFoto , "
+                . "  data_publicacao ,  usuarios.nome as nome_autor, fileFoto"
                 . "  FROM produtos inner join usuarios  on   produtos.id_usuario_publicacao =  usuarios.id   "
                 . "  ORDER BY produtos.id DESC limit  6;";
             $stmt = $pdo->prepare($sql);
@@ -112,6 +114,7 @@ class ProdutoDAO
             $stmt->bindColumn('subtitulo', $subtitulo);
             $stmt->bindColumn('titulo', $titulo);
             $stmt->bindColumn('localFoto', $localFoto);
+            $stmt->bindColumn('fileFoto', $fileFoto);
 
             echo '<div class="row">';
             while ($row = $stmt->fetch(PDO::FETCH_BOUND)) {
@@ -125,16 +128,21 @@ class ProdutoDAO
                     "descricao" => $descricao,
                     "subtitulo" => $subtitulo,
                     "titulo" => $titulo,
-                    "localFoto" => $localFoto
+                    "localFoto" => $localFoto,
+                    "fileFoto" => $fileFoto
                 );
 
+                $foto_content = $fileFoto;
+                if (is_resource($foto_content)) {
+                    $foto_content = stream_get_contents($foto_content);
+                }
+                $base64 = $foto_content ? base64_encode($foto_content) : '';
+                echo '<img width="100px" src="data:image/jpeg;base64,' . $base64 . '" alt="' . htmlspecialchars($titulo) . '">';
                 echo '<div class="col-sm-3 ml-auto">';
                 echo '<div>';
-                echo '         <a  href="produto-detalhe.php?id_produto=' . $id_produto . '"  >';
-                echo '            <img loading="lazy" class="img-responsive imagem-detalhes" height="300px"   src="../fotos/' . $localFoto . '">';
-                echo '         </a>';
+
                 echo '</div>';
-                echo '         <a href="produto-detalhe.php?id_produto=' . $id_produto . '"  class="cor-laranja  "> <strong> ' . $titulo . ' </strong></a>';
+
                 echo '         <h6>' . $subtitulo . '</h6>';
                 echo '         <ul>';
                 echo '             <li  class="glyphicon glyphicon-chevron-right">' . $tag1 . ' </li>';
