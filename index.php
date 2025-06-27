@@ -1,5 +1,5 @@
 <?php
-include_once('controllers/produto_dao.php');
+require_once('controllers/produto_dao.php');
 $usuario_nome = null;
 session_start();
 if (isset($_SESSION['usuario_nome'])) {
@@ -23,14 +23,15 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
     <link href="assets/css/estilo.css" rel="stylesheet" />
     <script src="assets/js/script-local.js"></script>
     <script type="text/javascript">
-        document.addEventListener("DOMContentLoaded", function() {
-            $('#btn_login').click(function() {
+        document.addEventListener("DOMContentLoaded", function () {
+            $('#btn_login').click(function () {
                 const usuarioNovo = $('#form-login').serialize();
+                console.log('  usuarioNovo :::: ', usuarioNovo);
                 $.ajax({
-                    url: `${obterAPI()}controllers/usuarios-dao.php`,
+                    url: 'controllers/usuarios-dao.php',
                     method: 'get',
                     data: usuarioNovo + '&tipo=CLIENTE',
-                    success: function(data) {
+                    success: function (data) {
                         localStorage.setItem('id_usuario', data['id']);
                         localStorage.setItem('usuario_login', data['login']);
                         localStorage.setItem('email', data['email']);
@@ -48,19 +49,47 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
                             }
                         }
                     }
-                });
-            });
-        });
+                })
+            })
+        }) 
     </script>
 </head>
 
 <body id="page-top">
     <!-- Navigation-->
-    <script>
-        const a = document.getElementById('page-top').innerHTML;
-        document.getElementById('page-top').innerHTML = nav() + a;
-    </script>
-    
+    <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="../index.php">Pequiá</a>
+            <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+                Menu <i class="fas fa-bars ms-2"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item mx-0 mx-lg-1">
+                        <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" aria-current="page" href="#"
+                            role="button" data-toggle="modal" data-target="#login-modal">
+                            Entrar
+                        </a>
+                    </li>
+                    <li class="nav-item mx-0 mx-lg-1">
+                        <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="pages/home.php">
+                            <i class="fas fa-home"></i> home
+                        </a>
+                    </li>
+                    <li class="nav-item mx-0 mx-lg-1">
+                        <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="controllers/sair.php">
+                            <i class="fas fa-home"></i> sair
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
     <!-- Masthead-->
     <header class="masthead">
         <div class="container h-100">
@@ -136,7 +165,7 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
                     <div class="mt-5">
                         <i class="fas fa-4x fa-heart text-primary mb-4"></i>
                         <h3 class="h4 mb-2">Made with Love</h3>
-                        <p class="text-muted mb-0">Is it really open source if it's not made with love?</p>
+                        <p class="text-muted mb-0">Is it really open source if it s not made with love?</p>
                     </div>
                 </div>
             </div>
@@ -179,50 +208,12 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
             </div>
         </div>
     </section>
-    <footer style="text-align:right;">
+    <footer style="text-align:right ">
 
     </footer>
 
 
-    <!-- BEGIN # MODAL LOGIN -->
-    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header text-center">
-                    <img class="" height="40px" id="img_logo" src="assets/img/logo.png">
-                    <button id="btn-fechar-modal" type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <!-- Begin # Login Form -->
-                <form id="form-login" class="form-horizontal">
-                    <div class="modal-body">
-                        <div id="div-login-msg" class="text-center">
-                            <i class="fas fa-chevron-right"></i>
-                            <span id="text-login-msg">Escreva seu usuário e senha:</span>
-                            <div class="help-inline text-warning" id="mensagem-login"></div>
-                        </div>
-                        <label for="">usuário:</label>
-                        <input type="text" class="form-control" id="campo_usuario" name="usuario" placeholder="Usuário" />
-                        <label for="">senha:</label>
-                        <input type="password" class="form-control red" id="campo_senha" name="senha" placeholder="Senha" />
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox"> Remember me
-                            </label>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <div id="btn_login" class="btn btn-primary btn-lg btn-block">Login </div>
-                        <a class="btn btn-primary btn-lg btn-block" href="pages/login-cliente.php">Criar conta </a>
-                    </div>
-                </form>
-                <!-- End # Login Form -->
 
-            </div>
-        </div>
-    </div>
-    <!-- END # MODAL LOGIN -->
 
     <!-- Bootstrap core JavaScript -->
     <!-- Bootstrap core JS -->
@@ -240,3 +231,45 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
 </body>
 
 </html>
+
+
+<!-- BEGIN # MODAL LOGIN -->
+<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+    style="display: none ">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <img class="" height="40px" id="img_logo" src="assets/img/logo.png">
+                <button id="btn-fechar-modal" type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times </span>
+                </button>
+            </div>
+            <!-- Begin # Login Form -->
+            <form id="form-login" class="form-horizontal">
+                <div class="modal-body">
+                    <div id="div-login-msg" class="text-center">
+                        <i class="fas fa-chevron-right"></i>
+                        <span id="text-login-msg">Escreva seu usuário e senha:</span>
+                        <div class="help-inline text-warning" id="mensagem-login"></div>
+                    </div>
+                    <label for="">usuário:</label>
+                    <input type="text" class="form-control" id="campo_usuario" name="usuario" placeholder="Usuário" />
+                    <label for="">senha:</label>
+                    <input type="password" class="form-control red" id="campo_senha" name="senha" placeholder="Senha" />
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"> Remember me
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div id="btn_login" class="btn btn-primary btn-lg btn-block">Login </div>
+                    <a class="btn btn-primary btn-lg btn-block" href="pages/login-cliente.php">Criar conta </a>
+                </div>
+            </form>
+            <!-- End # Login Form -->
+
+        </div>
+    </div>
+</div>
+<!-- END # MODAL LOGIN -->

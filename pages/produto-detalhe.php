@@ -32,7 +32,7 @@ if (!empty($_GET['id_produto'])) {
         if (!localStorage.getItem('usuario_nome')) {
             window.location.href = '../index.php?erro=1';
         }
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const resposta = <?= $response ?>;
             if (resposta) {
                 $('#preco_venda').val(resposta.preco_venda);
@@ -65,7 +65,9 @@ if (!empty($_GET['id_produto'])) {
                 <div class="col-1">
                 </div>
                 <div class="col">
-                    <form method="post" action="../controllers/registra_produto.php?temEdicao=<?= $temEditar ?>&id_produto=<?= $id_produto ?>" id="formCadastrarse" enctype="multipart/form-data">
+                    <form method="post"
+                        action="../controllers/registra_produto.php?temEdicao=<?= $temEditar ?>&id_produto=<?= $id_produto ?>"
+                        id="formCadastrarse" enctype="multipart/form-data">
                         <div class="form-group">
                             <label>Escreva o Nome do Produto</label>
                             <input id="nome_produto" name="produto" class="form-control" required>
@@ -84,11 +86,12 @@ if (!empty($_GET['id_produto'])) {
                         </div>
                         <div class="form-group">
                             <label>Fale sobre o Produto</label>
-                            <textarea id="descricao" name="descricao" maxlength="250" class="form-control" rows="3"></textarea>
+                            <textarea id="descricao" name="descricao" maxlength="250" class="form-control"
+                                rows="3"></textarea>
                         </div>
                         <div class="form-group">
                             <label>Preço: </label>
-                            <input id="preco_venda" name="precovenda" maxlength="7" class="form-control">
+                            <input type="number" id="preco_venda" name="precovenda" maxlength="7" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Tag 1</label>

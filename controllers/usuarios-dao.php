@@ -20,7 +20,7 @@ class UsuariosDAO
             }
             Banco::desconectar();
         } catch (Exception $e) {
-            echo 'Exceção capturada: ' .  $e->getMessage() . "\n";
+            echo 'Exceção capturada: ' . $e->getMessage() . "\n";
         }
     }
 
@@ -38,7 +38,7 @@ class UsuariosDAO
             echo $total;
             Banco::desconectar();
         } catch (Exception $e) {
-            echo 'Exceção capturada: ' .  $e->getMessage() . "\n";
+            echo 'Exceção capturada: ' . $e->getMessage() . "\n";
         }
     }
 
@@ -53,18 +53,18 @@ class UsuariosDAO
             $q = $pdo->prepare($sql);
             $q->execute(array($id));
             $data = $q->fetch(PDO::FETCH_ASSOC);
-            $usuario->id  = $data['id'];
-            $usuario->nome  = $data['nome'];
-            $usuario->endereco  = $data['endereco'];
-            $usuario->telefone  = $data['telefone'];
-            $usuario->email  = $data['email'];
-            $usuario->login  = $data['login'];
-            $usuario->sexo  = $data['sexo'];
-            $usuario->tipo  = $data['tipo'];
+            $usuario->id = $data['id'];
+            $usuario->nome = $data['nome'];
+            $usuario->endereco = $data['endereco'];
+            $usuario->telefone = $data['telefone'];
+            $usuario->email = $data['email'];
+            $usuario->login = $data['login'];
+            $usuario->sexo = $data['sexo'];
+            $usuario->tipo = $data['tipo'];
             echo json_encode($usuario);
             Banco::desconectar();
         } catch (\Throwable $th) {
-            echo 'Exceção capturada: ' .  $th->getMessage() . "\n";
+            echo 'Exceção capturada: ' . $th->getMessage() . "\n";
             echo $th;
             echo "<script type=\"text/javascript\">; 
             console.log('Não moveu a imagem'); 
@@ -82,20 +82,20 @@ class UsuariosDAO
             $usuarios = array();
             foreach ($pdo->query($sql) as $data) {
                 $usuario = new Usuario();
-                $usuario->id  = $data['id'];
-                $usuario->nome  = $data['nome'];
-                $usuario->endereco  = $data['endereco'];
-                $usuario->telefone  = $data['telefone'];
-                $usuario->email  = $data['email'];
-                $usuario->login  = $data['login'];
-                $usuario->sexo  = $data['sexo'];
-                $usuario->tipo  = $data['tipo'];
+                $usuario->id = $data['id'];
+                $usuario->nome = $data['nome'];
+                $usuario->endereco = $data['endereco'];
+                $usuario->telefone = $data['telefone'];
+                $usuario->email = $data['email'];
+                $usuario->login = $data['login'];
+                $usuario->sexo = $data['sexo'];
+                $usuario->tipo = $data['tipo'];
                 array_push($usuarios, $usuario);
             }
             echo json_encode($usuarios);
             Banco::desconectar();
         } catch (\Throwable $th) {
-            echo 'Exceção capturada: ' .  $th->getMessage() . "\n";
+            echo 'Exceção capturada: ' . $th->getMessage() . "\n";
             echo $th;
             echo "<script type=\"text/javascript\">; 
             console.log('Não moveu a imagem'); 
@@ -104,29 +104,36 @@ class UsuariosDAO
         }
     }
 
-    public function  fazerLogin($usuarioL,  $senha)
+    public function fazerLogin($usuarioL, $senha)
     {
 
         try {
-            $usuario = new Usuario();          
+            $usuario = new Usuario();
             $pdo = Banco::conectar();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $sql = "SELECT * FROM usuarios WHERE login =  ? AND senha = ?  ";
             $q = $pdo->prepare($sql);
             $q->execute(array($usuarioL, $senha));
             $data = $q->fetch(PDO::FETCH_ASSOC);
-            $usuario->id  = $data['id'];
-            $usuario->nome  = $data['nome'];
-            $usuario->endereco  = $data['endereco'];
-            $usuario->telefone  = $data['telefone'];
-            $usuario->email  = $data['email'];
-            $usuario->login  = $data['login'];
-            $usuario->sexo  = $data['sexo'];
-            $usuario->tipo  = $data['tipo'];                
-            echo json_encode($usuario);
+            if ($data) {
+                $usuario->id = $data['id'];
+                $usuario->nome = $data['nome'];
+                $usuario->endereco = $data['endereco'];
+                $usuario->telefone = $data['telefone'];
+                $usuario->email = $data['email'];
+                $usuario->login = $data['login'];
+                $usuario->sexo = $data['sexo'];
+                $usuario->tipo = $data['tipo'];
+            } else {
+                // Optional: custom response for failed login
+                $usuario->id = null;
+                $usuario->mensagem = 'Usuário ou senha inválidos';
+            }
+            echo json_encode($usuario, JSON_UNESCAPED_UNICODE);
             Banco::desconectar();
+
         } catch (\Throwable $th) {
-            echo 'Exceção capturada: ' .  $th->getMessage() . "\n";
+            echo 'Exceção capturada: ' . $th->getMessage() . "\n";
             echo $th;
             echo "<script type=\"text/javascript\">; 
             console.log( " . $th->getMessage() . "); 
@@ -140,21 +147,25 @@ class UsuariosDAO
 
 if (!empty($_GET)) {
     header("Content-Type: application/json; charset=UTF-8");
-    if ($_GET['verificar-login']) {
+    $verificaLogin = $_GET['verificar-login'] ?? '';
+    $atualizarUsuarios = $_GET['atulizar-usuarios'] ?? '';
+    $senha = $_GET['senha'] ?? '';
+    $contarUsuarios = $_GET['contar-usuarios'] ?? '';
+    if ($verificaLogin) {
         $produto_dao = new UsuariosDAO();
         $produto_dao->verificarLoginEmUso($_GET['login']);
     } else if (!empty($_GET['id'])) {
         $produto_dao = new UsuariosDAO();
         $produto_dao->buscarUsuarioPeloId($_GET['id']);
-    } else if ($_GET['atulizar-usuarios']) {
+    } else if ($atualizarUsuarios) {
         $produto_dao = new UsuariosDAO();
         $produto_dao->atualizar();
-    }else if ($_GET['senha']) {
+    } else if ($senha) {
         $usuarioL = $_GET['usuario'];
         $senha = md5($_GET['senha']);
         $produto_dao = new UsuariosDAO();
-        $produto_dao->fazerLogin($usuarioL,$senha);
-    }else if ($_GET['contar-usuarios']) {        
+        $produto_dao->fazerLogin($usuarioL, $senha);
+    } else if ($contarUsuarios) {
         $produto_dao = new UsuariosDAO();
         $produto_dao->numeroTotal();
     }
@@ -162,7 +173,7 @@ if (!empty($_GET)) {
 
 if (!empty($_POST)) {
     header("Content-Type: application/json; charset=UTF-8");
-    if ($_POST['senha']) {      
+    if ($_POST['senha']) {
         //Acompanha os erros de validação
         $nomeError = null;
         $enderecoErro = null;
@@ -182,7 +193,7 @@ if (!empty($_POST)) {
         $email = $_POST['email'];
         $sexo = $_POST['sexo'];
         $login = $_POST['login'];
-        $senha =  md5($_POST['senha']);
+        $senha = md5($_POST['senha']);
 
         //Validaçao dos campos:
         $valido = true;
@@ -191,7 +202,7 @@ if (!empty($_POST)) {
             $valido = false;
         }
 
-        if ($_POST['senha'] !=   $_POST['senha2']) {
+        if ($_POST['senha'] != $_POST['senha2']) {
             $senhaErro2 = 'Senhas não coincidem!';
             $valido = false;
         }
@@ -215,6 +226,8 @@ if (!empty($_POST)) {
             $telefoneErro = 'Por favor digite o número do telefone!';
             $valido = false;
         }
+
+        $emailError = '';
 
         if (empty($email)) {
             $emailErro = 'Por favor digite o endereço de email';
@@ -250,7 +263,7 @@ if (!empty($_POST)) {
                 }
                 Banco::desconectar();
             } catch (Exception $e) {
-                echo 'Exceção capturada: ' .  $e->getMessage() . "\n";
+                echo 'Exceção capturada: ' . $e->getMessage() . "\n";
             }
         }
 
@@ -263,21 +276,21 @@ if (!empty($_POST)) {
             $q->execute(array($nome, $endereco, $telefone, $email, $sexo, $senha, $login, $tipo));
             Banco::desconectar();
             // header("Location: index.php");    
-            $valido  =  $valido  ? 'true' : 'false';
-            echo    '[{"valido":' . $valido . '}]';
+            $valido = $valido ? 'true' : 'false';
+            echo '[{"valido":' . $valido . '}]';
         } else {
-            $valido  =  $valido  ? 'true' : 'false';
-            $temErroNome   =  $nomeError  ? 'true' : 'false';
-            $temErroEndereco   =  $enderecoErro ? 'true' : 'false';
-            $temErroTelefone   =  $telefoneErro  ? 'true' : 'false';
-            $temErroEmailTamanho   =  $emailErro  ? 'true' : 'false';
-            $temErroEmailValidade  =  $emailError ? 'true' : 'false';
-            $temErroSexo   =  $sexoErro ? 'true' : 'false';
-            $temErroSenha   =  $senhaErro ? 'true' : 'false';
-            $temErroSenha2   =  $senhaErro2 ? 'true' : 'false';
-            $temErroLogin   =  $loginErro ? 'true' : 'false';
+            $valido = $valido ? 'true' : 'false';
+            $temErroNome = $nomeError ? 'true' : 'false';
+            $temErroEndereco = $enderecoErro ? 'true' : 'false';
+            $temErroTelefone = $telefoneErro ? 'true' : 'false';
+            $temErroEmailTamanho = $emailErro ? 'true' : 'false';
+            $temErroEmailValidade = $emailError ? 'true' : 'false';
+            $temErroSexo = $sexoErro ? 'true' : 'false';
+            $temErroSenha = $senhaErro ? 'true' : 'false';
+            $temErroSenha2 = $senhaErro2 ? 'true' : 'false';
+            $temErroLogin = $loginErro ? 'true' : 'false';
 
-            echo    '['
+            echo '['
                 . '{"valido":' . $valido . '},'
                 . '{"temErro":' . $temErroNome . ', "motivo":"' . $nomeError, '"},'
                 . '{"temErro":' . $temErroEndereco . ',"motivo":"' . $enderecoErro, '"},'
@@ -290,5 +303,5 @@ if (!empty($_POST)) {
                 . '{"temErro":' . $temErroLogin . ',"motivo":"' . $loginErro, '"}'
                 . ']';
         }
-    } 
+    }
 }

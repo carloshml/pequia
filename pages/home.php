@@ -47,7 +47,7 @@ include_once('componentes.php');
         }
     </style>
     <script type="text/javascript">
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             console.log(' local host ', localStorage.getItem('usuario_nome'));
             if (!localStorage.getItem('usuario_nome')) {
                 window.location.href = '../index.php?erro=1';
@@ -57,16 +57,16 @@ include_once('componentes.php');
                 headers: {},
                 cache: 'default'
             };
-            fetch(`${obterAPI()}controllers/usuarios-dao.php?contar-usuarios=true`, myInit)
+            fetch(`../controllers/usuarios-dao.php?contar-usuarios=true`, myInit)
                 .then(response => {
                     return response.text()
-                        .then(function(totUsuarios) {                           
+                        .then(function (totUsuarios) {
                             document.getElementById('id-usuario').innerHTML = totUsuarios;
                         });
                 })
                 .catch(err => {
                     console.log('err', err)
-                })
+                });
 
         });
     </script>
@@ -127,8 +127,8 @@ include_once('componentes.php');
 
                         </div>
                     </div>
-                    <div  class="branco">
-                       <span id="id-usuario" > </span> Usuário!
+                    <div class="branco">
+                        <span id="id-usuario"> </span> Usuário!
                     </div>
                     <a href="modulo-usuarios.php">
                         <div class="panel-footer branco">

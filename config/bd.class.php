@@ -2,8 +2,8 @@
 class Banco{
     private static $dbNome = 'pequia';
     private static $dbHost = 'localhost';
-    private static $dbUsuario = 'carlos';
-    private static $dbSenha = 'Camelos?2';
+    private static $dbUsuario = 'root';
+    private static $dbSenha = '';
     
     private static $cont = null;
     

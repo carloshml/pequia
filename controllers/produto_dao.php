@@ -1,18 +1,6 @@
 <?php
-function __autoload($class_name)
-{
-    $file = '../config/bd.class.php';
-    if (file_exists($file)) {
-        include_once('../config/bd.class.php');
-include_once('../config/api-config.php');
-        include_once('../modal/produtos.php');
-    } else {
-        include_once('config/bd.class.php');
-        include_once('modal/produtos.php');
-    }
-}
-__autoload('');
-
+require_once __DIR__ . '/../config/bd.class.php';
+require_once __DIR__ . '/../modal/produtos.php'; 
 
 class ProdutoDAO
 {
@@ -57,12 +45,12 @@ class ProdutoDAO
                 $array = array(
                     "id_produto" => $id_produto,
                     "tag1" => $tag1,
-                    "tag2" =>  $tag2,
+                    "tag2" => $tag2,
                     "tag3" => $tag3,
-                    "tag4" =>  $tag4,
+                    "tag4" => $tag4,
                     "tag5" => $tag5,
                     "descricao" => $descricao,
-                    "subtitulo" =>  $subtitulo,
+                    "subtitulo" => $subtitulo,
                     "titulo" => $titulo,
                     "localFoto" => $localFoto
                 );
@@ -88,7 +76,7 @@ class ProdutoDAO
             echo '</div>';
         } catch (PDOException $e) {
             echo '<hr class="divider my-4" />';
-            return  $e->getMessage();
+            return $e->getMessage();
         }
         Banco::desconectar();
     }
@@ -130,12 +118,12 @@ class ProdutoDAO
                 $array = array(
                     "id_produto" => $id_produto,
                     "tag1" => $tag1,
-                    "tag2" =>  $tag2,
+                    "tag2" => $tag2,
                     "tag3" => $tag3,
-                    "tag4" =>  $tag4,
+                    "tag4" => $tag4,
                     "tag5" => $tag5,
                     "descricao" => $descricao,
-                    "subtitulo" =>  $subtitulo,
+                    "subtitulo" => $subtitulo,
                     "titulo" => $titulo,
                     "localFoto" => $localFoto
                 );
@@ -187,10 +175,10 @@ class ProdutoDAO
                 $array = array(
                     "id" => $produto->id,
                     "tag1" => $produto->tag1,
-                    "tag2" =>  $produto->tag2,
+                    "tag2" => $produto->tag2,
                     "tag3" => $produto->tag3,
                     "descricao" => $produto->descricao,
-                    "subtitulo" =>  $produto->subtitulo,
+                    "subtitulo" => $produto->subtitulo,
                     "titulo" => $produto->titulo,
                     "localFoto" => $produto->localFoto
                 );
@@ -202,7 +190,7 @@ class ProdutoDAO
                     . '       display: flex;'
                     . '       align-items: center;'
                     . '       justify-content: center; " >';
-                echo  '<strong  class="cor-laranja"    '
+                echo '<strong  class="cor-laranja"    '
                     . 'style=" '
                     . '       color:#f4623a !impotant;'
                     . '       display:flex; justify-content: center; " >'
@@ -240,10 +228,10 @@ class ProdutoDAO
             $produto->tag4 = $data['tag4'];
             $produto->tag5 = $data['tag5'];
             $produto->id_usuario_publicacao = $data['id_usuario_publicacao'];
-            return  json_encode($produto);
+            return json_encode($produto);
             Banco::desconectar();
         } catch (Exception $e) {
-            echo 'Exceção capturada: ' .  $e->getMessage() . "\n";
+            echo 'Exceção capturada: ' . $e->getMessage() . "\n";
         }
     }
 
@@ -266,7 +254,7 @@ class ProdutoDAO
             return $total;
             Banco::desconectar();
         } catch (Exception $e) {
-            echo 'Exceção capturada: ' .  $e->getMessage() . "\n";
+            echo 'Exceção capturada: ' . $e->getMessage() . "\n";
         }
     }
 
@@ -338,14 +326,14 @@ class ProdutoDAO
                 echo '<p> ' . $produto->descricao . '</p>';
                 echo '<div>Detalhes</div>';
                 echo '<ul>';
-                echo                '<li  class="glyphicon glyphicon-chevron-right">' . $produto->tag1 . ' </li>';
-                echo                '<li  class="glyphicon glyphicon-chevron-right">' . $produto->tag2 . ' </li>';
-                echo                '<li  class="glyphicon glyphicon-chevron-right">' . $produto->tag3 . ' </li>';
-                echo                '<li  class="glyphicon glyphicon-chevron-right">' . $produto->tag4 . ' </li>';
-                echo                '<li  class="glyphicon glyphicon-chevron-right">' . $produto->tag5 . ' </li>';
+                echo '<li  class="glyphicon glyphicon-chevron-right">' . $produto->tag1 . ' </li>';
+                echo '<li  class="glyphicon glyphicon-chevron-right">' . $produto->tag2 . ' </li>';
+                echo '<li  class="glyphicon glyphicon-chevron-right">' . $produto->tag3 . ' </li>';
+                echo '<li  class="glyphicon glyphicon-chevron-right">' . $produto->tag4 . ' </li>';
+                echo '<li  class="glyphicon glyphicon-chevron-right">' . $produto->tag5 . ' </li>';
                 echo '</ul>';
                 echo '<div> preço: ' . $produto->preco_venda . ' </div>';
-                echo '<span class="text-right" > publicado por ' . $nome_autor . ' | ' .  date('d/m/Y', strtotime($produto->data_publicacao)) . '</span>';
+                echo '<span class="text-right" > publicado por ' . $nome_autor . ' | ' . date('d/m/Y', strtotime($produto->data_publicacao)) . '</span>';
                 echo '</form>';
                 echo '<hr>';
             }

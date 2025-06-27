@@ -1,6 +1,6 @@
 <?php
   include_once('../config/bd.class.php');
-include_once('../config/api-config.php'); 
+require_once('../config/api-config.php'); 
   $id = 0;
 
   if(!empty($_GET['id'])){

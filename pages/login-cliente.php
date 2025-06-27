@@ -1,6 +1,3 @@
-<?php
-include_once('componentes.php');
-?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -14,39 +11,39 @@ include_once('componentes.php');
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
     <script src="../assets/fontawesome-free-5.15.1-web/js/all.js" crossorigin="anonymous"></script>
-     <!-- Core theme CSS (includes Bootstrap)-->
+    <!-- Core theme CSS (includes Bootstrap)-->
     <link href="../assets/css/styles.css" rel="stylesheet" />
     <link href="../assets/css/estilo.css" rel="stylesheet" />
     <script src="../assets/js/script-local.js"></script>
     <script type="text/javascript">
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             function verificaLoginExistente(login) {
                 $.ajax({
-                    url: `${obterAPI()}controllers/usuarios-dao.php`,
+                    url: `../controllers/usuarios-dao.php`,
                     method: 'get',
                     data: {
                         'verificar-login': true,
                         login
                     },
-                    success: function(data) {
+                    success: function (data) {
                         $('#erro_login').html(data);
                         $('#erro_loginup').html(data);
                     }
                 });
             }
-            $("#in_m_c_login").keyup(function() {
+            $("#in_m_c_login").keyup(function () {
                 verificaLoginExistente($("#in_m_c_login").val());
             });
 
 
-            $('#btn_salvar_contato').click(function() {
+            $('#btn_salvar_contato').click(function () {
                 const usuarioNovo = $('#form_contato').serialize();
-                console.log('usuarioNovo', );
+                console.log('usuarioNovo',);
                 $.ajax({
-                    url: `${obterAPI()}controllers/usuarios-dao.php`,
+                    url: `../controllers/usuarios-dao.php`,
                     method: 'post',
                     data: usuarioNovo + '&tipo=CLIENTE',
-                    success: function(data) {
+                    success: function (data) {
                         console.log('modal criacao', data);
                         const validacao = JSON.parse(data);
                         console.log('modal criacao', validacao);
@@ -103,7 +100,7 @@ include_once('componentes.php');
     <div style="position: relative;">
         <div id="corpo_aviso" class="corpo-aviso" style="display: none;"> </div>
     </div>
-   <!-- Navigation-->
+    <!-- Navigation-->
     <script>
         const a = document.getElementById('page-top').innerHTML;
         document.getElementById('page-top').innerHTML = nav() + a;
@@ -114,30 +111,35 @@ include_once('componentes.php');
             <div class="control-group">
                 <label class="control-label">Nome: </label>
                 <div class="controls">
-                    <input id="in_m_c_nome" size="50" class="form-control" name="nome" type="text" placeholder="Nome" required="" value=" ">
+                    <input id="in_m_c_nome" size="50" class="form-control" name="nome" type="text" placeholder="Nome"
+                        required="" value="">
                     <span id="erro_nome" class="help-inline text-warning"></span>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Login</label>
                 <div class="controls">
-                    <input id="in_m_c_login" size="50" autocomplete="off" class="form-control" name="login" type="text" placeholder="login" required="" value=" ">
+                    <input id="in_m_c_login" size="50" autocomplete="off" class="form-control" name="login" type="text"
+                        placeholder="login" required="" value="">
                     <span id="erro_login" class="help-inline text-warning"></span>
                 </div>
             </div>
             <div class="control-group ">
                 <label class="control-label">Endereço</label>
                 <div class="controls">
-                    <input id="in_m_c_endereco" size="80" class="form-control" name="endereco" type="text" placeholder="Endereço" required="" value=" ">
+                    <input id="in_m_c_endereco" size="80" class="form-control" name="endereco" type="text"
+                        placeholder="Endereço" required="" value="">
                     <span id="erro_endereco" class="help-inline text-warning"></span>
                 </div>
             </div>
             <div class="form-row">
                 <div class="col">
                     <div class="control-group ">
-                        <label class="control-label">Telefone <span style="font-size: 12px; color:orangered;" > importante, caso necessário te ligaram por aqui  </span></label>
+                        <label class="control-label">Telefone <span style="font-size: 12px; color:orangered;">
+                                importante, caso necessário te ligaram por aqui </span></label>
                         <div class="controls">
-                            <input id="in_m_c_telefone" size="35" class="form-control" name="telefone" type="text" placeholder="Telefone" required="" value="">
+                            <input id="in_m_c_telefone" size="35" class="form-control" name="telefone" type="text"
+                                placeholder="Telefone" required="" value="">
                             <span id="erro_telefone" class="help-inline text-warning"></span>
                         </div>
                     </div>
@@ -146,7 +148,8 @@ include_once('componentes.php');
                     <div class="control-group ">
                         <label class="control-label">Email</label>
                         <div class="controls">
-                            <input id="in_m_c_email" size="40" class="form-control" name="email" type="text" placeholder="Email" required="" value="">
+                            <input id="in_m_c_email" size="40" class="form-control" name="email" type="text"
+                                placeholder="Email" required="" value="">
                             <span id="erro_email1" class="help-inline text-warning"></span>
                             <span id="erro_email2" class="help-inline text-warning"></span>
                         </div>
@@ -158,7 +161,8 @@ include_once('componentes.php');
                     <div class="control-group ">
                         <label class="control-label">Senha</label>
                         <div class="controls">
-                            <input id="in_m_c_senha" size="80" class="form-control" name="senha" type="password" placeholder="senha" required="true" value="">
+                            <input id="in_m_c_senha" size="80" class="form-control" name="senha" type="password"
+                                placeholder="senha" required="true" value="">
 
                         </div>
                     </div>
@@ -167,7 +171,8 @@ include_once('componentes.php');
                     <div class="control-group ">
                         <label class="control-label">Repita a Senha</label>
                         <div class="controls">
-                            <input id="in_m_c_senha2" size="80" class="form-control" name="senha2" type="password" placeholder="senha" required="true" value="">
+                            <input id="in_m_c_senha2" size="80" class="form-control" name="senha2" type="password"
+                                placeholder="senha" required="true" value="">
                         </div>
                     </div>
                 </div>
@@ -193,7 +198,7 @@ include_once('componentes.php');
                 <button id="btn_salvar_contato" type="button" class="btn btn-success">Adicionar</button>
             </div>
         </form>
-    </div>   
+    </div>
     <!-- Bootstrap core JavaScript -->
     <!-- Bootstrap core JS -->
     <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
@@ -202,11 +207,13 @@ include_once('componentes.php');
     <script src="../assets/fontawesome-free-5.15.1-web/js/all.js"> </script>
     <!-- Core theme JS-->
     <script src="../assets/js/scripts.js"></script>
-    <!-- MODAL-->
-    <?php
-    $produto_dao = new Componente();
-    $produto_dao->modalLogin();
-    ?>
 </body>
 
 </html>
+
+<!-- MODAL-->
+<?php
+include_once('componentes.php');
+$produto_dao = new Componente();
+$produto_dao->modalLogin();
+?>

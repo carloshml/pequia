@@ -41,10 +41,8 @@ function trunc10(value, exp) {
   return decimalAdjust('trunc', value, exp);
 }
 
-// Decimal trunc
-function obterAPI() {
-  return 'http://192.168.63.106/';
-}
+
+
 
 function nav() {
   let naveg = '';
@@ -69,13 +67,13 @@ function nav() {
 
   if (localStorage.getItem('tipo') && localStorage.getItem('tipo') === 'CLIENTE') {
     naveg += '<li class="nav-item mx-0 mx-lg-1">';
-    naveg += '    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href = "/pages/loja.php" >';
+    naveg += '    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href = "loja.php" >';
     naveg += '       <i class="fas fa-home"></i> Loja';
     naveg += '    </a >';
     naveg += '</li > ';
   } else {
     naveg += '<li class="nav-item mx-0 mx-lg-1">';
-    naveg += '    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/pages/home.php" >';
+    naveg += '    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="home.php" >';
     naveg += '      <i class="fas fa-home"></i> home';
     naveg += '    </a >';
     naveg += '</li > ';
