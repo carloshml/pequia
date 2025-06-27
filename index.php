@@ -1,7 +1,8 @@
 <?php
+session_start();
+var_dump($_SESSION);
 require_once('controllers/produto_dao.php');
 $usuario_nome = null;
-session_start();
 if (isset($_SESSION['usuario_nome'])) {
     $usuario_nome = $_SESSION['usuario_nome'];
 }
@@ -37,7 +38,7 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
                         localStorage.setItem('email', data['email']);
                         localStorage.setItem('usuario_nome', data['nome']);
                         localStorage.setItem('tipo', data['tipo']);
-                        console.log('data', data, data['nome']);
+                        console.log('data', data.nome);
                         console.log(' local host ', localStorage.getItem('usuario_nome'));
                         if (!data.id) {
                             $('#mensagem-login').html('Usuário ou senha incorretos');
@@ -59,7 +60,7 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
         <div class="container">
-            <a class="navbar-brand" href="../index.php">Pequiá</a>
+            <a class="navbar-brand" href="index.php">Pequiá</a>
             <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button"
                 data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive"
                 aria-expanded="false" aria-label="Toggle navigation">
@@ -67,22 +68,32 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item mx-0 mx-lg-1">
-                        <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" aria-current="page" href="#"
-                            role="button" data-toggle="modal" data-target="#login-modal">
-                            Entrar
-                        </a>
-                    </li>
-                    <li class="nav-item mx-0 mx-lg-1">
+
+                    <?php
+                    if (!isset($_SESSION['usuario_nome'])) {
+                        echo '  <li class="nav-item mx-0 mx-lg-1">
+                                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" aria-current="page" href="#"
+                                    role="button" data-toggle="modal" data-target="#login-modal">
+                                    Entrar
+                                </a>
+                            </li>';
+                    }
+                    ?>
+
+                    <?php
+                    if (isset($_SESSION['usuario_nome'])) {
+                        echo ' <li class="nav-item mx-0 mx-lg-1">
                         <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="pages/home.php">
                             <i class="fas fa-home"></i> home
                         </a>
-                    </li>
-                    <li class="nav-item mx-0 mx-lg-1">
-                        <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="controllers/sair.php">
-                            <i class="fas fa-home"></i> sair
-                        </a>
-                    </li>
+                        </li> 
+                        <li class="nav-item mx-0 mx-lg-1">
+                                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="controllers/sair.php">
+                                    <i class="fas fa-home"></i> sair
+                                </a>
+                        </li>';
+                    }
+                    ?>
                 </ul>
             </div>
         </div>

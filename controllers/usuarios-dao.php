@@ -1,7 +1,8 @@
 <?php
-include_once('../config/bd.class.php');
-include_once('../config/api-config.php');
-include_once('../modal/usuario.php');
+session_start();
+require_once('../config/bd.class.php');
+require_once('../config/api-config.php');
+require_once('../modal/usuario.php');
 class UsuariosDAO
 {
     public function verificarLoginEmUso($login)
@@ -124,6 +125,10 @@ class UsuariosDAO
                 $usuario->login = $data['login'];
                 $usuario->sexo = $data['sexo'];
                 $usuario->tipo = $data['tipo'];
+                $_SESSION['id_usuario'] = $data['id'];
+                $_SESSION['nome_usuario'] = $data['nome'];
+                $_SESSION['usuario_nome'] = $data['nome'];
+                $_SESSION['email_usuario'] = $data['email'];                
             } else {
                 // Optional: custom response for failed login
                 $usuario->id = null;

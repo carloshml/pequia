@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once('../controllers/produto_dao.php');
 include_once('../controllers/vendas-dao.php');
 include_once('componentes.php');

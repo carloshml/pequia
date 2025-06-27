@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once('../controllers/produto_dao.php');
 include_once('componentes.php');
 $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
@@ -16,7 +17,7 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
     <script src="../assets/fontawesome-free-5.15.1-web/js/all.js" crossorigin="anonymous"></script>
-     <!-- Core theme CSS (includes Bootstrap)-->
+    <!-- Core theme CSS (includes Bootstrap)-->
     <link href="../assets/css/styles.css" rel="stylesheet" />
     <link href="../assets/css/estilo.css" rel="stylesheet" />
     <script src="../assets/js/script-local.js"></script>
@@ -24,7 +25,7 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
 
 
 <body id="page-top">
-   <!-- Navigation-->
+    <!-- Navigation-->
     <script>
         const a = document.getElementById('page-top').innerHTML;
         document.getElementById('page-top').innerHTML = nav() + a;
