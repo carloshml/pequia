@@ -15,7 +15,7 @@ class Produto
     public $data_publicacao;
     public $qtd_estoque;
     public $preco_venda;
-     public $localFoto;
+    public $localFoto;
     public $fileFoto;
 }
 ?>
