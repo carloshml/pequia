@@ -172,7 +172,7 @@ class ProdutoDAO
         $produto = new Produto();
         try {
             $pdo = Banco::conectar();
-            $sql = "SELECT  id,  tag1, tag2, tag3, descricao, subtitulo, titulo, localFoto "
+            $sql = "SELECT  id,  tag1, tag2, tag3, descricao, subtitulo, titulo, localFoto, fileFoto "
                 . " FROM produtos   ORDER BY produtos.id DESC limit  6;";
             $stmt = $pdo->prepare($sql);
             $stmt->execute();
@@ -184,36 +184,30 @@ class ProdutoDAO
             $stmt->bindColumn('subtitulo', $produto->subtitulo);
             $stmt->bindColumn('titulo', $produto->titulo);
             $stmt->bindColumn('localFoto', $produto->localFoto);
-            echo '<div class="row">';
-            while ($row = $stmt->fetch(PDO::FETCH_BOUND)) {
-                $array = array(
-                    "id" => $produto->id,
-                    "tag1" => $produto->tag1,
-                    "tag2" => $produto->tag2,
-                    "tag3" => $produto->tag3,
-                    "descricao" => $produto->descricao,
-                    "subtitulo" => $produto->subtitulo,
-                    "titulo" => $produto->titulo,
-                    "localFoto" => $produto->localFoto
-                );
+            $stmt->bindColumn('fileFoto', $fileFoto);
+            $foto_content = $fileFoto;
 
-                echo '<div class="col-sm-4">';
-                echo '<a  href="pages/detalhe-produto.php?id_produto=' . $produto->id . '"'
-                    . 'style="background:#ffd6cb; margin: 19px 2px;'
-                    . '       height:120px; text-decoration:none;'
-                    . '       display: flex;'
-                    . '       align-items: center;'
-                    . '       justify-content: center; " >';
-                echo '<strong  class="cor-laranja"    '
-                    . 'style=" '
-                    . '       color:#f4623a !impotant;'
-                    . '       display:flex; justify-content: center; " >'
-                    . $produto->titulo
-                    . '</strong>';
-                echo '</a>';
+            echo '<div class="row g-4">';
+            while ($stmt->fetch(PDO::FETCH_BOUND)) {
+                $foto_content = $fileFoto;
+                if (is_resource($foto_content)) {
+                    $foto_content = stream_get_contents($foto_content);
+                }
+                $base64 = $foto_content ? base64_encode($foto_content) : '';
+
+                echo '<div class="col-md-4">';
+                echo '  <div class="card h-100 shadow-sm border-0">';
+                echo '    <img src="data:image/jpeg;base64,' . $base64 . '" class="card-img-top" alt="' . htmlspecialchars($produto->titulo) . '" style="height: 200px; object-fit: cover;">';
+                echo '    <div class="card-body d-flex flex-column">';
+                echo '      <h5 class="card-title text-primary">' . htmlspecialchars($produto->titulo) . '</h5>';
+                echo '      <p class="card-text text-muted" style="flex-grow:1;">' . htmlspecialchars($produto->subtitulo) . '</p>';
+                echo '      <a href="pages/detalhe-produto.php?id_produto=' . $produto->id . '" class="btn btn-outline-primary mt-auto w-100">Ver Detalhes</a>';
+                echo '    </div>';
+                echo '  </div>';
                 echo '</div>';
             }
             echo '</div>';
+
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
