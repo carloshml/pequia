@@ -84,7 +84,7 @@ require_once('componentes.php');
                 Menu <i class="fas fa-bars ms-2"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ml-auto">
 
                     <?php
                     if (isset($_SESSION['usuario_nome'])) {
@@ -264,15 +264,17 @@ require_once('componentes.php');
         </div>
         <!-- /.row -->
     </div>
-    <!-- Bootstrap core JS-->
-    <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
+   <!-- Bootstrap core JavaScript -->
+    <!-- Bootstrap core JS -->
+    <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+
     <script src="../assets/js/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
     <!-- Third party plugin JS-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    <!-- Contact form JS-->
-    <script src="../assets/mail/jqBootstrapValidation.js"></script>
-    <script src="../assets/mail/contact_me.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+    <script src="../assets/fontawesome-free-5.15.1-web/js/all.js"> </script>
     <!-- Core theme JS-->
     <script src="../assets/js/scripts.js"></script>
 </body>
