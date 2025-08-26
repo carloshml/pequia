@@ -23,6 +23,16 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
     <link href="assets/css/estilo.css" rel="stylesheet" />
     <script src="assets/js/script-local.js"></script>
     <script type="text/javascript">
+
+        function sair() {
+            localStorage.setItem('id_usuario', '');
+            localStorage.setItem('usuario_login', '');
+            localStorage.setItem('email', '');
+            localStorage.setItem('usuario_nome', '');
+            localStorage.setItem('tipo', '');
+            window.location.href = 'controllers/sair.php';
+        }
+
         document.addEventListener("DOMContentLoaded", function () {
             $('#btn_login').click(function () {
                 const usuarioNovo = $('#form-login').serialize();
@@ -87,7 +97,7 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
                         </a>
                         </li> 
                         <li class="nav-item mx-0 mx-lg-1">
-                                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="controllers/sair.php">
+                                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" onclick="sair()">
                                     <i class="fas fa-home"></i> sair
                                 </a>
                         </li>';
