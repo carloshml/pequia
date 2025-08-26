@@ -65,19 +65,11 @@ function nav() {
     naveg += '</li>';
   }
 
-  if (localStorage.getItem('tipo') && localStorage.getItem('tipo') === 'CLIENTE') {
-    naveg += '<li class="nav-item mx-0 mx-lg-1">';
-    naveg += '    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href = "loja.php" >';
-    naveg += '       <i class="fas fa-home"></i> Loja';
-    naveg += '    </a >';
-    naveg += '</li > ';
-  } else {
-    naveg += '<li class="nav-item mx-0 mx-lg-1">';
-    naveg += '    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="home.php" >';
-    naveg += '      <i class="fas fa-home"></i> home';
-    naveg += '    </a >';
-    naveg += '</li > ';
-  }
+  naveg += '<li class="nav-item mx-0 mx-lg-1">';
+  naveg += '    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href = "loja.php" >';
+  naveg += '       <i class="fas fa-home"></i> Loja';
+  naveg += '    </a >';
+  naveg += '</li > ';
 
   if (localStorage.getItem('usuario_nome')) {
     naveg += ' <li class="nav-item mx-0 mx-lg-1">';
@@ -96,7 +88,7 @@ function nav() {
   naveg += '</div>';
   naveg += '</div>';
   naveg += '</nav > ';
-  naveg += '<div style="padding-top: 10em;"> <div>';
+  naveg += '<div style="padding-top: 8em;"> <div>';
 
   return naveg;
 }
@@ -109,5 +101,5 @@ function sair() {
   localStorage.setItem('email', '');
   localStorage.setItem('usuario_nome', '');
   localStorage.setItem('tipo', '');
-  window.location.href = window.location.href;
+  window.location.href = '../controllers/sair.php';
 }

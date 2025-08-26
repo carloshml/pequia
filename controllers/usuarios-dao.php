@@ -1,5 +1,6 @@
 <?php
 session_start();
+$usuarioLogado = isset($_SESSION['id_usuario']);
 require_once('../config/bd.class.php');
 require_once('../config/api-config.php');
 require_once('../modal/usuario.php');

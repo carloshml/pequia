@@ -2,6 +2,7 @@
 include_once('../controllers/produto_dao.php');
 include_once('componentes.php');
 session_start();
+$usuarioLogado = isset($_SESSION['id_usuario']);
 $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
 $mesangem = isset($_GET['mesangem']) ? $_GET['mesangem'] : '';
 ?>
@@ -50,9 +51,8 @@ $mesangem = isset($_GET['mesangem']) ? $_GET['mesangem'] : '';
                         } else {
                             if (data['tipo'] === 'CLIENTE') {
                                 window.location.href = window.location.href;
-
                             } else {
-                                window.location.href = 'pages/home.php';
+                                window.location.href = 'home.php';
                             }
                         }
                     }
@@ -71,10 +71,7 @@ $mesangem = isset($_GET['mesangem']) ? $_GET['mesangem'] : '';
     </script>
     <!--Produtos da Loja-->
     <section>
-        <div class="container " block>
-            <div class="col-lg-12  text-center">
-                <h2 class="section-heading"> Escolha o Seu Produto de Hoje </h2>
-            </div>
+        <div class="container " block>            
             <hr>
             <?php
             $produto_dao = new ProdutoDAO();

@@ -1,5 +1,6 @@
 <?php
 session_start();
+$usuarioLogado = isset($_SESSION['id_usuario']);
 require_once('componentes.php');
 require_once('../config/bd.class.php');
 require_once('../controllers/produto_dao.php');
@@ -139,9 +140,8 @@ $vendasJson = json_encode($vendas);
                         } else {
                             if (data['tipo'] === 'CLIENTE') {
                                 window.location.href = window.location.href;
-
                             } else {
-                                window.location.href = 'pages/home.php';
+                                window.location.href = 'home.php';
                             }
                         }
                     }
@@ -186,7 +186,7 @@ $vendasJson = json_encode($vendas);
             <div class="col">
                 <?php
                 $produto = new ProdutoDAO();
-                $produto->buscarProdutoParaVenda($id_produto);
+                $produto->buscarProdutoParaVenda($id_produto, $usuarioLogado);
                 ?>
             </div>
             <div class="col-2">
