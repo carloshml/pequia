@@ -2,7 +2,7 @@
 session_start();
 include_once('../controllers/vendas-dao.php');
 include_once('componentes.php');
- 
+
 $venda_id = 0;
 if ($_GET['venda_id']) {
     $venda_id = $_GET['venda_id'];
@@ -11,6 +11,7 @@ if ($_GET['venda_id']) {
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -21,25 +22,22 @@ if ($_GET['venda_id']) {
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
     <script src="../assets/fontawesome-free-5.15.1-web/js/all.js" crossorigin="anonymous"></script>
-     <!-- Core theme CSS (includes Bootstrap)-->
+    <!-- Core theme CSS (includes Bootstrap)-->
     <link href="../assets/css/styles.css" rel="stylesheet" />
     <link href="../assets/css/estilo.css" rel="stylesheet" />
     <script src="../assets/js/script-local.js"></script>
     <script type="text/javascript">
-        document.addEventListener("DOMContentLoaded", function() {
-
+        document.addEventListener("DOMContentLoaded", function () {
             if (!localStorage.getItem('usuario_nome')) {
                 window.location.href = '../index.php?erro=1';
             }
-
-
         });
     </script>
 </head>
 
 
 <body id="page-top">
-   <!-- Navigation-->
+    <!-- Navigation-->
     <script>
         const a = document.getElementById('page-top').innerHTML;
         document.getElementById('page-top').innerHTML = nav() + a;
