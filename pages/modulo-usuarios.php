@@ -10,135 +10,352 @@ include_once('componentes.php');
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Pequia-Usuarios</title>
+    <title>Pequia - Gerenciamento de Usuários</title>
     <!-- Bootstrap core CSS -->
     <link href="../assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="../assets/fontawesome-free-5.15.1-web/js/all.js" crossorigin="anonymous"></script>
+    <!-- Using Font Awesome CDN instead of local file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link href="../assets/css/styles.css" rel="stylesheet" />
     <script src="../assets/js/jquery-3.5.1.min.js"></script>
     <script src="../assets/js/script-local.js"></script>
-    <script type="text/javascript">
-        $('#meu_modal').on('shown.bs.modal', function () {
-            $('#in_m_c_nome').trigger('focus')
-        });
-        document.addEventListener("DOMContentLoaded", function () {
-            console.log(' local host ', localStorage.getItem('usuario_nome'));
-            if (!localStorage.getItem('usuario_nome')) {
-                window.location.href = '../index.php?erro=1';
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #6f42c1;
+            --success-color: #1cc88a;
+            --danger-color: #e74a3b;
+            --warning-color: #f6c23e;
+            --info-color: #36b9cc;
+        }
+
+        body {
+            background-color: #f8f9fc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .page-header {
+            border-bottom: 1px solid #e3e6f0;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            border: 1px solid #e3e6f0;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            background-color: #f8f9fc;
+            border-bottom: 1px solid #e3e6f0;
+            font-weight: 600;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 0.35rem;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+            overflow: hidden;
+        }
+
+        .table th {
+            border-top: none;
+            font-weight: 600;
+            color: #5a5c69;
+            padding: 0.75rem;
+            background-color: #f8f9fc;
+        }
+
+        .table td {
+            padding: 0.75rem;
+            vertical-align: middle;
+        }
+
+        .btn-table {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 5px;
+        }
+
+        .btn-new {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+            font-weight: 600;
+        }
+
+        .btn-new:hover {
+            background-color: #17a673;
+            border-color: #17a673;
+        }
+
+        .badge-admin {
+            background-color: var(--secondary-color);
+        }
+
+        .badge-client {
+            background-color: var(--info-color);
+        }
+
+        .modal-header {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .control-label {
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+
+        .form-control {
+            border-radius: 0.35rem;
+            padding: 0.5rem 0.75rem;
+        }
+
+        .help-inline {
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .table-responsive {
+                font-size: 0.875rem;
             }
-            // verificar login para não usar o mesmo usuario
-            function verificaLoginExistente(login) {
+
+            .btn-table {
+                width: 32px;
+                height: 32px;
+                font-size: 0.875rem;
+            }
+
+            .actions-column {
+                min-width: 120px;
+            }
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body id="page-top">
+    <!-- Navigation-->
+    <script>
+        const a = document.getElementById('page-top').innerHTML;
+        document.getElementById('page-top').innerHTML = nav() + a;
+    </script>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header mt-4">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-users mr-2"></i>Gerenciamento de Usuários
+                            </h1>
+                        </div>
+                        <div class="col-auto">
+                            <button id="btn_abrir_modal_para_inserir" type="button" class="btn btn-new"
+                                data-toggle="modal" data-target="#meu_modal">
+                                <i class="fas fa-plus mr-2"></i>Novo Usuário
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                        <h6 class="m-0 font-weight-bold text-primary">Lista de Usuários</h6>
+                        <div class="input-group" style="width: 250px;">
+                            <input type="text" class="form-control" placeholder="Pesquisar..." aria-label="Search">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="contactsTable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Usuário</th>
+                                            <th scope="col">Login</th>
+                                            <th scope="col">Endereço</th>
+                                            <th scope="col">Contato</th>
+                                            <th scope="col">Tipo</th>
+                                            <th scope="col" class="actions-column">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="todo_contatos">
+                                        <!-- os contatos aqui são gerado dinamicamente com a função atualizarContatos(); -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        // Your JavaScript code remains the same, just updating the table row generation
+        function atualizarContatos() {
+            var myInit = {
+                method: 'GET',
+                headers: {},
+                cache: 'default'
+            };
+            fetch(`../controllers/usuarios-dao.php?atulizar-usuarios=true`, myInit)
+                .then(response => {
+                    var contentType = response.headers.get("content-type");
+                    if (contentType && contentType.indexOf("application/json") !== -1) {
+                        return response.json().then(function (usuarios) {
+                            let textoUsu = '';
+                            for (const usuario of usuarios) {
+                                const nomeIniciais = usuario.nome.split(' ').map(n => n[0]).join('').toUpperCase();
+                                const tipoBadge = usuario.tipo === 'ADMINISTRADOR' ?
+                                    '<span class="badge badge-admin">ADMIN</span>' :
+                                    '<span class="badge badge-client">CLIENTE</span>';
+
+                                textoUsu += '<tr>';
+                                textoUsu += '<td>' + usuario.id + '</td>';
+                                textoUsu += '<td><div class="user-avatar">' + nomeIniciais.substring(0, 2) + '</div>' + usuario.nome + '</td>';
+                                textoUsu += '<td>' + usuario.login + '</td>';
+                                textoUsu += '<td>' + (usuario.endereco || '-') + '</td>';
+                                textoUsu += '<td><div>' + (usuario.telefone || '-') + '</div><small class="text-muted">' + usuario.email + '</small></td>';
+                                textoUsu += '<td>' + tipoBadge + '</td>';
+                                textoUsu += '<td>';
+                                textoUsu += '<a class="btn btn-info btn-table btn_ler_contato" id="btnrd_' + usuario.id + '" data-toggle="modal" data-target="#modal_read" title="Visualizar"><i class="fas fa-eye"></i></a>';
+                                textoUsu += '<a class="btn btn-warning btn-table btn_update_contato" id="btnupdt_' + usuario.id + '" data-toggle="modal" data-target="#modal_update" title="Editar"><i class="fas fa-edit"></i></a>';
+                                textoUsu += '<a class="btn btn-danger btn-table btn_apaga_contato" id="btndlt_' + usuario.id + '" data-toggle="modal" data-target="#modal_delete" title="Excluir"><i class="fas fa-trash"></i></a>';
+                                textoUsu += '</td>';
+                                textoUsu += '</tr>';
+                            }
+                            $('#todo_contatos').html(textoUsu);
+                        });
+                    } else {
+                        console.log("Oops, we haven't got JSON!");
+                    }
+                })
+                .catch(e => {
+                    console.log('error:  ', e);
+                });
+        }
+
+        // Event handlers moved outside the atualizarContatos function
+        $(document).ready(function () {
+            // Delegate event handlers using `.on()` — this binds to *future* rows
+            $('#contactsTable tbody').on('click', '.btn_apaga_contato', function () {
+
+
+                const id_contato = this.id.split('_')[1];
+                document.getElementById('btn-deletar-contato-concluir')
+                    .setAttribute('idDeletar', id_contato);
+            });
+
+            $('#btn_abrir_modal_para_inserir').click(function () {
+                $('#in_m_c_nome').val('');
+                $('#in_m_c_endereco').val('');
+                $('#in_m_c_telefone').val('');
+                $('#in_m_c_email').val('');
+                $('#in_m_c_senha').val('');
+                $('#in_m_c_senha2').val('');
+                $('#in_m_c_login').val('');
+                $('#sexoM').attr('checked', 'checked');
+                $('#erro_nome').html('');
+                $('#erro_endereco').html('');
+                $('#erro_telefone').html('');
+                $('#erro_email1').html('');
+                $('#erro_email2').html('');
+                $('#erro_sexo').html('');
+                $('#erro_senha').html('');
+                $('#erro_senha2').html('');
+                $('#erro_login').html('');
+
+            });
+
+            $('#btn_concluir_update_contato').click(function () {
+                const idContato = $('#btn_concluir_update_contato').attr('data-id');
+                $.ajax({
+                    url: '../controllers/update-usuario.php',
+                    method: 'post',
+                    data: 'id=' + idContato + '&' + $('#form_contato_update').serialize(),
+                    success: function (resposta) {
+                        const validacao = resposta;
+                        if (validacao.valido) {
+                            $('#modal_update').modal('hide');
+                            atualizarContatos();
+                        } else {
+                            $('#erro_nomeup').html('');
+                            $('#erro_enderecoup').html('');
+                            $('#erro_telefoneup').html('');
+                            $('#erro_email1up').html('');
+                            $('#erro_email2up').html('');
+                            $('#erro_loginup').html('');
+                            $('#erro_sexoup').html('');
+                            if (validacao[1].temErro) {
+                                $('#erro_nomeup').html(validacao[1].motivo);
+                            }
+                            if (validacao[2].temErro) {
+                                $('#erro_enderecoup').html(validacao[2].motivo);
+                            }
+                            if (validacao[3].temErro) {
+                                $('#erro_telefoneup').html(validacao[3].motivo);
+                            }
+                            if (validacao[4].temErro) {
+                                $('#erro_email1up').html(validacao[4].motivo);
+                            }
+                            if (validacao[5].temErro) {
+                                $('#erro_email2up').html(validacao[5].motivo);
+                            }
+                            if (validacao[6].temErro) {
+                                $('#erro_sexoup').html(validacao[6].motivo);
+                            }
+                            if (validacao[7].temErro) {
+                                $('#erro_loginup').html(validacao[7].motivo);
+                            }
+                        }
+                    }
+                });
+            });
+
+            $('#contactsTable tbody').on('click', '.btn_ler_contato', function () {
+                const id_user = this.id.split('_')[1];
                 $.ajax({
                     url: `../controllers/usuarios-dao.php`,
                     method: 'get',
-                    data: {
-                        'verificar-login': true,
-                        login
-                    },
-                    success: function (data) {
-                        $('#erro_login').html(data);
-                        $('#erro_loginup').html(data);
+                    data: 'id=' + id_user,
+                    success: function (usuario) {
+                        $('#rd_nome_contato').html(usuario.nome);
+                        $('#rd_endereco_contato').html(usuario.endereco);
+                        $('#rd_telefone_contato').html(usuario.telefone);
+                        $('#rd_email_contato').html(usuario.email);
+                        $('#rd_sexo_contato').html(usuario.sexo);
+                        $('#rd_login_contato').html(usuario.login);
                     }
                 });
-            }
-
-            function atualizarContatos() {
-                var myInit = {
-                    method: 'GET',
-                    headers: {},
-                    cache: 'default'
-                };
-                fetch(`../controllers/usuarios-dao.php?atulizar-usuarios=true`, myInit)
-                    .then(response => {
-                        var contentType = response.headers.get("content-type");
-                        if (contentType && contentType.indexOf("application/json") !== -1) {
-                            return response.json().then(function (usuarios) {
-                                let textoUsu = '';
-                                for (const usuario of usuarios) {
-                                    console.log(usuario);
-                                    textoUsu += '<tr>';
-                                    textoUsu += '<th scope="row">' + usuario.id + '</th>';
-                                    textoUsu += '<td>' + usuario.nome + '</td>';
-                                    textoUsu += '<td>' + usuario.login + '</td>';
-                                    textoUsu += '<td>' + usuario.endereco + '</td>';
-                                    textoUsu += '<td>' + usuario.telefone + '</td>';
-                                    textoUsu += '<td>' + usuario.tipo + '</td>';
-                                    textoUsu += '<td>' + usuario.email + '</td>';
-                                    textoUsu += '<td width=20 >' + usuario.sexo + '</td>';
-                                    textoUsu += '<td width=170>';
-                                    textoUsu += '<a class="btn btn-primary  btn_ler_contato btn-table" id="btnrd_' + usuario.id + '" data-toggle="modal" data-target="#modal_read"  >Info</a>';
-                                    textoUsu += ' ';
-                                    textoUsu += '<a class="btn btn-warning  btn_update_contato btn-table"  id="btnupdt_' + usuario.id + '"   data-toggle="modal" data-target="#modal_update">Up</a>';
-                                    textoUsu += ' ';
-                                    textoUsu += '<a class="btn btn-danger btn_apaga_contato btn-table" id="btndlt_' + usuario.id +
-                                        '" data-toggle="modal" data-target="#modal_delete" href="delete.php?id=' + usuario.id +
-                                        '">  <span aria-hidden="true">&times;</span></a>';
-                                    textoUsu += '</td>';
-                                    textoUsu += '</tr>';
-                                }
-                                $('#todo_contatos').html(textoUsu);
-                                // colocado aqui pois só aqui os elementos existem
-                                $('.btn_apaga_contato').click(function () {
-                                    const id_contato = this.id.split('_')[1];
-                                    document.getElementById('btn-deletar-contato-concluir')
-                                        .setAttribute('idDeletar', id_contato);
-                                });
-
-                                $('.btn_ler_contato').click(function () {
-                                    const id_contato = this.id.split('_')[1];
-                                    $.ajax({
-                                        url: `../controllers/usuarios-dao.php`,
-                                        method: 'get',
-                                        data: 'id=' + id_contato,
-                                        success: function (usuario) {
-                                            $('#rd_nome_contato').html(usuario.nome);
-                                            $('#rd_endereco_contato').html(usuario.endereco);
-                                            $('#rd_telefone_contato').html(usuario.telefone);
-                                            $('#rd_email_contato').html(usuario.email);
-                                            $('#rd_sexo_contato').html(usuario.sexo);
-                                            $('#rd_login_contato').html(usuario.login);
-                                        }
-                                    });
-                                });
-
-
-                                $('.btn_update_contato').click(function () {
-                                    const id_contato = this.id.split('_')[1];
-                                    $.ajax({
-                                        url: `../controllers/usuarios-dao.php`,
-                                        method: 'get',
-                                        data: 'id=' + id_contato,
-                                        success: function (data) {
-                                            document.getElementById(
-                                                'btn_concluir_update_contato')
-                                                .setAttribute('idUpdate', id_contato);
-
-                                            $('#input_id_contato').val(data.id);
-                                            $('#input_nome_contato').val(data.nome);
-                                            $('#input_login_contato').val(data.login);
-                                            $('#input_endereco_contato').val(data.endereco);
-                                            $('#input_telefone_contato').val(data.telefone);
-                                            $('#input_email_contato').val(data.email);
-                                            if (data.sexo == "M") {
-                                                $('#sexo_M').attr('checked', 'checked');
-                                            } else {
-                                                $('#sexo_F').attr('checked', 'checked');
-                                            }
-                                        }
-                                    });
-                                });
-
-
-
-                            });
-                        } else {
-                            console.log("Oops, we haven't got JSON!");
-                        }
-                    })
-                    .catch(e => {
-                        console.log('error:  ', e);
-                    });
-            }
+            });
 
             $('#btn_salvar_contato').click(function () {
                 $.ajax({
@@ -147,8 +364,8 @@ include_once('componentes.php');
                     data: $('#form_contato').serialize(),
                     success: function (data) {
                         console.log('data salvar ', data);
-                        const validacao = data;
-                        if (validacao[0].valido) {
+                        const validacao = data.error;
+                        if (validacao[0].valido !== 'false') {
                             $('#meu_modal').modal('hide');
                             atualizarContatos();
                         } else {
@@ -192,159 +409,39 @@ include_once('componentes.php');
                     }
                 });
             });
-            $("#in_m_c_login").keyup(function () {
-                verificaLoginExistente($("#in_m_c_login").val());
-            });
-            $("#input_login_contato").keyup(function () {
-                verificaLoginExistente($("#input_login_contato").val());
-            });
-            $('#btn-deletar-contato-concluir').click(function () {
-                $.ajax({
-                    url: '../controllers/delete.php',
-                    method: 'get',
-                    data: 'id=' + this.getAttribute('idDeletar'),
-                    success: function (data) {
-                        $('#modal_delete').modal('hide');
-                        atualizarContatos();
-                    }
-                });
-            });
-            $('#btn_abrir_modal_para_inserir').click(function () {
-                $('#in_m_c_nome').val('');
-                $('#in_m_c_endereco').val('');
-                $('#in_m_c_telefone').val('');
-                $('#in_m_c_email').val('');
-                $('#in_m_c_senha').val('');
-                $('#in_m_c_senha2').val('');
-                $('#in_m_c_login').val('');
-                $('#sexoM').attr('checked', 'checked');
-                $('#erro_nome').html('');
-                $('#erro_endereco').html('');
-                $('#erro_telefone').html('');
-                $('#erro_email1').html('');
-                $('#erro_email2').html('');
-                $('#erro_sexo').html('');
-                $('#erro_senha').html('');
-                $('#erro_senha2').html('');
-                $('#erro_login').html('');
 
-            });
-            $('#btn_concluir_update_contato').click(function () {
-                const idContato = this.getAttribute('idUpdate');
+            $('#contactsTable tbody').on('click', '.btn_update_contato', function () {
+                const id_user = this.id.split('_')[1];
                 $.ajax({
-                    url: '../controllers/update.php',
-                    method: 'post',
-                    data: 'id=' + idContato + '&' + $('#form_contato_update').serialize(),
+                    url: `../controllers/usuarios-dao.php`,
+                    method: 'GET',
+                    data: 'id=' + id_user,
+                    dataType: 'json',
                     success: function (data) {
-                        const validacao = JSON.parse(data);
-                        if (validacao[0].valido) {
-                            $('#modal_update').modal('hide');
-                            atualizarContatos();
-                        } else {
-                            $('#erro_nomeup').html('');
-                            $('#erro_enderecoup').html('');
-                            $('#erro_telefoneup').html('');
-                            $('#erro_email1up').html('');
-                            $('#erro_email2up').html('');
-                            $('#erro_loginup').html('');
-                            $('#erro_sexoup').html('');
-                            if (validacao[1].temErro) {
-                                $('#erro_nomeup').html(validacao[1].motivo);
-                            }
-                            if (validacao[2].temErro) {
-                                $('#erro_enderecoup').html(validacao[2].motivo);
-                            }
-                            if (validacao[3].temErro) {
-                                $('#erro_telefoneup').html(validacao[3].motivo);
-                            }
-                            if (validacao[4].temErro) {
-                                $('#erro_email1up').html(validacao[4].motivo);
-                            }
-                            if (validacao[5].temErro) {
-                                $('#erro_email2up').html(validacao[5].motivo);
-                            }
-                            if (validacao[6].temErro) {
-                                $('#erro_sexoup').html(validacao[6].motivo);
-                            }
-                            if (validacao[7].temErro) {
-                                $('#erro_loginup').html(validacao[7].motivo);
-                            }
-                        }
+                        $('#input_id_contato').attr('value', id_user);
+                        $('#btn_concluir_update_contato').attr('data-id', id_user);
+                        $('#input_id_user').val(data.id);
+                        $('#input_nome_contato').val(data.nome);
+                        $('#input_login_contato').val(data.login);
+                        $('#input_endereco_contato').val(data.endereco);
+                        $('#input_telefone_contato').val(data.telefone);
+                        $('#input_email_contato').val(data.email);
+                        $('#sexo_M').prop('checked', data.sexo === 'M');
+                        $('#sexo_F').prop('checked', data.sexo === 'F');
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error loading contact for edit:', error);
                     }
                 });
             });
+
+            // Initialize the contacts
             atualizarContatos();
         });
     </script>
-
-    <style>
-        .btn-table {
-            cursor: pointer;
-            width: 46px;
-            padding: 2px 0;
-            float: left;
-        }
-    </style>
-
-
-</head>
-
-<body id="page-top">
-    <!-- Navigation-->
-    <script>
-        const a = document.getElementById('page-top').innerHTML;
-        document.getElementById('page-top').innerHTML = nav() + a;
-    </script>
-    <div class="container">
-        <div class="form-row">
-            <div class="col">
-                <h2>Usuários</h2>
-            </div>
-            <div class="col text-right">
-                <button id="btn_abrir_modal_para_inserir" type="button" class="btn btn-success " data-toggle="modal"
-                    data-target="#meu_modal">
-                    novo
-                </button>
-            </div>
-        </div>
-
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Login</th>
-                        <th scope="col">Endereço</th>
-                        <th scope="col">Telefone</th>
-                        <th scope="col">TIPO</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Sexo</th>
-                        <th scope="col">Ação</th>
-                    </tr>
-                </thead>
-                <tbody id="todo_contatos">
-                    <!--  os contatos aqui são gerado dinamicamento com a funcao  atualizarContatos(); -->
-                </tbody>
-            </table>
-        </div>
-
-    </div>
-    <!-- Bootstrap core JavaScript -->
-    <!-- Bootstrap core JS -->
-    <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
-    <!-- Third party plugin JS-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js">
-    </script>
-
-    <!-- Core theme JS
-     <script src="../assets/js/scripts.js"></script> -->
 </body>
 
 </html>
-
 
 <!-- Modal Create -->
 <div class="modal fade" id="meu_modal" tabindex="-1" role="dialog" aria-labelledby="Modais" aria-hidden="true">
@@ -590,8 +687,7 @@ include_once('componentes.php');
                                                 <label class="control-label">Cód</label>
                                                 <div class="controls">
                                                     <input disabled id="input_id_contato" size="50" class="form-control"
-                                                        name="id" type="text" placeholder="Cód" required="">
-
+                                                        name="codigo" type="text" placeholder="Cód">
                                                 </div>
                                             </div>
                                         </div>
