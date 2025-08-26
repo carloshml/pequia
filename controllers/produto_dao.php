@@ -1,4 +1,5 @@
 <?php
+$usuarioLogado = isset($_SESSION['id_usuario']);
 require_once __DIR__ . '/../config/bd.class.php';
 require_once __DIR__ . '/../modal/produtos.php';
 
@@ -65,19 +66,29 @@ class ProdutoDAO
                 }
                 $base64 = $foto_content ? base64_encode($foto_content) : '';
 
-                echo '<div>';
-                echo '<img width="100px" src="data:image/jpeg;base64,' . $base64 . '" alt="' . htmlspecialchars($titulo) . '">';
-                echo '         <a href="detalhe-produto.php?id_produto=' . $id_produto . '&nome_produto=' . $titulo . '" class="cor-laranja  "> <strong> ' . $titulo . ' </strong></a>';
-                echo '         <h6>' . $subtitulo . '</h6>';
-                echo '         <ul>';
-                echo '             <li  class="glyphicon glyphicon-chevron-right">' . $tag1 . ' </li>';
-                echo '             <li  class="glyphicon glyphicon-chevron-right">' . $tag2 . ' </li>';
-                echo '             <li  class="glyphicon glyphicon-chevron-right">' . $tag3 . ' </li>';
-                echo '             <li  class="glyphicon glyphicon-chevron-right">' . $tag4 . ' </li>';
-                echo '             <li  class="glyphicon glyphicon-chevron-right">' . $tag5 . ' </li>';
-                echo '         </ul>';
-                echo '<span class="text-right" > publicado: ' . date('d/m/Y', strtotime($data_publicacao)) . '</span>';
+                echo '<div class="col-md-4 mb-4">';
+                echo '  <div class="card h-100 shadow-sm">';
+                echo '    <img class="card-img-top" src="data:image/jpeg;base64,' . $base64 . '" alt="' . htmlspecialchars($titulo) . '">';
+                echo '    <div class="card-body">';
+                echo '      <h5 class="card-title">';
+                echo '        <a href="detalhe-produto.php?id_produto=' . $id_produto . '&nome_produto=' . urlencode($titulo) . '" class="text-primary font-weight-bold">' . htmlspecialchars($titulo) . '</a>';
+                echo '      </h5>';
+                echo '      <h6 class="card-subtitle mb-2 text-muted">' . htmlspecialchars($subtitulo) . '</h6>';
+                echo '      <p class="card-text">' . htmlspecialchars($descricao) . '</p>';
+                echo '      <ul class="list-unstyled">';
+                foreach ([$tag1, $tag2, $tag3, $tag4, $tag5] as $tag) {
+                    if (!empty($tag)) {
+                        echo '<li><i class="fas fa-tag text-secondary mr-2"></i>' . htmlspecialchars($tag) . '</li>';
+                    }
+                }
+                echo '      </ul>';
+                echo '    </div>';
+                echo '    <div class="card-footer text-muted small">';
+                echo '      Publicado em ' . date('d/m/Y', strtotime($data_publicacao)) . ' por ' . htmlspecialchars($nome_autor);
+                echo '    </div>';
+                echo '  </div>';
                 echo '</div>';
+
             }
             echo '</div>';
         } catch (PDOException $e) {
@@ -266,9 +277,8 @@ class ProdutoDAO
         }
     }
 
-    public function buscarProdutoParaVenda($id_produto)
+    public function buscarProdutoParaVenda($id_produto, $usuarioLogado)
     {
-
         $produto = new Produto();
         $produto->id = null;
         $produto->tag1 = null;
@@ -318,46 +328,51 @@ class ProdutoDAO
                 $base64 = $foto_content ? base64_encode($foto_content) : '';
 
 
-                echo '<form method="post"  action="../controllers/adicionar_venda_item.php?id_produto='
-                    . $produto->id
+                echo '<div class="container my-4">';
+                echo '  <div class="card shadow-lg">';
+                echo '    <div class="row no-gutters">';
+                echo '      <div class="col-md-4 text-center p-3">';
+                echo '        <img src="data:image/jpeg;base64,' . $base64 . '" class="img-fluid rounded" alt="' . htmlspecialchars($produto->titulo) . '">';
+                echo '      </div>';
+                echo '      <div class="col-md-8">';
+                echo '        <div class="card-body">';
+                echo '          <h3 class="card-title text-primary">' . htmlspecialchars($produto->titulo) . '</h3>';
+                echo '          <h5 class="card-subtitle mb-2 text-muted">' . htmlspecialchars($produto->subtitulo) . '</h5>';
+                echo '          <p class="card-text">' . htmlspecialchars($produto->descricao) . '</p>';
+
+                echo '          <ul class="list-inline">';
+                foreach ([$produto->tag1, $produto->tag2, $produto->tag3, $produto->tag4, $produto->tag5] as $tag) {
+                    if (!empty($tag)) {
+                        echo '<li class="list-inline-item badge badge-secondary mr-1">' . htmlspecialchars($tag) . '</li>';
+                    }
+                }
+                echo '          </ul>';
+
+                echo '          <p class="mt-3"><strong>Preço:</strong> R$ ' . number_format($produto->preco_venda, 2, ',', '.') . '</p>';
+                echo '          <p class="text-muted small">Publicado por ' . htmlspecialchars($nome_autor) . ' em ' . date('d/m/Y', strtotime($produto->data_publicacao)) . '</p>';
+
+                echo '          <form method="post" action="../controllers/adicionar_venda_item.php?id_produto=' . $produto->id
                     . '&preco_venda=' . $produto->preco_venda
-                    . '&nome_produto=' . $produto->titulo . '" ';
-                echo 'id="formCadastrarse" enctype="multipart/form-data">';
-                echo '<div style="text-align:center" >';
-                echo '  <h1  class="cor-laranja center">' . $produto->titulo . '</h1>';
-                echo '<img width="100px" src="data:image/jpeg;base64,' . $base64 . '" alt="' . htmlspecialchars($produto->titulo) . '">';
-                echo '</div>';
-                echo '<div class="row">';
-                echo '      <div class="form-group col-sm-4">';
-                echo '      </div>';
-                echo '      <div class="form-group col-sm-8">';
-                echo '            <div style="display:table; width:100%; " >';
-                echo '                 <div style="display:table-row" >';
-                echo '                      <label  style="display:table-cell; width:25%;" class="pra-direita" >QUANTIDADE:</label>';
-                echo '                      <input  style="display:table-cell; width:25%;" id="quantidade" value="1" name="quantidade" class="form-control" required>';
-                echo '                      <button style="display:table-cell; width:25%;" type="submit" class="btn btn-warning" > ';
-                echo '                             adicionar';
-                echo '                       </button> ';
-                echo '                      <button style="display:table-cell; width:25%;" id="btn_ver_compra" type="button" class="btn btn-info btn_ver_compra" >';
-                echo '                             compra';
-                echo '                       </button> ';
-                echo '                 </div>';
+                    . '&nome_produto=' . urlencode($produto->titulo) . '" enctype="multipart/form-data">';
+
+                echo '            <div class="form-row align-items-center">';
+                echo '              <div class="col-auto">';
+                echo '                <label for="quantidade" class="sr-only">Quantidade</label>';
+                echo '                <input type="number" id="quantidade" name="quantidade" value="1" class="form-control mb-2" required>';
+                echo '              </div>';
+                echo '              <div class="col-auto">';
+                echo '                <button type="submit" class="btn btn-warning mb-2" ' . (!$usuarioLogado ? 'disabled' : '') . '>Adicionar</button>';
+                echo '              </div>';
+                echo '              <div class="col-auto">';
+                echo '                <button type="button" id="btn_ver_compra" class="btn btn-info mb-2 btn_ver_compra" ' . (!$usuarioLogado ? 'disabled' : '') . '> Ver Total </button>';
+                echo '              </div>';
                 echo '            </div>';
-                echo '      </div>';
-                echo '</div>';
-                echo '<p> ' . $produto->descricao . '</p>';
-                echo '<div>Detalhes</div>';
-                echo '<ul>';
-                echo '<li  class="glyphicon glyphicon-chevron-right">' . $produto->tag1 . ' </li>';
-                echo '<li  class="glyphicon glyphicon-chevron-right">' . $produto->tag2 . ' </li>';
-                echo '<li  class="glyphicon glyphicon-chevron-right">' . $produto->tag3 . ' </li>';
-                echo '<li  class="glyphicon glyphicon-chevron-right">' . $produto->tag4 . ' </li>';
-                echo '<li  class="glyphicon glyphicon-chevron-right">' . $produto->tag5 . ' </li>';
-                echo '</ul>';
-                echo '<div> preço: ' . $produto->preco_venda . ' </div>';
-                echo '<span class="text-right" > publicado por ' . $nome_autor . ' | ' . date('d/m/Y', strtotime($produto->data_publicacao)) . '</span>';
-                echo '</form>';
-                echo '<hr>';
+                echo '          </form>';
+                echo '        </div>'; // card-body
+                echo '      </div>'; // col-md-8
+                echo '    </div>'; // row
+                echo '  </div>'; // card
+                echo '</div>'; // container
             }
         } catch (PDOException $e) {
             print $e->getMessage();
