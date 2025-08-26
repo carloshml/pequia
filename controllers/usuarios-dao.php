@@ -129,7 +129,7 @@ class UsuariosDAO
                 $_SESSION['id_usuario'] = $data['id'];
                 $_SESSION['nome_usuario'] = $data['nome'];
                 $_SESSION['usuario_nome'] = $data['nome'];
-                $_SESSION['email_usuario'] = $data['email'];                
+                $_SESSION['email_usuario'] = $data['email'];
             } else {
                 // Optional: custom response for failed login
                 $usuario->id = null;
@@ -282,8 +282,14 @@ if (!empty($_POST)) {
             $q->execute(array($nome, $endereco, $telefone, $email, $sexo, $senha, $login, $tipo));
             Banco::desconectar();
             // header("Location: index.php");    
-            $valido = $valido ? 'true' : 'false';
-            echo '[{"valido":' . $valido . '}]';
+
+            $response = [
+                "error" => [
+                    ["valido" => 'true']                    
+                ]
+            ];
+
+            echo json_encode($response);
         } else {
             $valido = $valido ? 'true' : 'false';
             $temErroNome = $nomeError ? 'true' : 'false';
@@ -296,18 +302,24 @@ if (!empty($_POST)) {
             $temErroSenha2 = $senhaErro2 ? 'true' : 'false';
             $temErroLogin = $loginErro ? 'true' : 'false';
 
-            echo '['
-                . '{"valido":' . $valido . '},'
-                . '{"temErro":' . $temErroNome . ', "motivo":"' . $nomeError, '"},'
-                . '{"temErro":' . $temErroEndereco . ',"motivo":"' . $enderecoErro, '"},'
-                . '{"temErro":' . $temErroTelefone . ',"motivo":"' . $telefoneErro, '"},'
-                . '{"temErro":' . $temErroEmailTamanho . ',"motivo":"' . $emailErro, '"},'
-                . '{"temErro":' . $temErroEmailValidade . ',"motivo":"' . $emailError, '"},'
-                . '{"temErro":' . $temErroSexo . ',"motivo":"' . $sexoErro, '"},'
-                . '{"temErro":' . $temErroSenha . ',"motivo":"' . $senhaErro, '"},'
-                . '{"temErro":' . $temErroSenha2 . ',"motivo":"' . $senhaErro2, '"},'
-                . '{"temErro":' . $temErroLogin . ',"motivo":"' . $loginErro, '"}'
-                . ']';
+            $response = [
+                "error" => [
+                    ["valido" => $valido],
+                    ["temErro" => $temErroNome, "motivo" => $nomeError],
+                    ["temErro" => $temErroEndereco, "motivo" => $enderecoErro],
+                    ["temErro" => $temErroTelefone, "motivo" => $telefoneErro],
+                    ["temErro" => $temErroEmailTamanho, "motivo" => $emailErro],
+                    ["temErro" => $temErroEmailValidade, "motivo" => $emailError],
+                    ["temErro" => $temErroSexo, "motivo" => $sexoErro],
+                    ["temErro" => $temErroSenha, "motivo" => $senhaErro],
+                    ["temErro" => $temErroSenha2, "motivo" => $senhaErro2],
+                    ["temErro" => $temErroLogin, "motivo" => $loginErro]
+                ]
+            ];
+
+            echo json_encode($response);
+
+
         }
     }
 }

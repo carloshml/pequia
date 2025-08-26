@@ -33,7 +33,7 @@ class Componente
                 </div>
                 <div class="modal-footer">
                     <div id="btn_login" class="btn btn-primary btn-lg btn-block">Login </div>
-                    <a class="btn btn-primary btn-lg btn-block" href="pages/login-cliente.php">Criar conta </a>
+                    <a class="btn btn-primary btn-lg btn-block" href="login-cliente.php">Criar conta </a>
                 </div>
             </form>
             <!-- End # Login Form -->

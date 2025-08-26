@@ -42,13 +42,12 @@
                 $.ajax({
                     url: `../controllers/usuarios-dao.php`,
                     method: 'post',
+                    dataType: 'json',
                     data: usuarioNovo + '&tipo=CLIENTE',
                     success: function (data) {
                         console.log('modal criacao', data);
-                        const validacao = JSON.parse(data);
-                        console.log('modal criacao', validacao);
-                        if (validacao[0].valido) {
-                            // aqui diz que salvou o usuario  
+                        const validacao = data.error;
+                        if (validacao[0].valido !== 'false') {
                             window.location.href = 'loja.php';
                         } else {
                             $('#erro_nome').html('');
@@ -185,7 +184,8 @@
                 <div class="controls">
                     <div class="form-check">
                         <p class="form-check-label">
-                            <input class="form-check-input" type="radio" name="sexo" id="sexoM" value="M" /> Masculino
+                            <input class="form-check-input" type="radio" checked name="sexo" id="sexoM" value="M" />
+                            Masculino
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="sexo" id="sexoF" value="F" /> Feminino
