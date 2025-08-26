@@ -266,7 +266,7 @@ class ProdutoDAO
         }
     }
 
-    public function buscarProduto($id_produto)
+    public function buscarProdutoParaVenda($id_produto)
     {
 
         $produto = new Produto();

@@ -56,7 +56,7 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
 </head>
 
 <body id="page-top">
- 
+
     <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
         <div class="container">
             <a class="navbar-brand" href="index.php">Pequiá</a>
@@ -116,7 +116,7 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
                         Sua decisão de compra ajuda a fomentar a economia local e a manutenção dos povos em seu ambiente
                         de origem.
                     </p>
-                    <a class="btn btn-primary btn-xl js-scroll-trigger" href="/pages/loja.php">Catálogo</a>
+                    <a class="btn btn-primary btn-xl js-scroll-trigger" href="pages/loja.php">Catálogo</a>
                 </div>
             </div>
         </div>
@@ -144,43 +144,7 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
         </div>
     </section>
 
-    <!-- Services-->
-    <section class="page-section" id="services">
-        <div class="container">
-            <h2 class="text-center mt-0">At Your Service</h2>
-            <hr class="divider my-4" />
-            <div class="row">
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="mt-5">
-                        <i class="fas fa-4x fa-gem text-primary mb-4"></i>
-                        <h3 class="h4 mb-2">Sturdy Themes</h3>
-                        <p class="text-muted mb-0">Our themes are updated regularly to keep them bug free!</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="mt-5">
-                        <i class="fas fa-4x fa-laptop-code text-primary mb-4"></i>
-                        <h3 class="h4 mb-2">Up to Date</h3>
-                        <p class="text-muted mb-0">All dependencies are kept current to keep things fresh.</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="mt-5">
-                        <i class="fas fa-4x fa-globe text-primary mb-4"></i>
-                        <h3 class="h4 mb-2">Ready to Publish</h3>
-                        <p class="text-muted mb-0">You can use this design as is, or you can make changes!</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="mt-5">
-                        <i class="fas fa-4x fa-heart text-primary mb-4"></i>
-                        <h3 class="h4 mb-2">Made with Love</h3>
-                        <p class="text-muted mb-0">Is it really open source if it s not made with love?</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
     <section class="page-section bg-primary" id="novidades">
         <div class="container">
             <h2 class="section-heading text-center branco"> <strong> Últimos produtos </strong> </h2>

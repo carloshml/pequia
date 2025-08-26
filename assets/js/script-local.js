@@ -109,5 +109,5 @@ function sair() {
   localStorage.setItem('email', '');
   localStorage.setItem('usuario_nome', '');
   localStorage.setItem('tipo', '');
-  window.location.href = `${obterAPI()}index.php`;
+  window.location.href = window.location.href;
 }

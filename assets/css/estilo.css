@@ -1,4 +1,4 @@
-.painel-compra{   
+.painel-compra {
     background: rgb(197, 89, 26);
     position: absolute;
     width: 502px;
@@ -8,7 +8,7 @@
     margin-left: 50%;
 }
 
-.corpo-aviso{
+.corpo-aviso {
     background: rgb(238, 104, 26);
     position: absolute;
     width: 502px;
@@ -17,26 +17,26 @@
     z-index: 2;
     margin-top: 350px;
     margin-left: 50%;
-    color:white;
-    font-weight: bold;    
+    color: white;
+    font-weight: bold;
 }
 
-.itens:nth-child(odd){
+.itens:nth-child(odd) {
     background: rgb(226, 150, 137);
     color: white;
 }
 
-.barra-titulo{
+.barra-titulo {
     background: tomato;
     color: white;
 }
 
-.item-destaque{
+.item-destaque {
     background: rgb(166, 166, 166);
     border-radius: 5px;
     margin: 12px;
     color: white;
-    border-bottom: 2px solid  rgb(49, 49, 49);
+    border-bottom: 2px solid rgb(49, 49, 49);
 }
 
 a {
@@ -44,12 +44,26 @@ a {
     text-decoration: none;
 }
 
-.branco{
+.branco {
     color: white !important;
 }
 
-textarea{
+textarea {
     border: 2px solid gray;
     resize: none;
     border-radius: 9px;
+}
+
+#mensagem-upload {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    display: none;
+    width: 35%;
 }

@@ -51,7 +51,7 @@
     if($ir_para > 0 ){
         header('Location: ../pages/compra.php');  
     }else{
-        header('Location: ../pages/detalhe-produto.php?id_produto='.$id_produto.'&nome_produto='.$nome_produto.'&com_abrir_compra='.$com_abrir_compra);  
+        header('Location: ../pages/detalhe-produto.php?id_produto='.$id_produto.'&nome_produto='.$nome_produto.'&com_abrir_compra='.$com_abrir_compra.'&adicionado=1');  
     }
 ?>
   

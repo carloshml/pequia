@@ -51,8 +51,14 @@ $vendasJson = json_encode($vendas);
     <link href="../assets/css/styles.css" rel="stylesheet" />
     <link href="../assets/css/estilo.css" rel="stylesheet" />
     <script src="../assets/js/script-local.js"></script>
+    <script language="JavaScript" src="funcoes-sistema.js"></script>
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function () {
+            const params = new URLSearchParams(window.location.search);
+            const adicionado = params.get("adicionado");
+            if (adicionado) {
+                escreverMensagemNaTela('Produto Adicionado');
+            }
             const produtos = <?= $vendasJson ?>;
             let produtosEscrito = '';
 
@@ -109,39 +115,44 @@ $vendasJson = json_encode($vendas);
                 if (<?= $error ?> === 1) {
                     mensagem = 'Login é Necessário!';
                 }
-                console.log('mensagem', mensagem);
-                const elementoAviso = document.getElementById('corpo_aviso');
-                corpoAviso += '<div>' + mensagem + '</div>';
-                elementoAviso.innerHTML = corpoAviso;
-                elementoAviso.style.display = 'block';
-                setTimeout(() => {
-                    elementoAviso.style.display = 'none';
-                }, 2000);
+                escreverMensagemNaTela(mensagem);
                 console.log('elementoAviso', elementoAviso);
             }
 
             $('#btn_login').click(function () {
                 const usuarioNovo = $('#form-login').serialize();
+                console.log('  usuarioNovo :::: ', usuarioNovo);
                 $.ajax({
-                    url: `${obterAPI()}controllers/validar_acesso.php`,
-                    method: 'post',
+                    url: '../controllers/usuarios-dao.php',
+                    method: 'get',
                     data: usuarioNovo + '&tipo=CLIENTE',
                     success: function (data) {
-                        console.log('data   ', data);
-                        if (data.includes('erro')) {
+                        localStorage.setItem('id_usuario', data['id']);
+                        localStorage.setItem('usuario_login', data['login']);
+                        localStorage.setItem('email', data['email']);
+                        localStorage.setItem('usuario_nome', data['nome']);
+                        localStorage.setItem('tipo', data['tipo']);
+                        console.log('data', data.nome);
+                        console.log(' local host ', localStorage.getItem('usuario_nome'));
+                        if (!data.id) {
                             $('#mensagem-login').html('Usuário ou senha incorretos');
                         } else {
-                            document.location.reload(true);
-                            //   window.location.href = data;
+                            if (data['tipo'] === 'CLIENTE') {
+                                window.location.href = window.location.href;
+
+                            } else {
+                                window.location.href = 'pages/home.php';
+                            }
                         }
                     }
-                });
+                })
             });
         });
     </script>
 </head>
 
 <body id="page-top">
+    <div id="mensagem-upload" class="text-center"></div>
     <div style="position: relative;">
         <div id="corpo_aviso" class="corpo-aviso" style="display: none;"> </div>
     </div>
@@ -175,7 +186,7 @@ $vendasJson = json_encode($vendas);
             <div class="col">
                 <?php
                 $produto = new ProdutoDAO();
-                $produto->buscarProduto($id_produto);
+                $produto->buscarProdutoParaVenda($id_produto);
                 ?>
             </div>
             <div class="col-2">
