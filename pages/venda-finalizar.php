@@ -2,7 +2,7 @@
 session_start();
 include_once('componente-login.php');
 include_once('../config/bd.class.php');
-include_once('../controllers/produto_dao.php');
+include_once('../controllers/produto-controller.php');
 
 $retorno = $_SESSION['vendas'];
 if ($retorno) {

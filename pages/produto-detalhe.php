@@ -1,12 +1,12 @@
 <?php
 session_start();
-include_once('../controllers/produto_dao.php');
+include_once('../controllers/produto-controller.php');
 include_once('componente-login.php');
 $temEditar = 0;
 $response = '';
 if (!empty($_GET['id_produto'])) {
     $id_produto = $_GET['id_produto'];
-    $produto_dao = new ProdutoDAO();
+    $produto_dao = new ProdutoController();
     $response = $produto_dao->buscarProdutoPeloId($id_produto);
     $temEditar = 1;
 }

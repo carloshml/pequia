@@ -3,7 +3,7 @@ session_start();
 $usuarioLogado = isset($_SESSION['id_usuario']);
 require_once('componente-login.php');
 require_once('../config/bd.class.php');
-require_once('../controllers/produto_dao.php');
+require_once('../controllers/produto-controller.php');
 
 $nome_produto = '';
 $id_produto = null;
@@ -181,7 +181,7 @@ $vendasJson = json_encode($vendas);
             </div>
             <div class="col">
                 <?php
-                $produto = new ProdutoDAO();
+                $produto = new ProdutoController();
                 $produto->buscarProdutoParaVenda($id_produto, $usuarioLogado);
                 ?>
             </div>

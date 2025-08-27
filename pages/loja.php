@@ -1,5 +1,5 @@
 <?php
-include_once('../controllers/produto_dao.php');
+include_once('../controllers/produto-controller.php');
 include_once('componente-login.php');
 session_start();
 $usuarioLogado = isset($_SESSION['id_usuario']);
@@ -74,7 +74,7 @@ $mesangem = isset($_GET['mesangem']) ? $_GET['mesangem'] : '';
         <div class="container " block>            
             <hr>
             <?php
-            $produto_dao = new ProdutoDAO();
+            $produto_dao = new ProdutoController();
             $produto_dao->buscarProdutosLoja();
             ?>
         </div>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../controllers/produto_dao.php');
+require_once('../controllers/produto-controller.php');
 require_once('../dao/venda-dao.php');
 require_once('componente-login.php');
 ?>
@@ -95,7 +95,7 @@ require_once('componente-login.php');
                         </li> 
                         <li class="nav-item mx-0 mx-lg-1">
                                 <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="../controllers/sair.php">
-                                    <i class="fas fa-home"></i> sair
+                                    <i class="fas fa-sign-out-alt"></i> sair
                                 </a>
                         </li>';
                     }
@@ -124,7 +124,7 @@ require_once('componente-login.php');
                     <div>
                         <a class="branco" href="produtos-modulo.php">
                             <?php
-                            $produto_dao = new ProdutoDAO();
+                            $produto_dao = new ProdutoController();
                             echo $produto_dao->numeroTotal();
                             ?>
                             Produtos!

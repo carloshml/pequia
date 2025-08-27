@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('controllers/produto_dao.php');
+require_once('controllers/produto-controller.php');
 $usuario_nome = null;
 if (isset($_SESSION['usuario_nome'])) {
     $usuario_nome = $_SESSION['usuario_nome'];
@@ -98,7 +98,7 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
                         </li> 
                         <li class="nav-item mx-0 mx-lg-1">
                                 <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" onclick="sair()">
-                                    <i class="fas fa-home"></i> sair
+                                    <i class="fas fa-sign-out-alt"></i>sair
                                 </a>
                         </li>';
                     }
@@ -159,7 +159,7 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
         <div class="container">
             <h2 class="section-heading text-center branco"> <strong> Últimos produtos </strong> </h2>
             <?php
-            $produto_dao = new ProdutoDAO();
+            $produto_dao = new ProdutoController();
             $produto_dao->buscarProdutosTelaInicial();
             ?>
         </div>

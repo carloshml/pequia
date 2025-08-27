@@ -58,7 +58,7 @@ function nav() {
   if (localStorage.getItem('tipo') === 'ADMINISTRADOR') {
     naveg += '<li class="nav-item mx-0 mx-lg-1">';
     naveg += '<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="home.php">';
-    naveg += '<i class="fas fa-tachometer-alt"></i> Home';
+    naveg += '<i class="fas fa-home"></i> Home';
     naveg += '</a>';
     naveg += '</li>';
 

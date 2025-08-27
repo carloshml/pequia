@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once('../controllers/produto_dao.php');
+include_once('../controllers/produto-controller.php');
 include_once('componente-login.php');
 $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
 ?>
@@ -41,7 +41,7 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
                     <div class="row">
                         <div class="col-md-10" id="produtos" name="produtos">
                             <?php
-                            $produto_dao = new ProdutoDAO();
+                            $produto_dao = new ProdutoController();
                             $produto_dao->buscarProdutosParaEdicao();
                             ?>
                         </div>
