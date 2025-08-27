@@ -12,7 +12,7 @@ try {
   $tag3 = $_POST['tag3'];
   $tag4 = $_POST['tag4'];
   $tag5 = $_POST['tag5'];
-  $id_usuario = $_SESSION['id_usuario'];
+  $usuario_id = $_SESSION['id_usuario'];
   $id_produto = $_GET['id_produto'];
   $temEdicao = $_GET['temEdicao'];
   if ($temEdicao == 1) {
@@ -63,7 +63,7 @@ try {
       $tag3,
       $tag4,
       $tag5,
-      $id_usuario,
+      $usuario_id,
       $preco_venda,
       $id_produto,
       $fileHandle
@@ -109,7 +109,7 @@ try {
     $stmt->bindParam(':tag3', $tag3);
     $stmt->bindParam(':tag4', $tag4);
     $stmt->bindParam(':tag5', $tag5);
-    $stmt->bindParam(':id_usuario', $id_usuario);
+    $stmt->bindParam(':id_usuario', $usuario_id);
     $stmt->bindValue(':data_publicacao', date('Y-m-d H:i:s'));
     $stmt->bindParam(':preco_venda', $preco_venda);
 

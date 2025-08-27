@@ -122,7 +122,7 @@ require_once('componentes.php');
                         </div>
                     </div>
                     <div>
-                        <a class="branco" href="modulo-produtos.php">
+                        <a class="branco" href="produtos-modulo.php">
                             <?php
                             $produto_dao = new ProdutoDAO();
                             echo $produto_dao->numeroTotalProduto();
@@ -133,7 +133,7 @@ require_once('componentes.php');
                             <a href="produto-detalhe.php" class="panel-footer branco"> Cadastrar </a>
                         </div>
                         <div>
-                            <a href="modulo-produtos.php">
+                            <a href="produtos-modulo.php">
                                 <div class="panel-footer branco">
                                     <span class="pull-left">Editar Produtos</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -156,7 +156,7 @@ require_once('componentes.php');
                     <div class="branco">
                         <span id="id-usuario"> </span> Usuário!
                     </div>
-                    <a href="modulo-usuarios.php">
+                    <a href="usuarios-modulo.php">
                         <div class="panel-footer branco">
                             <span class="pull-left">Editar Usuários</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

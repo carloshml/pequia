@@ -1,12 +1,12 @@
 <?php
 session_start();
 include_once('componentes.php');
-include_once('../config/bd.class.php'); 
+include_once('../config/bd.class.php');
 include_once('../controllers/produto_dao.php');
 
-$retorno =   $_SESSION['vendas'];
+$retorno = $_SESSION['vendas'];
 if ($retorno) {
-    $vendas =  unserialize($retorno);
+    $vendas = unserialize($retorno);
 } else {
     $vendas = array();
 }
@@ -20,7 +20,7 @@ if (!empty($_GET['nome_produto'])) {
     $nome_produto = $_GET['nome_produto'];
 }
 
-$vendasJson =  json_encode($vendas);
+$vendasJson = json_encode($vendas);
 ?>
 
 <!DOCTYPE html>
@@ -36,12 +36,12 @@ $vendasJson =  json_encode($vendas);
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
     <script src="../assets/fontawesome-free-5.15.1-web/js/all.js" crossorigin="anonymous"></script>
-     <!-- Core theme CSS (includes Bootstrap)-->
+    <!-- Core theme CSS (includes Bootstrap)-->
     <link href="../assets/css/styles.css" rel="stylesheet" />
     <link href="../assets/css/estilo.css" rel="stylesheet" />
     <script src="../assets/js/script-local.js"></script>
     <script type="text/javascript">
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const produtos = <?= $vendasJson ?>;
             console.log('produtos', produtos);
             produtosEscrito = '';
@@ -88,7 +88,7 @@ $vendasJson =  json_encode($vendas);
 
 
 <body id="page-top">
-   <!-- Navigation-->
+    <!-- Navigation-->
     <script>
         const a = document.getElementById('page-top').innerHTML;
         document.getElementById('page-top').innerHTML = nav() + a;

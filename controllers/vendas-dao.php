@@ -146,8 +146,11 @@ class VendaDAO
 
 
 
-    public function buscarVendas()
+    public function buscarVendas($usuario_id)
     {
+
+
+
         $venda = new Venda();
         $nome_cliente = '';
 
@@ -155,10 +158,11 @@ class VendaDAO
             $pdo = Banco::conectar();
             $sql = "SELECT vendas.id as id, usuarios.nome as nome_cliente, descricao, data_criacao, vl_total, fechada, status
                 FROM vendas
+                where  vendas.id_usuario  = ?  
                 INNER JOIN usuarios ON vendas.id_cliente = usuarios.id
                 ORDER BY vendas.id DESC LIMIT 6;";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute();
+            $stmt->execute(array($usuario_id));
             $stmt->bindColumn('nome_cliente', $nome_cliente);
             $stmt->bindColumn('id', $venda->id);
             $stmt->bindColumn('descricao', $venda->descricao);
@@ -171,10 +175,10 @@ class VendaDAO
             echo '<table class="table table-bordered table-hover">';
             echo '  <thead class="thead-dark">';
             echo '    <tr>';
+            echo '      <th>Status</th>';
             echo '      <th>Cliente</th>';
             echo '      <th>Data da Compra</th>';
             echo '      <th>Total</th>';
-            echo '      <th>Status</th>';
             echo '      <th class="text-right">Detalhes</th>';
             echo '    </tr>';
             echo '  </thead>';
@@ -182,12 +186,34 @@ class VendaDAO
 
             while ($row = $stmt->fetch(PDO::FETCH_BOUND)) {
                 echo '<tr>';
+
+                $status = $venda->status;
+                $badgeClass = '';
+
+
+                echo '  <td>';
+
+
+                switch ($status) {
+                    case 'ABERTA':
+                        $badgeClass = 'badge badge-warning'; // verde
+                        break;
+                    case 'FECHADA':
+                        $badgeClass = 'badge badge-primary'; // azul
+                        break;
+                    case 'CANCELADA':
+                        $badgeClass = 'badge badge-danger'; // vermelho
+                        break;
+                    default:
+                        $badgeClass = 'badge badge-secondary'; // cinza
+                }
+
+                echo '<span class="' . $badgeClass . '">' . htmlspecialchars($status) . '</span>';
+                echo '  </td>';
                 echo '  <td>' . htmlspecialchars($nome_cliente) . '</td>';
                 echo '  <td>' . date('d/m/Y', strtotime($venda->data_criacao)) . '</td>';
                 echo '  <td>R$ ' . number_format($venda->vl_total, 2, ',', '.') . '</td>';
-                echo '  <td>';
-                echo '        <span class="badge badge-warning">  ' . $venda->status . '</span>';
-                echo '  </td>';
+
                 echo '  <td class="text-right">';
                 echo '    <a href="venda-detalhe.php?venda_id=' . $venda->id . '" class="btn btn-sm btn-outline-primary">';
                 echo '      <i class="far fa-eye"></i> Ver';

@@ -1,8 +1,14 @@
 <?php
 session_start();
-include_once('../config/bd.class.php'); 
+include_once('../config/bd.class.php');
 include_once('../controllers/vendas-dao.php');
 include_once('componentes.php');
+
+$usuario_id = null;
+if (isset($_SESSION['id_usuario'])) {
+    $usuario_id = $_SESSION['usuario_id'];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -18,12 +24,12 @@ include_once('componentes.php');
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
     <script src="../assets/fontawesome-free-5.15.1-web/js/all.js" crossorigin="anonymous"></script>
-     <!-- Core theme CSS (includes Bootstrap)-->
+    <!-- Core theme CSS (includes Bootstrap)-->
     <link href="../assets/css/styles.css" rel="stylesheet" />
     <link href="../assets/css/estilo.css" rel="stylesheet" />
     <script src="../assets/js/script-local.js"></script>
     <script type="text/javascript">
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
 
             if (!localStorage.getItem('usuario_nome')) {
                 window.location.href = '../index.php?erro=1';
@@ -36,7 +42,7 @@ include_once('componentes.php');
 
 
 <body id="page-top">
-   <!-- Navigation-->
+    <!-- Navigation-->
     <script>
         const a = document.getElementById('page-top').innerHTML;
         document.getElementById('page-top').innerHTML = nav() + a;
@@ -47,7 +53,7 @@ include_once('componentes.php');
         <div>
             <?php
             $vendaDAO = new VendaDAO();
-            $vendaDAO->buscarVendas();
+            $vendaDAO->buscarVendas($usuario_id);
             ?>
         </div>
     </div>

@@ -151,7 +151,7 @@ class UsuariosDAO
 
 // ===================== ROTAS USUARIO ==================================
 
-if (!empty($_GET)) {
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     header("Content-Type: application/json; charset=UTF-8");
     $verificaLogin = $_GET['verificar-login'] ?? '';
     $atualizarUsuarios = $_GET['atulizar-usuarios'] ?? '';
@@ -177,7 +177,7 @@ if (!empty($_GET)) {
     }
 }
 
-if (!empty($_POST)) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Content-Type: application/json; charset=UTF-8");
     if ($_POST['senha']) {
         //Acompanha os erros de validação

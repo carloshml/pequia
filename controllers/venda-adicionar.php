@@ -7,8 +7,7 @@ include_once('../modal/venda_item.php');
 include_once('../modal/venda.php');
 
 $retorno = $_SESSION['vendas'];
-$id_usuario = $_SESSION['id_usuario'];
-
+$id_usuario_logado = $_SESSION['id_usuario'];
 $observacao_venda = $_POST['observacao_venda'];
 
 if (!$observacao_venda) {
@@ -34,7 +33,7 @@ try {
 
    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
    $stmt = $pdo->prepare($sql);
-   $result = $stmt->execute(array($id_usuario, $observacao_venda, date('Y-m-d H:i:s'), $vl_total_venda));
+   $result = $stmt->execute(array($id_usuario_logado, $observacao_venda, date('Y-m-d H:i:s'), $vl_total_venda));
    $id_venda = $pdo->lastInsertId();
    echo ' Ultimo id  ' . $id_venda;
    foreach ($vendas as $vendaItem) {
