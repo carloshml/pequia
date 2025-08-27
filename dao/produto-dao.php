@@ -27,7 +27,7 @@ class ProdutoDao
                        data_publicacao, usuarios.nome AS nome_autor, fileFoto
                 FROM produtos
                 INNER JOIN usuarios ON produtos.id_usuario_publicacao = usuarios.id
-                ORDER BY produtos.id DESC LIMIT 6;";
+                ORDER BY produtos.id DESC ;";
             $stmt = $pdo->prepare($sql);
             $stmt->execute();
 

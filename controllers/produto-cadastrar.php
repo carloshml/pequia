@@ -26,7 +26,7 @@ try {
       echo "<script type=\"text/javascript\">; 
                   console.log('erro no upload da imagem'); 
                   </script>";
-      die();
+     
     } else {
       $arquivo = $_FILES['imagem']['name'];
       //pasta para salvar arquivo;

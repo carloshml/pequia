@@ -18,7 +18,8 @@ require_once('componente-login.php');
     <!-- Font Awesome icons (free version)-->
     <script src="../assets/fontawesome-free-5.15.1-web/js/all.js" crossorigin="anonymous"></script>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="../assets/css/styles.css" rel="stylesheet" />
     <link href="../assets/css/estilo.css" rel="stylesheet" />
@@ -36,7 +37,7 @@ require_once('componente-login.php');
             --gradient-mid: #3a0ca3;
             --gradient-end: #1aad95ff;
         }
-        
+
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(-45deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
@@ -51,9 +52,11 @@ require_once('componente-login.php');
             0% {
                 background-position: 0% 50%;
             }
+
             50% {
                 background-position: 100% 50%;
             }
+
             100% {
                 background-position: 0% 50%;
             }
@@ -209,9 +212,11 @@ require_once('componente-login.php');
             0% {
                 transform: translateY(0) rotate(0deg);
             }
+
             50% {
                 transform: translateY(-20px) rotate(10deg);
             }
+
             100% {
                 transform: translateY(0) rotate(0deg);
             }
@@ -221,15 +226,15 @@ require_once('componente-login.php');
             .main-container {
                 padding-top: 7em;
             }
-            
+
             .page-title {
                 font-size: 1.1rem;
             }
-            
+
             .dashboard-card {
                 margin-bottom: 1.5rem;
             }
-            
+
             .floating-element {
                 display: none;
             }
@@ -266,45 +271,20 @@ require_once('componente-login.php');
     <div class="floating-element floating-1"></div>
     <div class="floating-element floating-2"></div>
     <div class="floating-element floating-3"></div>
-    
+
     <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
-        <div class="container">
-            <a class="navbar-brand" href="../index.php">
-                <i class="fas fa-seedling me-2"></i>Pequiá
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" 
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto">
-                    <?php
-                    if (isset($_SESSION['usuario_nome'])) {
-                        echo ' 
-                        <li class="nav-item mx-0 mx-lg-1">
-                            <a class="nav-link" href="home.php">
-                                <i class="fas fa-home me-1"></i> Home
-                            </a>
-                        </li> 
-                        <li class="nav-item mx-0 mx-lg-1">
-                            <a class="nav-link" href="../controllers/sair.php">
-                                <i class="fas fa-sign-out-alt me-1"></i> Sair
-                            </a>
-                        </li>';
-                    }
-                    ?>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    
+    <script>
+        const a = document.getElementById('page-top').innerHTML;
+        document.getElementById('page-top').innerHTML = nav() + a;
+    </script>
+
     <div class="container main-container">
         <div class="text-center mb-5">
-            <h3 class="page-title">Gerencie seus produtos, usuários e vendas de forma intuitiva <i class="fas fa-rocket ms-2"></i></h3>
-           
+            <h3 class="page-title">Gerencie seus produtos, usuários e vendas de forma intuitiva <i
+                    class="fas fa-rocket ms-2"></i></h3>
+
         </div>
-        
+
         <!-- Stats Cards Row -->
         <div class="row g-4 mb-5">
             <!-- Products Card -->
@@ -328,7 +308,7 @@ require_once('componente-login.php');
                     </div>
                 </div>
             </div>
-            
+
             <!-- Users Card -->
             <div class="col-lg-4 col-md-6">
                 <div class="dashboard-card text-center p-4">
@@ -347,7 +327,7 @@ require_once('componente-login.php');
                     </div>
                 </div>
             </div>
-            
+
             <!-- Sales Card -->
             <div class="col-lg-4 col-md-6">
                 <div class="dashboard-card text-center p-4">
@@ -370,7 +350,7 @@ require_once('componente-login.php');
                 </div>
             </div>
         </div>
-        
+
         <!-- Action Buttons -->
         <div class="row mb-5">
             <div class="col-12 text-center">
@@ -385,7 +365,7 @@ require_once('componente-login.php');
                 </a>
             </div>
         </div>
-        
+
         <!-- Notifications Panel -->
         <div class="row">
             <div class="col-lg-8">
@@ -425,7 +405,7 @@ require_once('componente-login.php');
             </div>
         </div>
     </div>
-    
+
     <!-- Bootstrap core JavaScript -->
     <script src="../assets/js/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>

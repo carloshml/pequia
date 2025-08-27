@@ -69,11 +69,20 @@ class ProdutoController
 
                 echo '<div class="col-md-4 mb-4">';
                 echo '  <div class="card h-100 shadow-sm">';
+                echo '  <div style="height: 232px; overflow: hidden;" >';
                 echo '    <img class="card-img-top" src="data:image/jpeg;base64,' . $base64 . '" alt="' . htmlspecialchars($titulo) . '">';
+                echo '  </div>';
                 echo '    <div class="card-body">';
-                echo '      <h5 class="card-title">';
-                echo '        <a href="detalhe-produto.php?id_produto=' . $id_produto . '&nome_produto=' . urlencode($titulo) . '" class="text-primary font-weight-bold">' . htmlspecialchars($titulo) . '</a>';
-                echo '      </h5>';
+                echo '      <div class="row">';
+                echo '          <div class="col-md-6 ">';
+                echo '        <a class=" text-primary font-weight-bold" href="detalhe-produto.php?id_produto=' . $id_produto . '&nome_produto=' . urlencode($titulo) . '" >';
+                echo htmlspecialchars($titulo);
+                echo '         </a>';
+                echo '          </div>';
+                echo '          <div class="col-md-6 ">';
+                echo '                <a class=" btn-total btn-success" href="detalhe-produto.php?id_produto=' . $id_produto . '&nome_produto=' . urlencode($titulo) . '" >Comprar</a>';
+                echo '          </div>';
+                echo '      </div>';
                 echo '      <h6 class="card-subtitle mb-2 text-muted">' . htmlspecialchars($subtitulo) . '</h6>';
                 echo '      <p class="card-text">' . htmlspecialchars($descricao) . '</p>';
                 echo '      <ul class="list-unstyled">';
@@ -116,7 +125,8 @@ class ProdutoController
 
             echo '<div class="col-md-4 mb-4">';
             echo '  <div class="card h-100 shadow-sm">';
-            echo '    <img class="card-img-top" src="data:image/jpeg;base64,' . $base64 . '" alt="' . htmlspecialchars($produto->titulo) . '" style="object-fit: cover; height: 200px;">';
+            echo '    <img class="card-img-top" src="data:image/jpeg;base64,' . $base64 . '" alt="' . htmlspecialchars($produto->titulo) . '"';
+            echo '                                   style="object-fit: cover; height: 200px;">';
             echo '    <div class="card-body">';
             echo '      <h5 class="card-title">' . htmlspecialchars($produto->titulo) . '</h5>';
             echo '      <h6 class="card-subtitle mb-2 text-muted">' . htmlspecialchars($produto->subtitulo) . '</h6>';

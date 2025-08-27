@@ -18,7 +18,8 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
     <title>Pequiá</title>
     <!-- Bootstrap core CSS -->
     <link href="assets/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="../assets/fontawesome-free-5.15.1-web/js/all.js" crossorigin="anonymous"></script>
+    <script src="assets/fontawesome-free-5.15.1-web/js/all.js" crossorigin="anonymous"></script>
+
     <link href="assets/css/styles.css" rel="stylesheet" />
     <link href="assets/css/estilo.css" rel="stylesheet" />
     <script src="assets/js/script-local.js"></script>
@@ -66,14 +67,21 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
 </head>
 
 <body id="page-top">
+    <!-- Floating elements for visual interest -->
+    <div class="floating-element floating-1"></div>
+    <div class="floating-element floating-2"></div>
+    <div class="floating-element floating-3"></div>
 
     <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
         <div class="container">
-            <a class="navbar-brand" href="index.php">Pequiá</a>
-            <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button"
-                data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive"
+            <a class="navbar-brand" href="index.php">
+                <i class="fas fa-seedling me-2"></i> Pequiá
+            </a>
+            <button
+                class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded"
+                type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
                 aria-expanded="false" aria-label="Toggle navigation">
-                Menu <i class="fas fa-bars ms-2"></i>
+                Menu <i class="fas fa-bars"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
@@ -195,23 +203,16 @@ $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
     <footer style="text-align:right ">
 
     </footer>
-
-
-
-
     <!-- Bootstrap core JavaScript -->
     <!-- Bootstrap core JS -->
-    <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
-
     <script src="assets/js/jquery-3.5.1.min.js"></script>
-
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
     <!-- Third party plugin JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
     <script src="assets/fontawesome-free-5.15.1-web/js/all.js"> </script>
     <!-- Core theme JS-->
-    <script src="assets/js/scripts.js"></script>
+    <script src="../assets/js/scripts.js"></script>
 </body>
 
 </html>

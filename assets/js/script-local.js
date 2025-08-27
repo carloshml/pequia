@@ -48,7 +48,9 @@ function nav() {
   let naveg = '';
   naveg += '<nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">';
   naveg += '<div class="container">';
-  naveg += '<a class="navbar-brand js-scroll-trigger" href="../index.php">Pequiá <span id="usuario_nome"></span></a>';
+  naveg += ` <a class="navbar-brand" href="../index.php">
+                <i class="fas fa-seedling me-2"></i>Pequiá
+            </a>`;  
   naveg += '<button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">';
   naveg += 'Menu <i class="fas fa-bars"></i>';
   naveg += '</button>';
@@ -92,7 +94,7 @@ function nav() {
   } else {
     naveg += '<li class="nav-item mx-0 mx-lg-1">';
     naveg += '<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#" role="button" data-toggle="modal" data-target="#login-modal">';
-    naveg += '<i class="fas fa-sign-in-alt"></i> Entrar';
+    naveg += '            <i class="fas fa-sign-in-alt"></i> Entrar';
     naveg += '</a>';
     naveg += '</li>';
   }
