@@ -161,21 +161,17 @@ $vendasJson = json_encode($vendas);
         const a = document.getElementById('page-top').innerHTML;
         document.getElementById('page-top').innerHTML = nav() + a;
     </script>
-    <div style="position: relative; width: 100%;">
-        <div id="painel-compra" class="painel-compra" style="display: none;">
-            <div class="row">
-                <div class="col-lg-10 ml-auto">
-                    <h4 class="branco"> Produtos: </h4>
-                </div>
-                <div class="pra-direita col-lg-2 ml-auto">
-                    <button id="btn-fechar-painel-compra" style="border:1px solid white" class="btn btn-danger branco">
-                        X
-                    </button>
-                </div>
+    <div class="modal-overlay" id="painel-compra">
+        <div class="modal-content-total">
+            <div class="modal-header">
+                <h4>Produtos:</h4>
+                <button id="btn-fechar-painel-compra" class="modal-close">&times;</button>
             </div>
-            <div id="descricao_compra"></div>
-            <div class="pra-direita">
-                <a href="compra.php" style="border:1px solid white" class="btn btn-success branco"> Revisar </a>
+            <div id="descricao_compra">
+                <!-- Conteúdo dinâmico aqui -->
+            </div>
+            <div class="modal-footer">
+                <a href="venda-finalizar.php" class="btn-total btn-success">Revisar</a>
             </div>
         </div>
     </div>

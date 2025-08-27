@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS `vendas` (
   `data_criacao` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `fechada` BOOLEAN DEFAULT FALSE,
   `vl_total` DECIMAL(10, 2),
+  `status` VARCHAR(70) COLLATE utf8_unicode_ci,
   CONSTRAINT `fk_venda_cliente` FOREIGN KEY (`id_cliente`) REFERENCES `usuarios` (`id`)
     ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

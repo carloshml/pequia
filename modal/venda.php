@@ -6,5 +6,7 @@
           public $data_criacao ;
           public $vl_total;
           public $fechada;
+
+          public $status;
     }
 ?>

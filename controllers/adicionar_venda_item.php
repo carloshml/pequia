@@ -49,7 +49,7 @@
     // print("<pre>".print_r($vendas,true)."</pre>");
 
     if($ir_para > 0 ){
-        header('Location: ../pages/compra.php');  
+        header('Location: ../pages/venda-finalizar.php');  
     }else{
         header('Location: ../pages/detalhe-produto.php?id_produto='.$id_produto.'&nome_produto='.$nome_produto.'&com_abrir_compra='.$com_abrir_compra.'&adicionado=1');  
     }

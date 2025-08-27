@@ -57,7 +57,15 @@ function nav() {
   naveg += '<ul class="navbar-nav ml-auto"> ';
 
 
-  if (localStorage.getItem('tipo') && localStorage.getItem('tipo') != 'CLIENTE') {
+  if (localStorage.getItem('tipo') && localStorage.getItem('tipo') == 'ADMINISTRADOR') {
+    naveg += '<li class="nav-item mx-0 mx-lg-1">';
+    naveg += '  <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="home.php">';
+    naveg += '    HOME'
+    naveg += '   </a>';
+    naveg += '</li>';
+  }
+
+  if (localStorage.getItem('tipo') && localStorage.getItem('tipo') == 'ADMINISTRADOR') {
     naveg += '<li class="nav-item mx-0 mx-lg-1">';
     naveg += '  <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="produto-detalhe.php">';
     naveg += '    Publicar'

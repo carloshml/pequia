@@ -1,3 +1,5 @@
 # [Estudos]
 
-repositório criado para o estudo em php
+Pequia 
+
+Micro sistemas de Vendas

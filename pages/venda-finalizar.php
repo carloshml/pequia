@@ -94,7 +94,7 @@ $vendasJson =  json_encode($vendas);
         document.getElementById('page-top').innerHTML = nav() + a;
     </script>
     <div class="container">
-        <form method="post" action="../controllers/adicionar_venda.php">
+        <form method="post" action="../controllers/venda-adicionar.php">
             <h4> Compra: </h4>
             <div id="descricao_compra"> </div>
             <div class="pra-direita">
