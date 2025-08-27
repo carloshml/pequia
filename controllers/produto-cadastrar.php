@@ -38,53 +38,77 @@ try {
     //verificar se é possível mover o arquivo para a pasta escolhida
 
     $nome_final = '';
-    $imagem = $_FILES['imagem'];
-    if ($imagem['type'] != NULL) {
-      $fileHandle = fopen($_FILES['imagem']['tmp_name'], "rb") or die("Unable to open file!");
-    } else {
-      echo ' sem imagem ';
-    }
 
-    //upload afetuado com sucesso
     $pdo = Banco::conectar();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $sql = "UPDATE produtos  set "
-      . " titulo=?, subtitulo=?, localFoto =?, descricao =?, tag1 =?, tag2 =?, tag3 =?,"
-      . " tag4 =?, tag5 =?, id_usuario_publicacao =?, preco_venda =?, fileFoto = ?"
-      . " WHERE id = ?";
-    $q = $pdo->prepare($sql);
-    $result = $q->execute(array(
-      $produto,
-      $subtitulo,
-      $nome_final,
-      $descricao,
-      $tag1,
-      $tag2,
-      $tag3,
-      $tag4,
-      $tag5,
-      $usuario_id,
-      $preco_venda,
-      $id_produto,
-      $fileHandle
-    ));
-    if ($fileHandle) {
+
+    // Monta a query base
+    $sql = "UPDATE produtos SET 
+            titulo = :titulo,
+            subtitulo = :subtitulo,
+            localFoto = :localFoto,
+            descricao = :descricao,
+            tag1 = :tag1,
+            tag2 = :tag2,
+            tag3 = :tag3,
+            tag4 = :tag4,
+            tag5 = :tag5,
+            id_usuario_publicacao = :id_usuario,
+            data_publicacao = :data_publicacao,
+            preco_venda = :preco_venda";
+
+    // Se houver imagem, adiciona o campo
+    if (!empty($_FILES['imagem']['tmp_name'])) {
+      $sql .= ", fileFoto = :fileFoto";
+    }
+
+    $sql .= " WHERE id = :id_produto";
+
+    $stmt = $pdo->prepare($sql);
+
+    // Bind dos campos
+    $stmt->bindParam(':titulo', $produto);
+    $stmt->bindParam(':subtitulo', $subtitulo);
+    $stmt->bindParam(':localFoto', $nome_final);
+    $stmt->bindParam(':descricao', $descricao);
+    $stmt->bindParam(':tag1', $tag1);
+    $stmt->bindParam(':tag2', $tag2);
+    $stmt->bindParam(':tag3', $tag3);
+    $stmt->bindParam(':tag4', $tag4);
+    $stmt->bindParam(':tag5', $tag5);
+    $stmt->bindParam(':id_usuario', $usuario_id);
+    $stmt->bindValue(':data_publicacao', date('Y-m-d H:i:s'));
+    $stmt->bindParam(':preco_venda', $preco_venda);
+    $stmt->bindParam(':id_produto', $id_produto, PDO::PARAM_INT);
+
+    // Bind da imagem, se existir
+    if (!empty($_FILES['imagem']['tmp_name'])) {
+      $fileHandle = fopen($_FILES['imagem']['tmp_name'], 'rb');
+      $stmt->bindParam(':fileFoto', $fileHandle, PDO::PARAM_LOB);
+    }
+
+    // Executa
+    $result = $stmt->execute();
+
+    // Fecha o arquivo, se aberto
+    if (isset($fileHandle)) {
       fclose($fileHandle);
     }
+
+    // Feedback
+    if ($result) {
+      echo "<script>console.log('Produto atualizado com sucesso');</script>";
+      header('Location: ../pages/produtos-modulo.php');
+      exit;
+    } else {
+      echo "<script>console.log('Produto não foi atualizado');</script>";
+      echo 'Erro ao atualizar produto.';
+    }
+
     Banco::desconectar();
 
-    if ($result) {
-      echo "<script type=\"text/javascript\">;
-                      console.log('Produto cadastrado com sucesso');
-                      </script>";
-      header('Location: ../pages/produto-detalhe.php');
-    } else {
-      echo "<script type=\"text/javascript\">;
-                      console.log('Produto Não Foi cadastrado');
-                      </script>";
-      echo 'produto não cadastrado';
-      echo $result;
-    }
+
+    header('Location: ../pages/produtos-modulo.php');
   } else {
     $pdo = Banco::conectar();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -132,7 +156,7 @@ try {
       echo "<script type=\"text/javascript\">;
                       console.log('Produto cadastrado com sucesso');
                       </script>";
-      header('Location: ../pages/produto-detalhe.php');
+      header('Location: ../pages/produtos-modulo.php');
     } else {
       echo "<script type=\"text/javascript\">;
                       console.log('Produto Não Foi cadastrado');

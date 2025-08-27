@@ -130,7 +130,7 @@ require_once('componente-login.php');
                             Produtos!
                         </a>
                         <div>
-                            <a href="produto-detalhe.php" class="panel-footer branco"> Cadastrar </a>
+                            <a href="produto-cadastrar.php" class="panel-footer branco"> Cadastrar </a>
                         </div>
                         <div>
                             <a href="produtos-modulo.php">

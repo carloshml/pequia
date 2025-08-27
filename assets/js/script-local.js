@@ -63,7 +63,7 @@ function nav() {
     naveg += '</li>';
 
     naveg += '<li class="nav-item mx-0 mx-lg-1">';
-    naveg += '<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="produto-detalhe.php">';
+    naveg += '<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="produto-cadastrar.php">';
     naveg += '<i class="fas fa-upload"></i> Publicar';
     naveg += '</a>';
     naveg += '</li>';

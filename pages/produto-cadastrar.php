@@ -4,12 +4,7 @@ include_once('../controllers/produto-controller.php');
 include_once('componente-login.php');
 $temEditar = 0;
 $response = '';
-if (!empty($_GET['id_produto'])) {
-    $id_produto = $_GET['id_produto'];
-    $produto_dao = new ProdutoController();
-    $response = $produto_dao->buscarProdutoPeloId($id_produto);
-    $temEditar = 1;
-}
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -33,18 +28,22 @@ if (!empty($_GET['id_produto'])) {
             window.location.href = '../index.php?erro=1';
         }
         document.addEventListener("DOMContentLoaded", function () {
-            const resposta = <?= $response ?>;
-            if (resposta) {
-                $('#preco_venda').val(resposta.preco_venda);
-                $('#nome_produto').val(resposta.titulo);
-                $('#subtitulo').val(resposta.subtitulo);
-                $('#descricao').val(resposta.descricao);
-                $('#tag1').val(resposta.tag1);
-                $('#tag2').val(resposta.tag2);
-                $('#tag3').val(resposta.tag3);
-                $('#tag4').val(resposta.tag4);
-                $('#tag5').val(resposta.tag5);
-            }
+
+
+            document.getElementById('imagem_file').addEventListener('change', function (event) {
+                const file = event.target.files[0];
+                const preview = document.getElementById('imagem-produto-preview');
+
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        preview.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    preview.src = '';
+                }
+            });
         });
     </script>
 
@@ -66,7 +65,7 @@ if (!empty($_GET['id_produto'])) {
                 </div>
                 <div class="col">
                     <form method="post"
-                        action="../controllers/registra_produto.php?temEdicao=<?= $temEditar ?>&id_produto=<?= $id_produto ?>"
+                        action="../controllers/produto-cadastrar.php?temEdicao=<?= $temEditar ?>&id_produto=<?= $id_produto ?>"
                         id="formCadastrarse" enctype="multipart/form-data">
                         <div class="form-group">
                             <label>Escreva o Nome do Produto</label>
@@ -79,8 +78,22 @@ if (!empty($_GET['id_produto'])) {
                             <p class="help-block">Será a frase abaixo do título</p>
                         </div>
                         <div class="form-group">
-                            <label>Selecione Uma Foto</label>
+                            <div class="row align-items-center mb-4">
+                                <div class="col-md-6 col-sm-12">
+
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <label>Pré-visualização da Nova Imagem</label>
+                                    <div class="mb-3 text-center">
+                                        <img id="imagem-produto-preview"
+                                            class="img-fluid rounded border border-warning shadow-sm img-produto" src=""
+                                            alt="Pré-visualização"
+                                            style="max-height: 200px; transition: transform 0.3s;">
+                                    </div>
+                                </div>
+                            </div>
                             <div>
+                                <label for="imagem_file">Selecione Uma Foto</label>
                                 <input type="file" id="imagem_file" name="imagem" class="form-control" accept="image/*">
                             </div>
                         </div>

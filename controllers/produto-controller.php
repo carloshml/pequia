@@ -2,6 +2,7 @@
 $usuarioLogado = isset($_SESSION['id_usuario']);
 require_once __DIR__ . '/../config/bd.class.php';
 require_once __DIR__ . '/../modal/produtos.php';
+require_once __DIR__ . '/../dao/produto-dao.php';
 
 class ProdutoController
 {
@@ -100,82 +101,45 @@ class ProdutoController
 
     public function buscarProdutosParaEdicao()
     {
-        $id_produto = null;
-        $tag1 = null;
-        $tag2 = null;
-        $tag3 = null;
-        $tag4 = null;
-        $tag5 = null;
-        $descricao = null;
-        $subtitulo = null;
-        $titulo = null;
-        $localFoto = null;
-        $data_publicacao = '';
-        $nome_autor = null;
-        $fileFoto = null;
-        try {
-            $pdo = Banco::conectar();
-            $sql = "  SELECT  produtos.id as id_produto,  tag1, tag2, tag3, tag4, tag5, descricao, subtitulo, titulo, localFoto , "
-                . "  data_publicacao ,  usuarios.nome as nome_autor, fileFoto"
-                . "  FROM produtos inner join usuarios  on   produtos.id_usuario_publicacao =  usuarios.id   "
-                . "  ORDER BY produtos.id DESC limit  6;";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute();
-            $stmt->bindColumn('id_produto', $id_produto);
-            $stmt->bindColumn('tag1', $tag1);
-            $stmt->bindColumn('tag2', $tag2);
-            $stmt->bindColumn('tag3', $tag3);
-            $stmt->bindColumn('tag4', $tag4);
-            $stmt->bindColumn('tag5', $tag5);
-            $stmt->bindColumn('descricao', $descricao);
-            $stmt->bindColumn('subtitulo', $subtitulo);
-            $stmt->bindColumn('titulo', $titulo);
-            $stmt->bindColumn('localFoto', $localFoto);
-            $stmt->bindColumn('fileFoto', $fileFoto);
+        $produtoDao = new ProdutoDao();
+        $produtos = $produtoDao->buscarProdutos();
 
-            echo '<div class="row">';
-            while ($row = $stmt->fetch(PDO::FETCH_BOUND)) {
-                $array = array(
-                    "id_produto" => $id_produto,
-                    "tag1" => $tag1,
-                    "tag2" => $tag2,
-                    "tag3" => $tag3,
-                    "tag4" => $tag4,
-                    "tag5" => $tag5,
-                    "descricao" => $descricao,
-                    "subtitulo" => $subtitulo,
-                    "titulo" => $titulo,
-                    "localFoto" => $localFoto,
-                    "fileFoto" => $fileFoto
-                );
+        echo '<div class="row">';
 
-                $foto_content = $fileFoto;
-                if (is_resource($foto_content)) {
-                    $foto_content = stream_get_contents($foto_content);
-                }
-                $base64 = $foto_content ? base64_encode($foto_content) : '';
-                echo '<img width="100px" src="data:image/jpeg;base64,' . $base64 . '" alt="' . htmlspecialchars($titulo) . '">';
-                echo '<div class="col-sm-3 ml-auto">';
-                echo '<div>';
-
-                echo '</div>';
-
-                echo '         <h6>' . $subtitulo . '</h6>';
-                echo '         <ul>';
-                echo '             <li  class="glyphicon glyphicon-chevron-right">' . $tag1 . ' </li>';
-                echo '             <li  class="glyphicon glyphicon-chevron-right">' . $tag2 . ' </li>';
-                echo '             <li  class="glyphicon glyphicon-chevron-right">' . $tag3 . ' </li>';
-                echo '             <li  class="glyphicon glyphicon-chevron-right">' . $tag4 . ' </li>';
-                echo '             <li  class="glyphicon glyphicon-chevron-right">' . $tag5 . ' </li>';
-                echo '         </ul>';
-                echo '<span class="text-right" > publicado: ' . date('d/m/Y', strtotime($data_publicacao)) . '</span>';
-                echo '</div>';
+        foreach ($produtos as $produto) {
+            // Processa imagem
+            $foto_content = $produto->fileFoto;
+            if (is_resource($foto_content)) {
+                $foto_content = stream_get_contents($foto_content);
             }
+            $base64 = $foto_content ? base64_encode($foto_content) : '';
+
+            echo '<div class="col-md-4 mb-4">';
+            echo '  <div class="card h-100 shadow-sm">';
+            echo '    <img class="card-img-top" src="data:image/jpeg;base64,' . $base64 . '" alt="' . htmlspecialchars($produto->titulo) . '" style="object-fit: cover; height: 200px;">';
+            echo '    <div class="card-body">';
+            echo '      <h5 class="card-title">' . htmlspecialchars($produto->titulo) . '</h5>';
+            echo '      <h6 class="card-subtitle mb-2 text-muted">' . htmlspecialchars($produto->subtitulo) . '</h6>';
+            echo '      <p class="card-text">' . htmlspecialchars($produto->descricao) . '</p>';
+            echo '      <ul class="list-unstyled">';
+            foreach (['tag1', 'tag2', 'tag3', 'tag4', 'tag5'] as $tag) {
+                if (!empty($produto->$tag)) {
+                    echo '<li><i class="fas fa-tag text-secondary mr-1"></i>' . htmlspecialchars($produto->$tag) . '</li>';
+                }
+            }
+            echo '      </ul>';
+            echo '    </div>';
+            echo '    <div class="card-footer d-flex justify-content-between align-items-center">';
+            echo '      <small class="text-muted">Publicado em: ' . date('d/m/Y', strtotime($produto->data_publicacao)) . '</small>';
+            echo '      <a href="produto-editar.php?id=' . $produto->id . '" class="btn btn-sm btn-outline-primary">';
+            echo '        <i class="fas fa-edit"></i> Editar';
+            echo '      </a>';
+            echo '    </div>';
+            echo '  </div>';
             echo '</div>';
-        } catch (PDOException $e) {
-            print $e->getMessage();
         }
-        Banco::desconectar();
+
+        echo '</div>';
     }
 
     public function buscarProdutosTelaInicial()
@@ -223,35 +187,6 @@ class ProdutoController
             echo $e->getMessage();
         }
         Banco::desconectar();
-    }
-
-    public function buscarProdutoPeloId($id)
-    {
-        $produto = new Produto();
-        try {
-            $pdo = Banco::conectar();
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "SELECT * FROM produtos where id = ?";
-            $q = $pdo->prepare($sql);
-            $q->execute(array($id));
-            $data = $q->fetch(PDO::FETCH_ASSOC);
-            $produto->id = $data['id'];
-            $produto->titulo = $data['titulo'];
-            $produto->subtitulo = $data['subtitulo'];
-            $produto->local = $data['local'];
-            $produto->descricao = $data['descricao'];
-            $produto->preco_venda = $data['preco_venda'];
-            $produto->tag1 = $data['tag1'];
-            $produto->tag2 = $data['tag2'];
-            $produto->tag3 = $data['tag3'];
-            $produto->tag4 = $data['tag4'];
-            $produto->tag5 = $data['tag5'];
-            $produto->id_usuario_publicacao = $data['id_usuario_publicacao'];
-            return json_encode($produto);
-            Banco::desconectar();
-        } catch (Exception $e) {
-            echo 'Exceção capturada: ' . $e->getMessage() . "\n";
-        }
     }
 
     public function abrirProduto($id_produto)

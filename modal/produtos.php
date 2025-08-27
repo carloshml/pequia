@@ -17,5 +17,7 @@ class Produto
     public $preco_venda;
     public $localFoto;
     public $fileFoto;
+
+    public $base64;
 }
 ?>

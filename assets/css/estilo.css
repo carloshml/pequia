@@ -136,3 +136,7 @@ textarea {
 .btn-danger {
     background-color: #c0392b;
 }
+
+.img-produto:hover {
+    transform: scale(1.05);
+}
