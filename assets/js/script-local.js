@@ -73,6 +73,14 @@ function nav() {
     naveg += '</li>';
   }
 
+    if (localStorage.getItem('tipo') && localStorage.getItem('tipo') == 'CLIENTE') {
+    naveg += '<li class="nav-item mx-0 mx-lg-1">';
+    naveg += '  <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="compra-listar.php">';
+    naveg += '    Minhas Compras'
+    naveg += '   </a>';
+    naveg += '</li>';
+  }
+
   naveg += '<li class="nav-item mx-0 mx-lg-1">';
   naveg += '    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href = "loja.php" >';
   naveg += '       <i class="fas fa-home"></i> Loja';

@@ -117,5 +117,43 @@ class VendaDao
         Banco::desconectar();
         return $vendas;
     }
+
+    /**
+     * @return Venda[]  // array of Venda objects
+     */
+    public function buscarVendaPorIdCliente(int $cliente_id): array
+    {
+        $vendas = [];
+
+        try {
+            $pdo = Banco::conectar();
+            $sql = "SELECT vendas.id, vendas.id_cliente, usuarios.nome AS nome_cliente, descricao, data_criacao, vl_total, fechada, status
+                FROM vendas           
+                INNER JOIN usuarios ON vendas.id_cliente = usuarios.id
+                WHERE vendas.id_cliente = ?
+                ORDER BY vendas.id DESC LIMIT 6;";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$cliente_id]);
+
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $venda = new Venda();
+                $venda->id = $row['id'];
+                $venda->id_cliente = $row['id_cliente'];
+                $venda->nome_cliente = $row['nome_cliente'];
+                $venda->descricao = $row['descricao'];
+                $venda->data_criacao = $row['data_criacao'];
+                $venda->vl_total = $row['vl_total'];
+                $venda->fechada = $row['fechada'];
+                $venda->status = $row['status'];
+                $vendas[] = $venda;
+            }
+
+        } catch (PDOException $e) {
+            print $e->getMessage();
+        }
+
+        Banco::desconectar();
+        return $vendas;
+    }
 }
 ?>

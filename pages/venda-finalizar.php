@@ -43,45 +43,41 @@ $vendasJson = json_encode($vendas);
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function () {
             const produtos = <?= $vendasJson ?>;
-            console.log('produtos', produtos);
-            produtosEscrito = '';
+            let produtosEscrito = '<div class="row">';
+
             produtos.forEach(element => {
-                produtosEscrito +=
-                    '<div>' +
-                    '<div> Produto: <strong>  ' + element.titulo + ' </strong></div>' +
-                    '<div> quantade:' +
-                    '<input  style="display:table-cell; width:25%;" id="quantidade" value="' +
-                    element.quantidade + '" name="quantidade" class="form-control" required>' +
-                    '<form style="display: inline;" method="post"  action="../controllers/adicionar_venda_item.php?' +
-                    'id_produto=' + element.id_produto +
-                    '&preco_venda=' + element.preco_venda +
-                    '&com_abrir_compra=1' +
-                    '&ir_para=2' +
-                    '&titulo=' + element.titulo + '">' +
-                    '<input   type="hidden"  id="quantidade" value="' +
-                    (-1) + '" name="quantidade" class="form-control" required>' +
-                    '<button class="btn btn-primary"> <strong>  - </strong>  </button>' +
-                    '</form>' +
-                    '<form  style="display: inline;" method="post"  action="../controllers/adicionar_venda_item.php?' +
-                    'id_produto=' + element.id_produto +
-                    '&preco_venda=' + element.preco_venda +
-                    '&com_abrir_compra=1' +
-                    '&ir_para=2' +
-                    '&titulo=' + element.titulo + '">' +
-                    '<input   type="hidden"  id="quantidade" value="' +
-                    1 + '" name="quantidade" class="form-control" required>' +
-                    '<button class="btn btn-primary"> <strong>  + </strong>  </button>' +
-                    '</form>' +
-                    '</div>' +
-                    '<div> TOTAL R$' + trunc10(element.vl_total, -2) + '</div>' +
-                    '</div>' +
-                    '<hr>';
+                produtosEscrito += `
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">${element.titulo}</h5>
+                    <p><strong>Quantidade:</strong></p>
+                    <div class="d-flex align-items-center mb-2">
+                        <input type="text" class="form-control mr-2" style="width: 80px;" value="${element.quantidade}" readonly>
+                        <form method="post" action="../controllers/adicionar_venda_item.php?id_produto=${element.id_produto}&preco_venda=${element.preco_venda}&com_abrir_compra=1&ir_para=2&titulo=${element.titulo}">
+                            <input type="hidden" name="quantidade" value="-1">
+                            <button class="btn btn-outline-danger mr-1"><i class="fas fa-minus"></i></button>
+                        </form>
+                        <form method="post" action="../controllers/adicionar_venda_item.php?id_produto=${element.id_produto}&preco_venda=${element.preco_venda}&com_abrir_compra=1&ir_para=2&titulo=${element.titulo}">
+                            <input type="hidden" name="quantidade" value="1">
+                            <button class="btn btn-outline-success"><i class="fas fa-plus"></i></button>
+                        </form>
+                    </div>
+                    <p><strong>Total:</strong> R$ ${trunc10(element.vl_total, -2)}</p>
+                </div>
+            </div>
+        </div>`;
             });
 
-            produtosEscrito += '<label for="">Observacao:</label>' +
-                '<textarea id="observacao_venda"  height="300px" width="100%" name="observacao_venda" class="form-control"   ></textarea>';
-            document.getElementById('descricao_compra').innerHTML = produtosEscrito;
+            produtosEscrito += '</div>';
+            produtosEscrito += `
+        <div class="form-group mt-4">
+            <label for="observacao_venda"><strong>Observação:</strong></label>
+            <textarea id="observacao_venda" name="observacao_venda" class="form-control" rows="4"></textarea>
+        </div>
+    `;
 
+            document.getElementById('descricao_compra').innerHTML = produtosEscrito;
         });
     </script>
 </head>

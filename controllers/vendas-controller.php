@@ -29,7 +29,7 @@ class VendaController
         echo '<div class="container my-4">';
         echo '  <div class="card shadow-sm">';
         echo '    <div class="card-body">';
-        echo '      <h4 class="card-title text-primary">Detalhes da Venda</h4>';
+        echo '      <h4 class="card-title text-primary">Detalhes</h4>';
         echo '      <p><strong>Cliente:</strong> ' . htmlspecialchars($venda->nome_cliente) . '</p>';
         echo '      <p><strong>Status:</strong> <span class="badge ' . $badgeClass . '">' . htmlspecialchars($status) . '</span></p>';
         echo '      <p><strong>Telefone:</strong> ' . htmlspecialchars($venda->cliente_telefone) . '</p>';
@@ -125,6 +125,56 @@ class VendaController
         echo '    </a>';
         echo '  </td>';
         echo '</tr>';
+    }
+
+    private function renderResumoCompra(Venda $venda)
+    {
+        $status = $venda->status;
+        $badgeClass = match ($status) {
+            'ABERTA' => 'badge-warning',
+            'FECHADA' => 'badge-primary',
+            'CANCELADA' => 'badge-danger',
+            default => 'badge-secondary'
+        };
+
+        echo '<tr>';
+        echo '  <td><span class="badge ' . $badgeClass . '">' . htmlspecialchars($status) . '</span></td>';
+        echo '  <td>' . htmlspecialchars($venda->nome_cliente) . '</td>';
+        echo '  <td>' . date('d/m/Y', strtotime($venda->data_criacao)) . '</td>';
+        echo '  <td>R$ ' . number_format($venda->vl_total, 2, ',', '.') . '</td>';
+        echo '  <td class="text-right">';
+        echo '    <a href="compra-detalhe.php?venda_id=' . $venda->id . '" class="btn btn-sm btn-outline-primary">';
+        echo '      <i class="far fa-eye"></i> Ver';
+        echo '    </a>';
+        echo '  </td>';
+        echo '</tr>';
+    }
+
+
+    public function buscarVendaPorIdCliente($id_usuario_logado)
+    {
+        $vendaDAO = new VendaDAO();
+        $vendas = $vendaDAO->buscarVendaPorIdCliente($id_usuario_logado);
+        echo '<div class="container mt-4">';
+        echo '<table class="table table-bordered table-hover">';
+        echo '  <thead class="thead-dark">';
+        echo '    <tr>';
+        echo '      <th>Status</th>';
+        echo '      <th>Cliente</th>';
+        echo '      <th>Data da Compra</th>';
+        echo '      <th>Total</th>';
+        echo '      <th class="text-right">Detalhes</th>';
+        echo '    </tr>';
+        echo '  </thead>';
+        echo '  <tbody>';
+
+        foreach ($vendas as $venda) {
+            $this->renderResumoCompra($venda);
+        }
+
+        echo '  </tbody>';
+        echo '</table>';
+        echo '</div>';
     }
 
 }
