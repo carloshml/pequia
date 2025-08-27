@@ -172,15 +172,13 @@ require_once('componentes.php');
                             <i class="fa fa-shopping-cart fa-5x"></i>
                         </div>
                     </div>
-                    <a class="branco" href="venda.php">
+                    <a class="branco" href="venda-listar.php">
                         <?php
                         $venda_dao = new VendaDAO();
                         echo $venda_dao->numeroTotal();
                         ?> Vendas!
                     </a>
-                    <a href="venda.php">
-
-
+                    <a href="venda-listar.php">
                         <div class="panel-footer branco">
                             <span class="pull-left">Ver Vendas</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

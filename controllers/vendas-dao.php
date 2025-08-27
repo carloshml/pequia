@@ -153,7 +153,7 @@ class VendaDAO
 
         try {
             $pdo = Banco::conectar();
-            $sql = "SELECT vendas.id as id, usuarios.nome as nome_cliente, descricao, data_criacao, vl_total, fechada
+            $sql = "SELECT vendas.id as id, usuarios.nome as nome_cliente, descricao, data_criacao, vl_total, fechada, status
                 FROM vendas
                 INNER JOIN usuarios ON vendas.id_cliente = usuarios.id
                 ORDER BY vendas.id DESC LIMIT 6;";
@@ -165,6 +165,7 @@ class VendaDAO
             $stmt->bindColumn('data_criacao', $venda->data_criacao);
             $stmt->bindColumn('vl_total', $venda->vl_total);
             $stmt->bindColumn('fechada', $venda->fechada);
+            $stmt->bindColumn('status', $venda->status);
 
             echo '<div class="container mt-4">';
             echo '<table class="table table-bordered table-hover">';
@@ -185,9 +186,7 @@ class VendaDAO
                 echo '  <td>' . date('d/m/Y', strtotime($venda->data_criacao)) . '</td>';
                 echo '  <td>R$ ' . number_format($venda->vl_total, 2, ',', '.') . '</td>';
                 echo '  <td>';
-                echo $venda->status === 'concluida'
-                    ? '<span class="badge badge-success">' . $venda->status . '</span>'
-                    : '<span class="badge badge-warning">' . $venda->status . '</span>';
+                echo '        <span class="badge badge-warning">  ' . $venda->status . '</span>';
                 echo '  </td>';
                 echo '  <td class="text-right">';
                 echo '    <a href="venda-detalhe.php?venda_id=' . $venda->id . '" class="btn btn-sm btn-outline-primary">';

@@ -30,7 +30,7 @@ try {
 
    // salvando a venda 
    $sql = "INSERT INTO vendas( id_cliente,  descricao ,  data_criacao , vl_total , fechada, status )
-                  VALUES (?, ?, ? , ? , false, 'aberta')  ";
+                  VALUES (?, ?, ? , ? , false, 'ABERTA')  ";
 
    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
    $stmt = $pdo->prepare($sql);

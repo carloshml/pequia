@@ -42,8 +42,32 @@ if ($_GET['venda_id']) {
         const a = document.getElementById('page-top').innerHTML;
         document.getElementById('page-top').innerHTML = nav() + a;
     </script>
-    <div class="container">
-        <h1> Venda</h1>
+    <div class="container mt-4">
+        <div class="row align-items-center mb-4">
+            <!-- Título da página -->
+            <div class="col-md-6 col-sm-12">
+                <h1 class="mb-0">Venda</h1>
+            </div>
+
+            <!-- Formulário de alteração de status -->
+            <div class="col-md-6 col-sm-12 text-md-right mt-2 mt-md-0">
+                <form id="alterar-status" action="../controllers/venda-atualizar-status.php" method="POST"
+                    class="form-inline justify-content-md-end">
+                    <input type="hidden" name="venda_id" value="<?php echo htmlspecialchars($venda_id); ?>">
+
+                    <label for="status" class="mr-2">Alterar Status:</label>
+                    <select name="status" id="status" class="form-control mr-2">
+                        <option value="ABERTA">ABERTA</option>
+                        <option value="FECHADA">FECHADA</option>
+                        <option value="CANCELADA">CANCELADA</option>
+                    </select>
+
+                    <button type="submit" class="btn btn-primary">Atualizar</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Conteúdo da venda -->
         <div>
             <?php
             $vendaDAO = new VendaDAO();
@@ -51,12 +75,13 @@ if ($_GET['venda_id']) {
             ?>
         </div>
     </div>
+
     <!-- Bootstrap core JavaScript -->
     <!-- Bootstrap core JS -->
     <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 
     <script src="../assets/js/jquery-3.5.1.min.js"></script>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
     <!-- Third party plugin JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
