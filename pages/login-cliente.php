@@ -213,7 +213,7 @@
 
 <!-- MODAL-->
 <?php
-include_once('componentes.php');
+include_once('componente-login.php');
 $produto_dao = new Componente();
 $produto_dao->modalLogin();
 ?>

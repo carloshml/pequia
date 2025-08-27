@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once('componentes.php');
+include_once('componente-login.php');
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">

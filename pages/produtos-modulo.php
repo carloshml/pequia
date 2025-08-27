@@ -1,7 +1,7 @@
 <?php
 session_start();
 include_once('../controllers/produto_dao.php');
-include_once('componentes.php');
+include_once('componente-login.php');
 $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;
 ?>
 <!DOCTYPE html>

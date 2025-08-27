@@ -2,7 +2,7 @@
 session_start();
 include_once('../config/bd.class.php'); 
 include_once('../controllers/produto_dao.php');
-include_once('componentes.php');
+include_once('componente-login.php');
 $nome_produto = '';
 $id_produto = null;
 if (!empty($_GET['id_produto'])) {

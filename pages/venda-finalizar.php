@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once('componentes.php');
+include_once('componente-login.php');
 include_once('../config/bd.class.php');
 include_once('../controllers/produto_dao.php');
 

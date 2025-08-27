@@ -1,7 +1,7 @@
 <?php
 session_start();
 include_once('../controllers/produto_dao.php');
-include_once('componentes.php');
+include_once('componente-login.php');
 $temEditar = 0;
 $response = '';
 if (!empty($_GET['id_produto'])) {

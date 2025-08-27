@@ -1,14 +1,8 @@
 <?php
 session_start();
 include_once('../config/bd.class.php');
-include_once('../controllers/vendas-dao.php');
-include_once('componentes.php');
-
-$usuario_id = null;
-if (isset($_SESSION['id_usuario'])) {
-    $usuario_id = $_SESSION['usuario_id'];
-}
-
+include_once('../controllers/vendas-controller.php');
+include_once('componente-login.php');
 ?>
 
 <!DOCTYPE html>
@@ -30,12 +24,9 @@ if (isset($_SESSION['id_usuario'])) {
     <script src="../assets/js/script-local.js"></script>
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function () {
-
             if (!localStorage.getItem('usuario_nome')) {
                 window.location.href = '../index.php?erro=1';
             }
-
-
         });
     </script>
 </head>
@@ -52,8 +43,8 @@ if (isset($_SESSION['id_usuario'])) {
         <h1> Vendas</h1>
         <div>
             <?php
-            $vendaDAO = new VendaDAO();
-            $vendaDAO->buscarVendas($usuario_id);
+            $vendaDAO = new VendaController();
+            $vendaDAO->buscarVendas();
             ?>
         </div>
     </div>

@@ -1,6 +1,6 @@
 <?php
 include_once('../controllers/produto_dao.php');
-include_once('componentes.php');
+include_once('componente-login.php');
 session_start();
 $usuarioLogado = isset($_SESSION['id_usuario']);
 $erro = isset($_GET['erro']) ? $_GET['erro'] : 0;

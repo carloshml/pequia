@@ -40,6 +40,6 @@ class Componente
 
         </div>
     </div>
-</div> '; 
+</div> ';
     }
 }

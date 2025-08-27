@@ -259,7 +259,7 @@ class ProdutoDAO
         header('Location: detalhe-produto.php?id_produto=' . $id_produto);
     }
 
-    public function numeroTotalProduto()
+    public function numeroTotal()
     {
         try {
             $total = null;

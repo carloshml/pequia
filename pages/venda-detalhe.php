@@ -1,7 +1,7 @@
 <?php
 session_start();
-include_once('../controllers/vendas-dao.php');
-include_once('componentes.php');
+include_once('../controllers/vendas-controller.php');
+include_once('componente-login.php');
 
 $venda_id = 0;
 if ($_GET['venda_id']) {
@@ -70,8 +70,8 @@ if ($_GET['venda_id']) {
         <!-- Conteúdo da venda -->
         <div>
             <?php
-            $vendaDAO = new VendaDAO();
-            $vendaDAO->buscarVenda($venda_id);
+            $vendaDAO = new VendaController();
+            $vendaDAO->byid($venda_id);
             ?>
         </div>
     </div>

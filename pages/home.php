@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once('../controllers/produto_dao.php');
-require_once('../controllers/vendas-dao.php');
+require_once('../dao/venda-dao.php');
 require_once('componentes.php');
 ?>
 <!DOCTYPE html>
@@ -125,7 +125,7 @@ require_once('componentes.php');
                         <a class="branco" href="produtos-modulo.php">
                             <?php
                             $produto_dao = new ProdutoDAO();
-                            echo $produto_dao->numeroTotalProduto();
+                            echo $produto_dao->numeroTotal();
                             ?>
                             Produtos!
                         </a>
