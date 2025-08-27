@@ -3,6 +3,8 @@ include_once('../config/bd.class.php');
 include_once('../config/api-config.php');
 include_once('../dao/venda-dao.php');
 include_once('../dao/venda-item-dao.php');
+include_once('../modal/venda.php');
+include_once('../modal/venda_item.php');
 
 
 class VendaController
@@ -16,7 +18,7 @@ class VendaController
         $itens = $vendaItemDAO->buscarItensDaVenda($id);
 
         // Badge class based on status
-        $status = $venda['status'];
+        $status = $venda->status;
         $badgeClass = match ($status) {
             'ABERTA' => 'badge-warning',
             'FECHADA' => 'badge-primary',
@@ -28,14 +30,14 @@ class VendaController
         echo '  <div class="card shadow-sm">';
         echo '    <div class="card-body">';
         echo '      <h4 class="card-title text-primary">Detalhes da Venda</h4>';
-        echo '      <p><strong>Cliente:</strong> ' . htmlspecialchars($venda['nome_cliente']) . '</p>';
+        echo '      <p><strong>Cliente:</strong> ' . htmlspecialchars($venda->nome_cliente) . '</p>';
         echo '      <p><strong>Status:</strong> <span class="badge ' . $badgeClass . '">' . htmlspecialchars($status) . '</span></p>';
-        echo '      <p><strong>Telefone:</strong> ' . htmlspecialchars($venda['cliente_telefone']) . '</p>';
-        echo '      <p><strong>Data da Compra:</strong> ' . date('d/m/Y', strtotime($venda['data_criacao'])) . '</p>';
-        echo '      <p><strong>Valor Total:</strong> R$ ' . number_format($venda['vl_total'], 2, ',', '.') . '</p>';
+        echo '      <p><strong>Telefone:</strong> ' . htmlspecialchars($venda->cliente_telefone) . '</p>';
+        echo '      <p><strong>Data da Compra:</strong> ' . date('d/m/Y', strtotime($venda->data_criacao)) . '</p>';
+        echo '      <p><strong>Valor Total:</strong> R$ ' . number_format($venda->vl_total, 2, ',', '.') . '</p>';
         echo '      <div class="form-group">';
         echo '        <label for="descricao">Observação do cliente:</label>';
-        echo '        <textarea class="form-control" id="descricao" rows="3" readonly>' . htmlspecialchars($venda['descricao']) . '</textarea>';
+        echo '        <textarea class="form-control" id="descricao" rows="3" readonly>' . htmlspecialchars(string: $venda->descricao) . '</textarea>';
         echo '      </div>';
         echo '    </div>';
         echo '  </div>';
@@ -65,7 +67,7 @@ class VendaController
         echo '        <tfoot>';
         echo '          <tr>';
         echo '            <th colspan="2" class="text-right">Total Geral:</th>';
-        echo '            <th>R$ ' . number_format($venda['vl_total'], 2, ',', '.') . '</th>';
+        echo '            <th>R$ ' . number_format($venda->vl_total, 2, ',', '.') . '</th>';
         echo '          </tr>';
         echo '        </tfoot>';
         echo '      </table>';
@@ -102,9 +104,9 @@ class VendaController
     }
 
 
-    private function renderResumoVenda($venda)
+    private function renderResumoVenda(Venda $venda)
     {
-        $status = $venda['status'];
+        $status = $venda->status;
         $badgeClass = match ($status) {
             'ABERTA' => 'badge-warning',
             'FECHADA' => 'badge-primary',
@@ -114,11 +116,11 @@ class VendaController
 
         echo '<tr>';
         echo '  <td><span class="badge ' . $badgeClass . '">' . htmlspecialchars($status) . '</span></td>';
-        echo '  <td>' . htmlspecialchars($venda['nome_cliente']) . '</td>';
-        echo '  <td>' . date('d/m/Y', strtotime($venda['data_criacao'])) . '</td>';
-        echo '  <td>R$ ' . number_format($venda['vl_total'], 2, ',', '.') . '</td>';
+        echo '  <td>' . htmlspecialchars($venda->nome_cliente) . '</td>';
+        echo '  <td>' . date('d/m/Y', strtotime($venda->data_criacao)) . '</td>';
+        echo '  <td>R$ ' . number_format($venda->vl_total, 2, ',', '.') . '</td>';
         echo '  <td class="text-right">';
-        echo '    <a href="venda-detalhe.php?venda_id=' . $venda['id'] . '" class="btn btn-sm btn-outline-primary">';
+        echo '    <a href="venda-detalhe.php?venda_id=' . $venda->id . '" class="btn btn-sm btn-outline-primary">';
         echo '      <i class="far fa-eye"></i> Ver';
         echo '    </a>';
         echo '  </td>';

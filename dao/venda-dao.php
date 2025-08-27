@@ -47,39 +47,75 @@ class VendaDao
         Banco::desconectar();
     }
 
-    public function buscarVendaPorId($id)
+    /**
+     * @return Venda|null
+     */
+    public function buscarVendaPorId(int $id): ?Venda
     {
         $pdo = Banco::conectar();
-        $sql = "SELECT vendas.id, usuarios.nome AS nome_cliente, usuarios.telefone AS cliente_telefone,
+        $sql = "SELECT vendas.id, vendas.id_cliente, usuarios.nome AS nome_cliente, usuarios.telefone AS cliente_telefone,
                    descricao, data_criacao, vl_total, fechada, status
             FROM vendas
             INNER JOIN usuarios ON vendas.id_cliente = usuarios.id
             WHERE vendas.id = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$id]);
-        $venda = $stmt->fetch(PDO::FETCH_ASSOC);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
         Banco::desconectar();
+
+        if (!$row) {
+            return null;
+        }
+
+        $venda = new Venda();
+        $venda->id = $row['id'];
+        $venda->id_cliente = $row['id_cliente'];
+        $venda->nome_cliente = $row['nome_cliente'];
+        $venda->cliente_telefone = $row['cliente_telefone'];
+        $venda->descricao = $row['descricao'];
+        $venda->data_criacao = $row['data_criacao'];
+        $venda->vl_total = $row['vl_total'];
+        $venda->fechada = $row['fechada'];
+        $venda->status = $row['status'];
+
         return $venda;
     }
 
-    public function buscarVendas()
+    /**
+     * @return Venda[]  // array of Venda objects
+     */
+    public function buscarVendas(): array
     {
+        $vendas = [];
+
         try {
             $pdo = Banco::conectar();
-            $sql = "SELECT vendas.id, usuarios.nome AS nome_cliente, descricao, data_criacao, vl_total, fechada, status
+            $sql = "SELECT vendas.id, vendas.id_cliente, usuarios.nome AS nome_cliente, descricao, data_criacao, vl_total, fechada, status
                 FROM vendas
                 INNER JOIN usuarios ON vendas.id_cliente = usuarios.id
                 ORDER BY vendas.id DESC LIMIT 6;";
             $stmt = $pdo->prepare($sql);
             $stmt->execute();
-            $vendas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $vendas;
+
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $venda = new Venda();
+                $venda->id = $row['id'];
+                $venda->id_cliente = $row['id_cliente'];
+                $venda->nome_cliente = $row['nome_cliente'];
+                $venda->descricao = $row['descricao'];
+                $venda->data_criacao = $row['data_criacao'];
+                $venda->vl_total = $row['vl_total'];
+                $venda->fechada = $row['fechada'];
+                $venda->status = $row['status'];
+                $vendas[] = $venda;
+            }
+
         } catch (PDOException $e) {
             print $e->getMessage();
         }
 
         Banco::desconectar();
+        return $vendas;
     }
-
 }
 ?>
