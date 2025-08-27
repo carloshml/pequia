@@ -226,7 +226,7 @@ include_once('componentes.php');
                 headers: {},
                 cache: 'default'
             };
-            fetch(`../controllers/usuarios-dao.php?atulizar-usuarios=true`, myInit)
+            fetch(`../controllers/usuarios-controller.php?atulizar-usuarios=true`, myInit)
                 .then(response => {
                     var contentType = response.headers.get("content-type");
                     if (contentType && contentType.indexOf("application/json") !== -1) {
@@ -343,7 +343,7 @@ include_once('componentes.php');
             $('#contactsTable tbody').on('click', '.btn_ler_contato', function () {
                 const id_user = this.id.split('_')[1];
                 $.ajax({
-                    url: `../controllers/usuarios-dao.php`,
+                    url: `../controllers/usuarios-controller.php`,
                     method: 'get',
                     data: 'id=' + id_user,
                     success: function (usuario) {
@@ -359,7 +359,7 @@ include_once('componentes.php');
 
             $('#btn_salvar_contato').click(function () {
                 $.ajax({
-                    url: `../controllers/usuarios-dao.php`,
+                    url: `../controllers/usuarios-controller.php`,
                     method: 'post',
                     data: $('#form_contato').serialize(),
                     success: function (data) {
@@ -413,7 +413,7 @@ include_once('componentes.php');
             $('#contactsTable tbody').on('click', '.btn_update_contato', function () {
                 const id_user = this.id.split('_')[1];
                 $.ajax({
-                    url: `../controllers/usuarios-dao.php`,
+                    url: `../controllers/usuarios-controller.php`,
                     method: 'GET',
                     data: 'id=' + id_user,
                     dataType: 'json',

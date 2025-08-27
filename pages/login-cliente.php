@@ -19,7 +19,7 @@
         document.addEventListener("DOMContentLoaded", function () {
             function verificaLoginExistente(login) {
                 $.ajax({
-                    url: `../controllers/usuarios-dao.php`,
+                    url: `../controllers/usuarios-controller.php`,
                     method: 'get',
                     data: {
                         'verificar-login': true,
@@ -40,7 +40,7 @@
                 const usuarioNovo = $('#form_contato').serialize();
                 console.log('usuarioNovo',);
                 $.ajax({
-                    url: `../controllers/usuarios-dao.php`,
+                    url: `../controllers/usuarios-controller.php`,
                     method: 'post',
                     dataType: 'json',
                     data: usuarioNovo + '&tipo=CLIENTE',

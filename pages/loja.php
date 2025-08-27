@@ -35,7 +35,7 @@ $mesangem = isset($_GET['mesangem']) ? $_GET['mesangem'] : '';
                 const usuarioNovo = $('#form-login').serialize();
                 console.log('  usuarioNovo :::: ', usuarioNovo);
                 $.ajax({
-                    url: '../controllers/usuarios-dao.php',
+                    url: '../controllers/usuarios-controller.php',
                     method: 'get',
                     data: usuarioNovo + '&tipo=CLIENTE',
                     success: function (data) {

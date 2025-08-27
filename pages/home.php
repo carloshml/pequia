@@ -58,7 +58,7 @@ require_once('componentes.php');
                 headers: {},
                 cache: 'default'
             };
-            fetch(`../controllers/usuarios-dao.php?contar-usuarios=true`, myInit)
+            fetch(`../controllers/usuarios-controller.php?contar-usuarios=true`, myInit)
                 .then(response => {
                     return response.text()
                         .then(function (totUsuarios) {
