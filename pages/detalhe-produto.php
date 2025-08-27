@@ -1,7 +1,7 @@
 <?php
 session_start();
 $usuarioLogado = isset($_SESSION['id_usuario']);
-require_once('componentes.php');
+require_once('componente-login.php');
 require_once('../config/bd.class.php');
 require_once('../controllers/produto_dao.php');
 

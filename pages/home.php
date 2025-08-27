@@ -2,7 +2,7 @@
 session_start();
 require_once('../controllers/produto_dao.php');
 require_once('../dao/venda-dao.php');
-require_once('componentes.php');
+require_once('componente-login.php');
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
